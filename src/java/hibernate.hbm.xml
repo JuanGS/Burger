@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <!-- administracion.modelo. -->
+    
+    <class name="administracion.modelo.Usuario" table="usuario">
+        <id name="id" column="id_usuario" type="int"/>
+        <property name="usuario" column="usuario" type="string"/>
+        <property name="password" column="password" type="string"/>
+        <property name="rol" column="rol" type="string"/>
+    </class>
+    
+    <class name="administracion.modelo.Restaurante" table="datos_local">
+        <id name="cif" column="cif" type="string" />
+        <property name="nombre" column="nombre_local" type="string"/>
+        <property name="direccion" column="direccion" type="string"/>
+        <property name="telefono" column="telefono" type="int"/>
+    </class>
+
+    <class name="administracion.modelo.Mesa" table="mesa">
+        <id name="numero" column="numero_mesa" type="int" />
+        <property name="estado" column="estado_mesa" type="string"/>
+    </class>
+   
+    <class name="administracion.modelo.Impuesto" table="impuesto">
+        <id name="idImpuesto" column="id_impuesto" type="int" />
+        <property name="nombre" column="nombre_impuesto" type="string" />
+        <property name="valor" column="valor" type="double"/>
+    </class>    
+    
+    <class name="administracion.modelo.Categoria" table="categoria">
+        <id name="id" column="id_categoria" type="int" />
+        <property name="nombre" column="nombre_categoria" type="string" />
+        <property name="activo" column="activo" type="boolean"/>
+    </class>  
+    
+    <class name="administracion.modelo.Producto" table="producto">
+        <id name="id" column="id_producto" type="int" />
+        <property name="nombre" column="nombre_producto" type="string" />
+        <property name="precio" column="precio" type="double" />
+        <property name="descripcion" column="descripcion" type="string" />
+        <property name="activo" column="activo" type="boolean"/>        
+        <property name="categoria" column="nombre_categoria" type="string" />                        
+    </class>         
+
+    <!-- pedidos.modelo. -->
+
+    <class name="pedidos.modelo.Pedido" table="pedido">
+        <id name="id" column="id_pedido" type="int" />
+        <property name="numeroMesa" column="numero_mesa" type="int" />
+        <property name="idUsuario" column="id_usuario" type="int" />        
+    </class>
+
+    <!-- comedor.modelo. -->
+
+    <class name="comedor.modelo.ProductoLineaPedido" table="producto_linea_pedido">
+        <composite-id>
+            <key-property name="idPedido" column="id_pedido" type="int" />
+            <key-property name="numeroLinea" column="numero_linea" type="int" />
+            <key-property name="idProducto" column="id_producto" type="int" />  
+        </composite-id>        
+        <property name="unidades" column="unidades" type="int" />                       
+    </class>
+
+    <class name="comedor.modelo.Cuenta" table="cuenta">
+        <id name="id" column="id_cuenta" type="int" />
+        <property name="cantidad" column="cantidad" type="double" />
+        <property name="fecha" column="fecha_cuenta" type="timestamp" />
+        <property name="idPedido" column="id_pedido" type="int" />                    
+    </class>
+
+    <class name="comedor.modelo.CuentaImpuesto" table="cuenta_impuesto">
+        <composite-id>
+            <key-property name="idCuenta" column="id_cuenta" type="int" />
+            <key-property name="idImpuesto" column="id_impuesto" type="int" />  
+        </composite-id>                             
+    </class>
+
+</hibernate-mapping>

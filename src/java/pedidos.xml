@@ -1,0 +1,20 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<!-- Author: Juan -->
+ 
+<struts>
+    
+    <package name="pedidos" namespace="/" extends="struts-default">
+        
+        <action name="pedidos" class="pedidos.actions.OperacionesPedidosAction">
+            <result name="CARGAR_PEDIDO">/pedidos/pedidos.jsp</result>
+            <result name="VUELTA_PEDIDO">/pedidos/pedidos.jsp</result>
+            <result name="VER_PEDIDO">/pedidos/verPedido.jsp</result>            
+        </action>  
+
+    </package>
+
+    <!-- Add your configuration elements here -->
+</struts>

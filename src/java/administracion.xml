@@ -1,0 +1,33 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<!-- Author: juang -->
+ 
+<struts>
+    <package name="administracion" namespace="/" extends="struts-default">
+       
+        <action name="administracion">
+            <result>/administracion/administracion.jsp</result>
+        </action>
+        
+        <action name="OperacionesAdministracionAction" class="administracion.actions.OperacionesAdministracionAction">
+            <result name="USUARIO">/administracion/usuario/usuario.jsp</result>            
+            <result name="DATOS_RESTAURANTE">/administracion/datosRestaurante/datosRestaurante.jsp</result>
+            <result name="CATEGORIA">/administracion/genero/categoria.jsp</result>
+            <result name="PRODUCTO">/administracion/genero/producto.jsp</result>                          
+        </action>
+          
+        <action name="OperacionesUsuarioAction" class="administracion.actions.OperacionesUsuarioAction">
+        </action> 
+         
+        <action name="OperacionesDatosRestauranteAction" class="administracion.actions.OperacionesDatosRestauranteAction">
+        </action>
+        
+        <action name="OperacionesGeneroAction" class="administracion.actions.OperacionesGeneroAction">
+        </action>  
+                              
+    </package>
+    
+    <!-- Add your configuration elements here -->
+</struts>
