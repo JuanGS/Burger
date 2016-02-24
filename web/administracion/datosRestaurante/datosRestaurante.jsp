@@ -12,7 +12,7 @@
 <html>
     <head>
         <jsp:include page="../../head.jsp"/>
-        
+        <link rel="stylesheet" href="../css/estiloGeneral.css"/>         
         <title>Datos restaurante</title>
        
     </head>
@@ -75,7 +75,7 @@
                         String nombre = request.getAttribute("nombre").toString();                     
                         if(nombre.equals("iva")) {
                     %>               
-                    <div id="divIva" class="form-group">
+                    <div id="divImpuestoIva" class="form-group">
                         <label class="control-label"><s:property value="nombre"/></label>
                         <s:textfield id="iva" cssClass="form-control" name="iva" value="%{valor}" /> 
                         <s:hidden id="idIva" value="%{idImpuesto}" />
@@ -83,7 +83,7 @@
                     <%
                         } else if(nombre.equals("servicio mesa")) {
                     %>     
-                    <div id="divServicioMesa" class="form-group">
+                    <div id="divImpuestoServicioMesa" class="form-group">
                         <label class="control-label"><s:property value="nombre"/></label>
                         <s:textfield id="servicio mesa" cssClass="form-control" name="servicio mesa" value="%{valor}" />
                         <s:hidden id="idServicioMesa" value="%{idImpuesto}" />
@@ -101,11 +101,11 @@
         </div>          
         
         <hr/>
-        <s:form action="administracion">
+        <s:form action="Administracion">
             <button type="submit" class="btn btn-default btn-sm">Volver</button>
         </s:form>      
         
         <jsp:include page="../../footer.jsp"/>
-        <script src="../Burger/administracion/datosRestaurante/datosRestaurante.js"></script>
+        <script src="../administracion/datosRestaurante/datosRestaurante.js"></script>
     </body>
 </html>

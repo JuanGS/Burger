@@ -4,26 +4,33 @@
 
 <struts>
     
-    <include file="administracion.xml"/>    
-    <include file="pedidos.xml"/>
-    <include file="comedor.xml"/>
-    
+ <constant name="struts.devMode" value="true" />
+        
     <!-- Configuration for the default package. -->
     <package name="default" extends="struts-default">   
          
-        <action name="validarUsuario" class="login.actions.LoginAction">
-            <result name="usuario">/menu.jsp</result>
-            <result name="admin">/administracion/administracion.jsp</result>
+        <action name="Login" class="login.actions.LoginAction">
+            <result name="usuario">/aplicaciones.jsp</result>
+            <result name="admin">/administracion.jsp</result>
             <result name="input">/login.jsp</result>  
         </action>
         
-        <action name="cerrarSesion" class="login.actions.LogoutAction">
+        <action name="Logout" class="login.actions.LogoutAction">
             <result>/login.jsp</result>
         </action>        
         
-        <action name="menuPrincipal">
-            <result>/menu.jsp</result>
+        <action name="Aplicaciones">
+            <result type="redirect">/aplicaciones.jsp</result>
         </action>
         
-    </package>    
+        <action name="Administracion">
+            <result type="redirect">/administracion.jsp</result>
+        </action>                            
+        
+    </package>
+    
+    <include file="administracion.xml"/>    
+    <include file="pedidos.xml"/>
+    <include file="comedor.xml"/> 
+      
 </struts>

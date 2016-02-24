@@ -74,7 +74,7 @@ function altaUsuario() {
 
         //Creamos la solicitud AJAX
         //Especificamos la action a ejecutar
-        var url = "OperacionesUsuarioAction.action";
+        var url = "OperacionesUsuario";
         var solicitud = new XMLHttpRequest();
         solicitud.addEventListener('loadstart', inicio);
         solicitud.addEventListener('load', mostrar);
@@ -92,7 +92,7 @@ function bajaUsuarioSeleccionado(usuario) {
 
     //Creamos la solicitud AJAX
     //Especificamos la action a ejecutar
-    var url = "OperacionesUsuarioAction.action";
+    var url = "OperacionesUsuario";
     var solicitud = new XMLHttpRequest();
     solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrar);

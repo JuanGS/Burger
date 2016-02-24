@@ -7,7 +7,7 @@
 var divRespuesta;
 
 function iniciar() {
-    divRespuesta = document.getElementById('divRespuesta');
+    divRespuesta = document.getElementById('divRespuesta');     
 }
 
 function actualizarMesas() {
@@ -17,7 +17,7 @@ function actualizarMesas() {
 
     //Creamos la solicitud AJAX
     //Especificamos la action a ejecutar
-    var url = "comedor.action";
+    var url = "OperacionesComedor";
     var solicitud = new XMLHttpRequest();
     solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrar);
@@ -33,7 +33,7 @@ function cuentaPagada(numeroMesa) {
 
     //Creamos la solicitud AJAX
     //Especificamos la action a ejecutar
-    var url = "comedor.action";
+    var url = "OperacionesComedor";
     var solicitud = new XMLHttpRequest();
     solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrar);

@@ -108,17 +108,17 @@
         
         <div>
             <div style="float: left">
-                <form action="comedor" method="POST">
+                <form action="OperacionesComedor" method="POST">
                     <input type="hidden" name="operacion" value="cargarMesas"/>
                     <button type="submit" class="btn btn-default">Volver</button>
                 </form>  
             </div>
             <div style="float: left; margin-left: 5px;">
-                <s:url action="comedor.action" var="enlace">
+                <s:url action="OperacionesComedor" var="enlace">
                     <s:param name="operacion">descargarCuenta</s:param> 
                 </s:url>
                 <a href="<s:property value="#enlace" />" >
-                    <img src="../Burger/img/pdf.png" width="32" height="32" alt="Descargar cuenta" title="Descargar cuenta"/>
+                    <img src="../img/pdf.png" width="32" height="32" alt="Descargar cuenta" title="Descargar cuenta"/>
                 </a>      
             </div>
             <div style="float: left; margin-left: 10px;">

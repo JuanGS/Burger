@@ -11,19 +11,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="../head.jsp"/>
+        <jsp:include page="head.jsp"/>
         
         <title>Administración</title>
     </head>
     <body>
 
         <s:if test="#session.login != 'true'">
-            <jsp:forward page="../login.jsp" />
+            <jsp:forward page="login.jsp" />
         </s:if>        
 
         <h1>Panel de administración</h1>
         <hr/>
-        <s:form action="OperacionesAdministracionAction">
+        <s:form action="administracion/OperacionesAdministracion">
             <h2>Gestión usuarios</h2>
             <button type="submit" class="btn btn-default" value="usuario" name="opcion">Usuario</button>            
             <h2>Gestión datos restaurante</h2>
@@ -34,10 +34,10 @@
         </s:form>
         <hr/>
         
-        <s:form action="cerrarSesion">
+        <s:form action="Logout">
             <button type="submit" class="btn btn-default">Cerrar sesión</button>
         </s:form>           
         
-        <jsp:include page="../footer.jsp"/>          
+        <jsp:include page="footer.jsp"/>          
     </body>
 </html>

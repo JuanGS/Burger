@@ -15,7 +15,7 @@
 <html>
     <head>
         <jsp:include page="../../head.jsp"/>
-        
+        <link rel="stylesheet" href="../css/estiloGeneral.css"/>       
         <title>Usuarios</title>
     </head>
     <body>
@@ -86,13 +86,13 @@
         
         <div style="clear: left">    
             <hr/>
-            <s:form action="administracion">
+            <s:form action="Administracion">
                 <button type="submit" class="btn btn-default btn-sm">Volver</button>
             </s:form>            
         </div>           
         
         <jsp:include page="../../footer.jsp"/>       
-        <script src="../Burger/administracion/usuario/usuario.js"></script>        
+        <script src="../administracion/usuario/usuario.js"></script>        
         
     </body>
 </html>

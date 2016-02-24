@@ -92,7 +92,7 @@ public class OperacionesUsuarioAction extends ActionSupport implements ServletRe
                 output.print("<p>Operacion realizada correctamente</p>*");
                 break;
             case 2:
-                output.print("<p>Ya existe una categoria con ese nombre</p>*");           
+                output.print("<p>Ya existe un usuario con ese nombre</p>*");           
                 break;
             default:
                 output.print("<p>Error al realizar la operación</p>*");

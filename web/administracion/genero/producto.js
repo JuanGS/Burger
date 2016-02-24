@@ -84,7 +84,7 @@ function altaProducto() {
 
         //Creamos la solicitud AJAX
         //Especificamos la action a ejecutar
-        var url = "OperacionesGeneroAction.action";
+        var url = "OperacionesGenero";
         var solicitud = new XMLHttpRequest();
         solicitud.addEventListener('loadstart', inicio);
         solicitud.addEventListener('load', mostrar);
@@ -102,7 +102,7 @@ function cambiarEstado(id, activo) {
 
     //Creamos la solicitud AJAX
     //Especificamos la action a ejecutar
-    var url = "OperacionesGeneroAction.action";
+    var url = "OperacionesGenero";
     var solicitud = new XMLHttpRequest();
     solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrar);
@@ -118,7 +118,7 @@ function cargarDatosProducto(id) {
 
     //Creamos la solicitud AJAX
     //Especificamos la action a ejecutar
-    var url = "OperacionesGeneroAction.action";
+    var url = "OperacionesGenero";
     var solicitud = new XMLHttpRequest();
     solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrarModificar);
@@ -145,7 +145,7 @@ function modificarProducto() {
 
         //Creamos la solicitud AJAX
         //Especificamos la action a ejecutar
-        var url = "OperacionesGeneroAction.action";
+        var url = "OperacionesGenero";
         var solicitud = new XMLHttpRequest();
         solicitud.addEventListener('loadstart', inicio);
         solicitud.addEventListener('load', mostrar);

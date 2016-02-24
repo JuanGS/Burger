@@ -14,7 +14,7 @@
 <html>
     <head>
         <jsp:include page="../head.jsp"/>
-        
+        <link rel="stylesheet" href="../css/estiloGeneral.css"/>
         <title>Pedidos</title>
     </head>
     <body>
@@ -69,7 +69,7 @@
         </div>           
 
         <div id="divListaProductos" class="form-group">
-            <form id="formProductos" action="pedidos" method="POST">
+            <form id="formProductos" action="OperacionesPedidos" method="POST">
                 <s:iterator value="listaCategorias">
                     <%
                         String categoriaActual = request.getAttribute("nombre").toString();
@@ -113,13 +113,13 @@
         
         <div style="clear: left">
             <hr/>
-            <s:form action="menuPrincipal">
+            <s:form action="Aplicaciones">
                 <button type="submit" class="btn btn-default btn-sm">Volver</button>
             </s:form>            
         </div>                  
                 
         <jsp:include page="../footer.jsp"/>       
-        <script src="../Burger/pedidos/pedidos.js"></script>
+        <script src="../pedidos/pedidos.js"></script>
         
     </body>
 </html>

@@ -6,9 +6,9 @@
  
 <struts>
     
-    <package name="pedidos" namespace="/" extends="struts-default">
+    <package name="pedidos" namespace="/pedidos" extends="struts-default">
         
-        <action name="pedidos" class="pedidos.actions.OperacionesPedidosAction">
+        <action name="OperacionesPedidos" class="pedidos.actions.OperacionesPedidosAction">
             <result name="CARGAR_PEDIDO">/pedidos/pedidos.jsp</result>
             <result name="VUELTA_PEDIDO">/pedidos/pedidos.jsp</result>
             <result name="VER_PEDIDO">/pedidos/verPedido.jsp</result>            

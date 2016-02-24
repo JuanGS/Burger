@@ -43,7 +43,7 @@ function obtenerMesasDisponibles() {
     
     //Creamos la solicitud AJAX
     //Especificamos la action a ejecutar
-    var url = "pedidos.action";
+    var url = "OperacionesPedidos";
     var solicitud = new XMLHttpRequest();
     solicitud.addEventListener('load', actualizarSelectMesas);
     solicitud.open("POST", url, true);
@@ -201,7 +201,7 @@ function realizarPedido() {
 
         //Creamos la solicitud AJAX
         //Especificamos la action a ejecutar
-        var url = "pedidos.action";
+        var url = "OperacionesPedidos";
         var solicitud = new XMLHttpRequest();
         solicitud.addEventListener('loadstart', inicio);
         solicitud.addEventListener('load', mostrar);

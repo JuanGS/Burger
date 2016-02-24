@@ -166,18 +166,18 @@ function validarCamposImpuestos() {
     var campo2 = false;    
     
     if (iva.value === '') {
-        document.getElementById('divIva').className = 'form-group has-error has-feedback';
+        document.getElementById('divImpuestoIva').className = 'form-group has-error has-feedback';
         divRespuestaImpuestos.innerHTML += '<strong style="color: red">IVA obligatorio</strong>';
     } else {
-        document.getElementById('divIva').className = 'form-group';
+        document.getElementById('divImpuestoIva').className = 'form-group';
         campo1 = true;
     }   
  
     if (servicioMesa.value === '') {
-        document.getElementById('divServicioMesa').className = 'form-group has-error has-feedback';
+        document.getElementById('divImpuestoServicioMesa').className = 'form-group has-error has-feedback';
         divRespuestaImpuestos.innerHTML += '<strong style="color: red">Servicio de mesa obligatorio</strong>';
     } else {
-        document.getElementById('divServicioMesa').className = 'form-group';
+        document.getElementById('divImpuestoServicioMesa').className = 'form-group';
         campo2 = true;
     }       
     
@@ -233,7 +233,7 @@ function leerDatosLocal() {
 
             //Creamos la solicitud AJAX
             //Especificamos la action a ejecutar
-            var url = "OperacionesDatosRestauranteAction.action";
+            var url = "OperacionesDatosRestaurante";
             var solicitud = new XMLHttpRequest();
             solicitud.addEventListener('loadstart', inicioDatosLocal);
             solicitud.addEventListener('load', mostrarDatosLocal);
@@ -259,7 +259,7 @@ function leerNumeroMesas() {
             operacion.append('numeroMesasInicial', numeroMesasInicial);
             //Creamos la solicitud AJAX
             //Especificamos la action a ejecutar
-            var url = "OperacionesDatosRestauranteAction.action";
+            var url = "OperacionesDatosRestaurante";
             var solicitud = new XMLHttpRequest();
             solicitud.addEventListener('loadstart', inicioNumeroMesas);
             solicitud.addEventListener('load', mostrarNumeroMesas);
@@ -298,7 +298,7 @@ function leerImpuestos() {
             operacion.append('listaImpuestosIniciales', JSON.stringify(impuestosInicialesJSON));            
             //Creamos la solicitud AJAX
             //Especificamos la action a ejecutar
-            var url = "OperacionesDatosRestauranteAction.action";
+            var url = "OperacionesDatosRestaurante";
             var solicitud = new XMLHttpRequest();
             solicitud.addEventListener('loadstart', inicioImpuestos);
             solicitud.addEventListener('load', mostrarImpuestos);

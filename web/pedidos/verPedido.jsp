@@ -16,7 +16,7 @@
 <html>
     <head>
         <jsp:include page="../head.jsp"/>
-        
+        <link rel="stylesheet" href="../css/estiloGeneral.css"/>        
         <title>Ver pedido</title>
     </head>
     <body>
@@ -87,14 +87,14 @@
         <hr/>
         
         <div style="clear: left">
-            <s:form id="formVolver" action="pedidos">
+            <s:form id="formVolver" action="OperacionesPedidos">
                 <input type="hidden" name="operacion" value="vuelta"/>
                 <button type="submit" class="btn btn-default btn-sm">Volver</button>
             </s:form>            
         </div>            
         
         <jsp:include page="../footer.jsp"/>       
-        <script src="../Burger/pedidos/verPedido.js"></script>
+        <script src="../pedidos/verPedido.js"></script>
         
     </body>
 </html>

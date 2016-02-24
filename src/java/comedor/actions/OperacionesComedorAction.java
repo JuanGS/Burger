@@ -67,8 +67,11 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
     private ServletOutputStream output;        
     private InputStream respuesta;
     private String nombreDocumento;
-    private String rutaCuentas = System.getProperty("catalina.base") + "\\cuentas\\"; //Crear la carpeta "cuentas" en el directorio catalina.base
-    
+    //Windows. Desarrollo.
+    private String rutaCuentas = System.getProperty("catalina.base") + "\\webapps\\cuentas\\"; //Crear la carpeta "cuentas" en el directorio catalina.base
+    //Linux. Produccion.
+//    private String rutaCuentas = System.getProperty("catalina.base") + "/webapps/Burger/cuentas/"; //Crear la carpeta "cuentas" en el directorio catalina.base
+        
     //Para gestionar la sesion
     private Map session = ActionContext.getContext().getSession();    
     
@@ -82,7 +85,7 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
     private String navegacion; 
 
     @Override
-    public String execute() {
+    public String execute() {    
         //Configuramos el objeto para response
         response.setContentType("text/html; charset=iso-8859-1");
         
@@ -90,7 +93,7 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
         
         //Obtenemos los datos del request
         String operacion = request.getParameter("operacion");
-        
+
         switch(operacion) {
             case "cargarMesas":
                 //Obtenemos el listado de mesas en BD
@@ -153,7 +156,7 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
                 try {
                     //Generamos el pdf con los datos del pedido
                     crearPDF();
-                    //Asignamos el documento al flujo de respuesta           
+                    //Asignamos el documento al flujo de respuesta      
                     respuesta = new DataInputStream(new FileInputStream(rutaCuentas+nombreDocumento));
                     
                 } catch (FileNotFoundException ex) {
@@ -208,7 +211,7 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
             } else if (mesa.getEstado().equals("ocupada")) {
                 output.print("<div style='float: left; margin-right: 20px;'>");
                 output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: red'><br/><br/>");
-                output.print("<form action='comedor' method='POST'>");
+                output.print("<form action='OperacionesComedor' method='POST'>");
                 output.print("<button type='submit' class='btn btn-default btn-default' name='operacion' value='generarCuenta'>Generar cuenta</button>");
                 output.print("<input type='hidden' id='numeroMesa' name='numeroMesa' value='"+mesa.getNumero()+"'/>");                 
                 output.print("</form>");              
@@ -290,14 +293,13 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
         return producto;
     }    
     
-    private void crearPDF() throws FileNotFoundException, DocumentException, IOException {
+    private void crearPDF() throws IOException, DocumentException {     
         Restaurante restaurante = godr.obtenerDatosRestaurante();
 
         //Creamos el documento
         Document documento = new Document();
         //Creamos el OutputStream para el fichero pdf   
         FileOutputStream destino = new FileOutputStream(rutaCuentas+nombreDocumento);        
-
         //Asociamos el FileOutputStream al Document
         PdfWriter.getInstance(documento, destino);
         //Abrimos el documento
@@ -310,7 +312,7 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
         parrafo.setAlignment(Element.ALIGN_CENTER);
         documento.add(parrafo);
         //Añadimos la imagen
-        URL url = new URL("http://" + request.getServerName() + ":" + request.getServerPort() + "" + request.getContextPath() + "/img/elvis.png");     
+        URL url = new URL("http://" + request.getServerName() + ":" + request.getServerPort() + "" + request.getContextPath() + "/img/elvis.png");             
         Image foto = Image.getInstance(url);
         foto.scaleToFit(100, 100);
         foto.setAlignment(Chunk.ALIGN_MIDDLE);
@@ -378,7 +380,7 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
         documento.add(tabla);
         
         //Cerramos el documento
-        documento.close();       
+        documento.close(); 
     }
     
     @Override

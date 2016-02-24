@@ -6,9 +6,9 @@
  
 <struts>
     
-    <package name="comedor" namespace="/" extends="struts-default">
+    <package name="comedor" namespace="/comedor" extends="struts-default">
         
-        <action name="comedor" class="comedor.actions.OperacionesComedorAction">
+        <action name="OperacionesComedor" class="comedor.actions.OperacionesComedorAction">
             <result name="CARGAR_MESAS">/comedor/comedor.jsp</result>
             <result name="MOSTRAR_CUENTA">/comedor/cuenta.jsp</result>    
             <result name="CUENTA" type="stream">

@@ -39,19 +39,19 @@
             </div>
         </s:if>
         <br/>
-        <s:form action="pedidos">
+        <s:form action="pedidos/OperacionesPedidos">
             <%--Indicamos la operacion que queremos ejecutar --%>
             <input type="hidden" name="operacion" value="cargarPedidos" />
             <button type="submit" class="btn btn-default">Pedidos</button>
         </s:form>
             <br/>
-        <s:form action="comedor">
+        <s:form action="comedor/OperacionesComedor">
             <%--Indicamos la operacion que queremos ejecutar --%>
             <input type="hidden" name="operacion" value="cargarMesas" />
             <button type="submit" class="btn btn-default">Comedor</button>            
         </s:form>
         <br/>
-        <s:form action="cerrarSesion">
+        <s:form action="Logout">
             <button type="submit" class="btn btn-default">Cerrar sesión</button>
         </s:form>            
             

@@ -24,7 +24,7 @@
     <body>
 
         <div id="divFormAlta">
-            <form action="validarUsuario" method="POST">
+            <form action="Login" method="POST">
                 <fieldset>
                     <legend>Validar usuario</legend>
                     <div id="divUsuario" class="form-group">

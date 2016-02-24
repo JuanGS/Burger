@@ -15,7 +15,7 @@
 <html>
     <head>
         <jsp:include page="../head.jsp"/>
-        
+        <link rel="stylesheet" href="../css/estiloGeneral.css"/>        
         <title>Gestión comedor</title>
     </head>
     <body>
@@ -41,9 +41,9 @@
             %>
             <div style="float: left; margin-right: 20px;">
                 <img alt="<%= mesa.getNumero()%>" class="img-circle" width="140" height="140" style="background-color: red"><br/><br/>
-                <form action="comedor" method="POST">
-                    <button type="submit" class="btn btn-default" name="operacion" value="generarCuenta">Generar cuenta</button>
-                    <input type="hidden" id="numeroMesa" name="numeroMesa" value="<%= mesa.getNumero()%>"/>                 
+                <form action="OperacionesComedor" method="POST">
+                    <input type="hidden" id="numeroMesa" name="numeroMesa" value="<%= mesa.getNumero()%>"/>    
+                    <button type="submit" class="btn btn-default" name="operacion" value="generarCuenta">Generar cuenta</button>           
                 </form>
             </div>        
             <%
@@ -69,9 +69,9 @@
         <hr/>
                   
         <div>
-            <s:form action="menuPrincipal">
+            <s:form action="Aplicaciones">
                 <input type="button" class="btn btn-default" value="Actualizar" onclick="actualizarMesas()"/> 
-                <button type="submit" class="btn btn-default btn-sm">Volver</button>
+                <button type="submit" class="btn btn-default">Volver</button>
             </s:form>   
         </div>
         
@@ -80,7 +80,7 @@
         </div>       
         
         <jsp:include page="../footer.jsp"/>       
-        <script src="../Burger/comedor/comedor.js"></script> 
+        <script src="../comedor/comedor.js"></script> 
         
     </body>
 </html>
