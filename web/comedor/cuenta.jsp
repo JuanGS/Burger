@@ -4,6 +4,7 @@
     Author     : juang
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib prefix="s" uri="/struts-tags" %>
@@ -78,7 +79,7 @@
         <div>
             <table>
                 <tr>
-                    <td><span class="label label-default">Base imponible</span><s:property value="pedido.importe" /></td>
+                    <td><span class="label label-default">Base imponible</span><s:property value="pedido.importe" />€</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -88,16 +89,17 @@
                 %>                
                 <s:iterator value="listaImpuestos">
                     <%
+                        DecimalFormat formato = new DecimalFormat("#.##€");
                         impuesto = (Double.parseDouble(request.getAttribute("valor").toString()) * importePedido) / 100;
                     %>
                     <tr>
                         <td></td>
                         <td><span class="label label-default"><s:property value="nombre" /></span><s:property value="valor" /></td>
-                        <td><span class="label label-default">Impuesto <s:property value="nombre" /></span><%= impuesto %></td>
+                        <td><span class="label label-default">Impuesto <s:property value="nombre" /></span><%= formato.format(impuesto) %></td>
                     </tr>
                 </s:iterator>
                 <tr>
-                    <td><span class="label label-default">Total</span><s:property value="cuenta.cantidad" /></td>                   
+                    <td><span class="label label-default">Total</span><s:property value="cuenta.cantidad" />€</td>                   
                     <td></td>
                     <td></td>
                 </tr>

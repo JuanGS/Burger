@@ -33,6 +33,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -151,7 +153,8 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
                 listaImpuestos = (List<Impuesto>) session.get("listaImpuestosComedor");                 
                
                 //Asignamos el nombreDocumento
-                nombreDocumento = "cuenta"+cuenta.getId()+".pdf";
+                SimpleDateFormat formatoNombreCuenta = new SimpleDateFormat("_yyyyMMdd_HHmmss_");
+                nombreDocumento = "cuenta"+formatoNombreCuenta.format(cuenta.getFecha())+cuenta.getId()+".pdf";
                 
                 try {
                     //Generamos el pdf con los datos del pedido
@@ -328,8 +331,12 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
         //Añadimos los datos de la cuenta
         chunk = new Chunk("Cuenta id: " + cuenta.getId(), datos);
         documento.add(new Paragraph(chunk)); 
-        chunk = new Chunk("Fecha: " + cuenta.getFecha(), datos);
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        chunk = new Chunk("Fecha: " + formatoFecha.format(cuenta.getFecha()), datos);
         documento.add(new Paragraph(chunk));
+        SimpleDateFormat formtoHora = new SimpleDateFormat("HH:mm:ss");        
+        chunk = new Chunk("Hora: " + formtoHora.format(cuenta.getFecha()), datos);
+        documento.add(new Paragraph(chunk));        
         //Añadimos los datos del pedido
         //Obtenemos el usuario, es decir, del camarero con el nombre que tenemos registrado en la session 
         chunk = new Chunk("Camarero: " + session.get("usuario").toString(), datos);
@@ -364,16 +371,17 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
         documento.add(new Chunk(Chunk.NEWLINE)); //Salto de linea
         //Añadimos una tabla con los impuestos y el total a pagar
         tabla = new PdfPTable(3); //Especificamos el numero de columnas    
-        tabla.addCell("Base imponible: " + pedido.getImporte());
+        tabla.addCell("Base imponible: " + pedido.getImporte() + "€");
         tabla.addCell("");
         tabla.addCell("");
+        DecimalFormat formato = new DecimalFormat("#.##€");
         for(Impuesto dato : listaImpuestos) {
             tabla.addCell("");
             tabla.addCell(dato.getNombre() + ": " + dato.getValor());
             double impuesto = (pedido.getImporte() * dato.getValor()) / 100;
-            tabla.addCell("Impuesto " + dato.getNombre() + ": " + impuesto); 
+            tabla.addCell("Impuesto " + dato.getNombre() + ": " + formato.format(impuesto)); 
         }
-        tabla.addCell("Total: " + cuenta.getCantidad());
+        tabla.addCell("Total: " + cuenta.getCantidad() + "€");
         tabla.addCell("");
         tabla.addCell("");  
         //Añadimos la tabla al documento

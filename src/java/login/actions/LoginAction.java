@@ -10,20 +10,12 @@ import administracion.modelo.Usuario;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.struts2.interceptor.ServletRequestAware;
-import org.apache.struts2.interceptor.ServletResponseAware;
 
 /**
  *
  * @author juang
  */
-public class LoginAction extends ActionSupport implements ServletRequestAware, ServletResponseAware{
-    
-    //Variables para gestionar la peticion
-    private HttpServletRequest request;
-    private HttpServletResponse response;    
+public class LoginAction extends ActionSupport {
     
     private String usuario;
     private String password;
@@ -61,16 +53,6 @@ public class LoginAction extends ActionSupport implements ServletRequestAware, S
             addActionError("Usuario no encontrado");
         }
     }
-    
-    @Override
-    public void setServletRequest(HttpServletRequest hsr) {
-        this.request = hsr; 
-    }
-
-    @Override
-    public void setServletResponse(HttpServletResponse hsr) {
-        this.response = hsr;
-    }    
 
     public String getUsuario() {
         return usuario;
