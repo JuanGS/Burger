@@ -23,7 +23,7 @@
             }          
         </style>        
         
-        <title>Burger</title>
+        <title><s:text name="global.aplicaciones.title"/></title>
     </head>
     <body>
 
@@ -31,28 +31,37 @@
             <jsp:forward page="login.jsp" />
         </s:if>
         
-        <h1>Elvis Presley´s Burger</h1>
-        
+        <h1><s:text name="global.etiqueta.nombreRestaurante"/></h1>
+
         <s:if test="hasActionMessages()">
             <div class="welcome">
                 <s:actionmessage/>
             </div>
         </s:if>
+        <s:else>
+            <%   
+                String usuario = session.getAttribute("usuario").toString();
+            %>
+            <div class="welcome">
+                <s:text name="global.etiqueta.usuario"/>: <%= usuario %>
+            </div>
+        </s:else>
+        
         <br/>
         <s:form action="pedidos/OperacionesPedidos">
             <%--Indicamos la operacion que queremos ejecutar --%>
             <input type="hidden" name="operacion" value="cargarPedidos" />
-            <button type="submit" class="btn btn-default">Pedidos</button>
+            <button type="submit" class="btn btn-default"><s:text name="global.etiqueta.pedidos"/></button>
         </s:form>
             <br/>
         <s:form action="comedor/OperacionesComedor">
             <%--Indicamos la operacion que queremos ejecutar --%>
             <input type="hidden" name="operacion" value="cargarMesas" />
-            <button type="submit" class="btn btn-default">Comedor</button>            
+            <button type="submit" class="btn btn-default"><s:text name="global.etiqueta.comedor"/></button>            
         </s:form>
         <br/>
         <s:form action="Logout">
-            <button type="submit" class="btn btn-default">Cerrar sesión</button>
+            <button type="submit" class="btn btn-default"><s:text name="global.etiqueta.cerrarSesion"/></button>
         </s:form>            
             
         <jsp:include page="footer.jsp"/>  

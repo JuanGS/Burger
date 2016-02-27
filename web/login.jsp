@@ -4,6 +4,8 @@
     Author     : juang
 --%>
 
+<%@page import="java.util.TreeMap"%>
+<%@page import="java.util.Map"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib prefix="s" uri="/struts-tags" %>
@@ -19,25 +21,29 @@
             }
         </style>
         
-        <title>Login</title>
+        <title><s:text name="global.login.title"/></title>
     </head>
-    <body>
-
-        <div id="divFormAlta">
+    <body>        
+        
+        <div style="float: right">
+            <jsp:include page="locales.jsp" />
+        </div>
+        
+        <div id="divFormAlta" style="clear: both">
             <form action="Login" method="POST">
                 <fieldset>
-                    <legend>Validar usuario</legend>
+                    <legend><s:text name="global.login.form"/></legend>
                     <div id="divUsuario" class="form-group">
-                        <label class="control-label">Usuario</label>
-                        <input type="text" class="form-control" name="usuario" value="<s:property value="usuario" />"  placeholder="Usuario" required/>
+                        <label class="control-label"><s:text name="global.etiqueta.usuario"/></label>
+                        <input type="text" class="form-control" name="usuario" value="<s:property value="usuario" />"  placeholder="<s:text name="global.etiqueta.usuario"/>" required/>
                     </div>
                     <div id="divPassword" class="form-group">
-                        <label class="control-label">Contraseña</label>
-                        <input type="password" name="password" class="form-control" placeholder="Contraseña" required/>  
+                        <label class="control-label"><s:text name="global.etiqueta.password"/></label>
+                        <input type="password" name="password" class="form-control" placeholder="<s:text name="global.etiqueta.password"/>" required/>  
                     </div>    
                     <div class="form-group" style="float: left;">
-                        <s:submit class="btn btn-default btn-sm" value="Validar"/>
-                        <s:reset class="btn btn-default btn-sm" value="Reiniciar"/>
+                        <button class="btn btn-default btn-sm"><s:text name="global.etiqueta.validar"/></button>
+                        <button type="reset" class="btn btn-default btn-sm"><s:text name="global.etiqueta.reiniciar"/></button>
                     </div>                
                 </fieldset>
             </form>

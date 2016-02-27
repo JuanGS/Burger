@@ -13,7 +13,7 @@
     <head>
         <jsp:include page="../../head.jsp"/>
         <link rel="stylesheet" href="../css/estiloGeneral.css"/>            
-        <title>Categoria</title>
+        <title><s:text name="global.etiqueta.categoria"/></title>
     </head>
     <body>
         
@@ -21,16 +21,16 @@
             <jsp:forward page="../../login.jsp" />
         </s:if>         
         
-        <h1>Categoría</h1>
+        <h1><s:text name="global.etiqueta.categoria"/></h1>
         <hr/>        
         <div id="divListaCategorias" style="float: left; margin-right: 50px">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
-                    <caption>Categorías</caption>
+                    <caption><s:text name="global.etiqueta.categorias"/></caption>
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Habilitada</th>                            
+                            <th><s:text name="global.etiqueta.nombre"/></th>
+                            <th><s:text name="global.etiqueta.habilitada"/></th>                            
                         </tr>
                     </thead>                        
                     <tbody id="cuerpoTablaCategoria">
@@ -57,16 +57,16 @@
         <div id="divFormAlta">
             <form>
                 <fieldset>
-                    <legend>Alta categoría</legend>
+                    <legend><s:text name="global.categoria.altaCategoria"/></legend>
                     <div id="divNombre" class="form-group">
-                        <label class="sr-only" for="nombre">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" placeholder="Nombre" required/>
+                        <label class="sr-only" for="nombre"><s:text name="global.etiqueta.nombre"/></label>
+                        <input type="text" id="nombre" class="form-control" placeholder="<s:text name="global.etiqueta.nombre"/>" required/>
                     </div>
                     <div class='checkbox'>
-                        <label><input type='checkbox' id="checkAlta" checked>Habilitada</label>
+                        <label><input type='checkbox' id="checkAlta" checked><s:text name="global.etiqueta.habilitada"/></label>
                     </div>
                     <div class="form-group">
-                        <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="Alta"/>
+                        <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="<s:text name="global.etiqueta.alta"/>"/>
                     </div>                    
                 </fieldset>
             </form>
@@ -75,12 +75,12 @@
         <div id="divRespuesta"></div>
         
         <hr/>
-        <p>Para dar de baja una categoría póngase en contacto con el administrador del sistema.</p>            
+        <p><s:text name="global.mensaje.darBaja"/></p>            
 
         <div style="clear: left">
             <hr/>            
-            <s:form action="Administracion">
-                <button type="submit" class="btn btn-default btn-sm">Volver</button>
+            <s:form action="VolverAdministracion">
+                <button type="submit" class="btn btn-default btn-sm"><s:text name="global.etiqueta.volver"/></button>
             </s:form>            
         </div>        
         

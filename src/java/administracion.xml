@@ -22,7 +22,14 @@
         
         <action name="OperacionesGenero" class="administracion.actions.OperacionesGeneroAction">
         </action>  
-                              
+                
+        <action name="VolverAdministracion">
+            <result type="redirectAction">
+                <param name="actionName">Administracion</param>
+                <param name="namespace">/</param>
+            </result>
+        </action>                               
+                                                          
     </package>
     
     <!-- Add your configuration elements here -->

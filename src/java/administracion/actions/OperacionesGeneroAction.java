@@ -156,13 +156,13 @@ public class OperacionesGeneroAction extends ActionSupport implements ServletReq
 
         switch (resultadoOperacion) {
             case 1:
-                output.print("<p>Operacion realizada correctamente</p>*");
+                output.print("<p>"+getText("global.success.realizarOperacion")+"</p>*");
                 break;
             case 2:
-                output.print("<p>Ya existe una categoria con ese nombre</p>*");           
+                output.print("<p>"+getText("global.error.categoriaExiste")+"</p>*");           
                 break;
             default:
-                output.print("<p>Error al realizar la operación</p>*");
+                output.print("<p>"+getText("global.error.realizarOperacion")+"</p>*");
                 break;
         }
         
@@ -185,13 +185,13 @@ public class OperacionesGeneroAction extends ActionSupport implements ServletReq
 
         switch (resultadoOperacion) {
             case 1:
-                output.print("<p>Operacion realizada correctamente</p>*");
+                output.print("<p>"+getText("global.success.realizarOperacion")+"</p>*");
                 break;
             case 2:
-                output.print("<p>Ya existe una categoria con ese nombre</p>*");           
+                output.print("<p>"+getText("global.error.productoExiste")+"</p>*");           
                 break;
             default:
-                output.print("<p>Error al realizar la operación</p>*");
+                output.print("<p>"+getText("global.error.realizarOperacion")+"</p>*");
                 break;
         }
         
@@ -216,22 +216,22 @@ public class OperacionesGeneroAction extends ActionSupport implements ServletReq
         //Obtenemos la lista categoria
         List<Categoria> listaCategorias = gog.obtenerListaCategorias();
         
-        output.print("<p>Operacion realizada correctamente</p>*");
+        output.print("<p>"+getText("global.success.realizarOperacion")+"</p>*");
         
         output.print("<form>");
         output.print("<fieldset>");
-        output.print("<legend>Alta producto</legend>");         
+        output.print("<legend>"+getText("global.producto.altaProducto")+"</legend>");         
         output.print("<div id='divNombre' class='form-group'>");
-        output.print("<label class='sr-only' for='nombre'>Nombre</label>");
-        output.print("<input type='text' id='nombre' class='form-control' placeholder='Nombre' required disabled value='"+producto.getNombre()+"'/>");
+        output.print("<label class='sr-only' for='nombre'>"+getText("global.etiqueta.nombre")+"</label>");
+        output.print("<input type='text' id='nombre' class='form-control' placeholder='"+getText("global.etiqueta.nombre")+"' required disabled value='"+producto.getNombre()+"'/>");
         output.print("</div>");  
         output.print("<div id='divPrecio' class='form-group'>");
-        output.print("<label class='sr-only' for='precio'>Precio</label>");
-        output.print("<input type='text' id='precio' class='form-control' placeholder='Precio' required value='"+producto.getPrecio()+"'/>");        
+        output.print("<label class='sr-only' for='precio'>"+getText("global.etiqueta.precio")+"</label>");
+        output.print("<input type='text' id='precio' class='form-control' placeholder='"+getText("global.etiqueta.precio")+"' required value='"+producto.getPrecio()+"'/>");        
         output.print("</div>");   
         output.print("<div id='divDescripcion' class='form-group'>");
-        output.print("<label class='sr-only' for='descripcion'>Descripción</label>");
-        output.print("<input type='text' id='descripcion' class='form-control' placeholder='Descripción' required value='"+producto.getDescripcion()+"'/>");          
+        output.print("<label class='sr-only' for='descripcion'>"+getText("global.etiqueta.descripcion")+"</label>");
+        output.print("<input type='text' id='descripcion' class='form-control' placeholder='"+getText("global.etiqueta.descripcion")+"' required value='"+producto.getDescripcion()+"'/>");          
         output.print("</div>");  
         output.print("<div id='divCategoria' class='form-group'>");
         output.print("<select id='selectCategoria' class='form-control' required>");
@@ -245,15 +245,15 @@ public class OperacionesGeneroAction extends ActionSupport implements ServletReq
         output.print("</div>");  
         output.print("<div class='checkbox'>");
         if(producto.isActivo()) {
-            output.print("<label><input type='checkbox' id='checkAlta' checked>Habilitada</label>");
+            output.print("<label><input type='checkbox' id='checkAlta' checked>"+getText("global.etiqueta.habilitada")+"</label>");
         } else {
-            output.print("<label><input type='checkbox' id='checkAlta'>Habilitada</label>"); 
+            output.print("<label><input type='checkbox' id='checkAlta'>"+getText("global.etiqueta.habilitada")+"</label>"); 
         }
         output.print("</div>");  
         output.print("<div class='form-group'>");
-        output.print("<input type='button' id='botonAlta' class='btn btn-default btn-sm' value='Alta' disabled style='margin-right: 3px' />");
-        output.print("<input type='button' id='botonActualizar' class='btn btn-default btn-sm' value='Actualizar' onclick='modificarProducto()' style='margin-right: 3px' />");        
-        output.print("<input type='button' id='botonReiniciar' class='btn btn-default btn-sm' value='Reiniciar' onclick='reiniciar()' />");
+        output.print("<input type='button' id='botonAlta' class='btn btn-default btn-sm' value='"+getText("global.etiqueta.alta")+"' disabled style='margin-right: 3px' />");
+        output.print("<input type='button' id='botonActualizar' class='btn btn-default btn-sm' value='"+getText("global.etiqueta.actualizar")+"' onclick='modificarProducto()' style='margin-right: 3px' />");        
+        output.print("<input type='button' id='botonReiniciar' class='btn btn-default btn-sm' value='"+getText("global.etiqueta.reiniciar")+"' onclick='reiniciar()' />");
         output.print("</div>");                   
         output.print("</fieldset>");
         output.print("</form>");        

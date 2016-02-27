@@ -19,6 +19,13 @@
             </result>    
         </action>  
 
+        <action name="VolverAplicaciones">
+            <result type="redirectAction">
+                <param name="actionName">Aplicaciones</param>
+                <param name="namespace">/</param>
+            </result>
+        </action> 
+
     </package>
 
     <!-- Add your configuration elements here -->

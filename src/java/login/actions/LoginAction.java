@@ -45,12 +45,12 @@ public class LoginAction extends ActionSupport {
 
         if(usuarioEncontrado != null) {
             if(usuarioEncontrado.getPassword().equals(password)) {
-                addActionMessage("Usuario: " + usuario);
+                addActionMessage(getText("global.etiqueta.usuario") + ": " + usuario);
             } else {
-               addActionError("Password incorrecto"); 
+               addActionError(getText("global.error.passwordIncorrecto")); 
             }
         } else {
-            addActionError("Usuario no encontrado");
+            addActionError(getText("global.error.usuarioNoEncontrado"));
         }
     }
 

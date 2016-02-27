@@ -15,7 +15,7 @@
     <head>
         <jsp:include page="../head.jsp"/>
         <link rel="stylesheet" href="../css/estiloGeneral.css"/>
-        <title>Pedidos</title>
+        <title><s:text name="global.pedidos.title"/></title>
     </head>
     <body>
         
@@ -23,7 +23,7 @@
             <jsp:forward page="../login.jsp" />
         </s:if>        
         
-        <h1>Pedidos</h1>
+        <h1><s:text name="global.pedidos.title"/></h1>
         <hr/>          
 
         <!-- Miramos si hay un pedido en sesion -->
@@ -32,13 +32,13 @@
         %>
         
         <div id="divListaMesas" class="form-group">
-            <span class="label label-primary">Número mesa</span>
+            <span class="label label-primary"><s:text name="global.pedidos.numeroMesa"/></span>
             <select id="selectMesas" class="form-control" required>      
                 <%
                     //Sino no lo hay o si lo hay pero no tiene mesa asignada
                     if (pedido == null || pedido.getNumeroMesa() == 0) {
                 %>
-                <option value="" disabled selected>Elija una mesa...</option>
+                <option value="" disabled selected><s:text name="global.pedidos.elijaMesa"/></option>
                 <%
                     //Si lo hay
                     //Sacamos el numero de mesa del pedido y se lo asignamos al select como opcion seleccionada
@@ -97,11 +97,11 @@
                     </div>
                 </s:iterator>
                 <hr/>
-                <button type="submit" class="btn btn-default btn-info" name="operacion" value="verPedido">Ver pedido</button>
+                <button type="submit" class="btn btn-default btn-info" name="operacion" value="verPedido"><s:text name="global.pedidos.verPedido"/></button>
                 <input type="hidden" id="numeroMesa" name="numeroMesa"/>
                 <input type="hidden" id="arrayPedido" name="arrayPedido"/>  
-                <input type="button" class="btn btn-default btn-warning" value="Limpiar pedido" onclick="limpiarPedido();"/>
-                <input type="button" class="btn btn-default btn-success" value="Realizar pedido" onclick="realizarPedido();"/>
+                <input type="button" class="btn btn-default btn-warning" value="<s:text name="global.pedidos.limpiarPedido"/>" onclick="limpiarPedido();"/>
+                <input type="button" class="btn btn-default btn-success" value="<s:text name="global.pedidos.realizarPedido"/>" onclick="realizarPedido();"/>
             </form>
         </div>
   
@@ -113,8 +113,8 @@
         
         <div style="clear: left">
             <hr/>
-            <s:form action="Aplicaciones">
-                <button type="submit" class="btn btn-default btn-sm">Volver</button>
+            <s:form action="VolverAplicaciones">
+                <button type="submit" class="btn btn-default btn-sm"><s:text name="global.etiqueta.volver"/></button>
             </s:form>            
         </div>                  
                 

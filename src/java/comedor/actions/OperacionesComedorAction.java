@@ -215,18 +215,18 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
                 output.print("<div style='float: left; margin-right: 20px;'>");
                 output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: red'><br/><br/>");
                 output.print("<form action='OperacionesComedor' method='POST'>");
-                output.print("<button type='submit' class='btn btn-default btn-default' name='operacion' value='generarCuenta'>Generar cuenta</button>");
+                output.print("<button type='submit' class='btn btn-default btn-default' name='operacion' value='generarCuenta'>"+getText("global.comedor.generarCuenta")+"</button>");
                 output.print("<input type='hidden' id='numeroMesa' name='numeroMesa' value='"+mesa.getNumero()+"'/>");                 
                 output.print("</form>");              
                 output.print("</div>");
             } else if (mesa.getEstado().equals("pendiente")) {
                 output.print("<div style='float: left; margin-right: 20px;'>");
                 output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: yellow'><br/><br/>");
-                output.print("<input type='button' class='btn btn-default btn-default' value='Cuenta pagada' onclick='cuentaPagada("+mesa.getNumero()+")'/>");  
+                output.print("<input type='button' class='btn btn-default btn-default' value='"+getText("global.comedor.cuentaPagada")+"' onclick='cuentaPagada("+mesa.getNumero()+")'/>");  
                 output.print("</div>");
             } else {
                 output.print("<div style='float: left; margin-right: 20px;'>");
-                output.print("<p><strong style='color: red;'>Error al cargar la mesa</strong></p>");
+                output.print("<p><strong style='color: red;'>"+getText("global.error.cargarMesa")+"</strong></p>");
                 output.print("</div>");
             }
         }
@@ -322,34 +322,34 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
         documento.add(foto);        
         //Añadimos los datos del restaurante
         Font datos = FontFactory.getFont(FontFactory.TIMES, 12, Font.NORMAL);
-        chunk = new Chunk("CIF: " + restaurante.getCif(), datos);
+        chunk = new Chunk(getText("global.etiqueta.cif")+": " + restaurante.getCif(), datos);
         documento.add(new Paragraph(chunk));
-        chunk = new Chunk("Dirección: " + restaurante.getDireccion(), datos);
+        chunk = new Chunk(getText("global.etiqueta.direccion")+": " + restaurante.getDireccion(), datos);
         documento.add(new Paragraph(chunk));
-        chunk = new Chunk("Teléfono: " + restaurante.getTelefono(), datos);
+        chunk = new Chunk(getText("global.etiqueta.telefono")+": " + restaurante.getTelefono(), datos);
         documento.add(new Paragraph(chunk));   
         //Añadimos los datos de la cuenta
-        chunk = new Chunk("Cuenta id: " + cuenta.getId(), datos);
+        chunk = new Chunk(getText("global.etiqueta.cuentaId")+": " + cuenta.getId(), datos);
         documento.add(new Paragraph(chunk)); 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-        chunk = new Chunk("Fecha: " + formatoFecha.format(cuenta.getFecha()), datos);
+        chunk = new Chunk(getText("global.etiqueta.fecha")+": " + formatoFecha.format(cuenta.getFecha()), datos);
         documento.add(new Paragraph(chunk));
         SimpleDateFormat formtoHora = new SimpleDateFormat("HH:mm:ss");        
-        chunk = new Chunk("Hora: " + formtoHora.format(cuenta.getFecha()), datos);
+        chunk = new Chunk(getText("global.etiqueta.hora")+": " + formtoHora.format(cuenta.getFecha()), datos);
         documento.add(new Paragraph(chunk));        
         //Añadimos los datos del pedido
         //Obtenemos el usuario, es decir, del camarero con el nombre que tenemos registrado en la session 
-        chunk = new Chunk("Camarero: " + session.get("usuario").toString(), datos);
+        chunk = new Chunk(getText("global.etiqueta.camarero")+": " + session.get("usuario").toString(), datos);
         documento.add(new Paragraph(chunk));       
         documento.add(new Chunk(Chunk.NEWLINE)); //Salto de linea        
         //Añadimos la tabla con los datos del pedido
         //Creamos una tabla
         PdfPTable tabla = new PdfPTable(4); //Especificamos el numero de columnas
         //Añadimos la cabecera de la tabla
-        tabla.addCell("Producto");
-        tabla.addCell("Unidades");
-        tabla.addCell("PVP");
-        tabla.addCell("Total");        
+        tabla.addCell(getText("global.etiqueta.producto"));
+        tabla.addCell(getText("global.etiqueta.unidades"));
+        tabla.addCell(getText("global.etiqueta.pvp"));
+        tabla.addCell(getText("global.etiqueta.total"));        
         for(Producto producto : pedido.getListaProductos()) {
             tabla.addCell(producto.getNombre());
             tabla.addCell(String.valueOf(producto.getUnidades()));
@@ -371,7 +371,7 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
         documento.add(new Chunk(Chunk.NEWLINE)); //Salto de linea
         //Añadimos una tabla con los impuestos y el total a pagar
         tabla = new PdfPTable(3); //Especificamos el numero de columnas    
-        tabla.addCell("Base imponible: " + pedido.getImporte() + "€");
+        tabla.addCell(getText("global.etiqueta.baseImponible")+": " + pedido.getImporte() + "€");
         tabla.addCell("");
         tabla.addCell("");
         DecimalFormat formato = new DecimalFormat("#.##€");
@@ -379,9 +379,9 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
             tabla.addCell("");
             tabla.addCell(dato.getNombre() + ": " + dato.getValor());
             double impuesto = (pedido.getImporte() * dato.getValor()) / 100;
-            tabla.addCell("Impuesto " + dato.getNombre() + ": " + formato.format(impuesto)); 
+            tabla.addCell(getText("global.etiqueta.impuesto")+ " " + dato.getNombre() + ": " + formato.format(impuesto)); 
         }
-        tabla.addCell("Total: " + cuenta.getCantidad() + "€");
+        tabla.addCell(getText("global.etiqueta.total")+": " + cuenta.getCantidad() + "€");
         tabla.addCell("");
         tabla.addCell("");  
         //Añadimos la tabla al documento

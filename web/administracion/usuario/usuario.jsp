@@ -16,7 +16,7 @@
     <head>
         <jsp:include page="../../head.jsp"/>
         <link rel="stylesheet" href="../css/estiloGeneral.css"/>       
-        <title>Usuarios</title>
+        <title><s:text name="global.etiqueta.usuarios"/></title>
     </head>
     <body>
         
@@ -24,18 +24,18 @@
             <jsp:forward page="../../login.jsp" />
         </s:if>        
         
-        <h1>Usuarios</h1>
+        <h1><s:text name="global.etiqueta.usuarios"/></h1>
         
         <hr/> 
 
         <div id="divListaUsuario" style="float: left; margin-right: 50px">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
-                    <caption>Usuarios</caption>
+                    <caption><s:text name="global.etiqueta.usuarios"/></caption>
                     <thead>
                         <tr>
-                            <th>Usuario</th>
-                            <th>Password</th>
+                            <th><s:text name="global.etiqueta.usuario"/></th>
+                            <th><s:text name="global.etiqueta.password"/></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -63,18 +63,18 @@
         <div id="divFormAlta">
             <form>
                 <fieldset>
-                    <legend>Alta usuario</legend>
+                    <legend><s:text name="global.usuario.altaUsuario"/></legend>
                         <div id="divUsuario" class="form-group">
-                            <label class="control-label" for="usuario">Usuario</label>
-                            <input type="text" id="usuario" class="form-control" placeholder="Usuario" required/>
+                            <label class="control-label" for="usuario"><s:text name="global.etiqueta.usuario"/></label>
+                            <input type="text" id="usuario" class="form-control" placeholder="<s:text name="global.etiqueta.usuario"/>" required/>
                         </div>
                         <div id="divPassword" class="form-group">
-                            <label class="control-label" for="password">Contraseña</label>
-                            <input type="text" id="password" class="form-control" placeholder="Contraseña" required/>  
+                            <label class="control-label" for="password"><s:text name="global.etiqueta.password"/></label>
+                            <input type="text" id="password" class="form-control" placeholder="<s:text name="global.etiqueta.password"/>" required/>  
                         </div>    
                         <div class="form-group" style="float: left;">
-                            <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="Alta"/>
-                            <input type="reset" class="btn btn-default btn-sm" value="Reiniciar" onclick="limpiarCampos()" />
+                            <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="<s:text name="global.etiqueta.alta"/>"/>
+                            <input type="reset" class="btn btn-default btn-sm" value="<s:text name="global.etiqueta.reiniciar"/>" onclick="limpiarCampos()" />
                         </div>
                         <div id="divRespuesta" style="float: left; margin-left: 20px;"></div>
                         <div style="clear: both;"></div>                  
@@ -86,8 +86,8 @@
         
         <div style="clear: left">    
             <hr/>
-            <s:form action="Administracion">
-                <button type="submit" class="btn btn-default btn-sm">Volver</button>
+            <s:form action="VolverAdministracion">
+                <button type="submit" class="btn btn-default btn-sm"><s:text name="global.etiqueta.volver"/></button>
             </s:form>            
         </div>           
         

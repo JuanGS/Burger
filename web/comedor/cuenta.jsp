@@ -14,7 +14,7 @@
     <head>
         <jsp:include page="../head.jsp"/>
         
-        <title>Cuenta</title>
+        <title><s:text name="global.cuenta.title"/></title>
     </head>
     <body>
         
@@ -22,21 +22,21 @@
             <jsp:forward page="../login.jsp" />
         </s:if>        
         
-        <h1>Cuenta</h1>
+        <h1><s:text name="global.cuenta.title"/></h1>
         
         <hr/>
         
-        <span class="label label-default">Cuenta</span><s:property value="cuenta.id" />
+        <span class="label label-default"><s:text name="global.etiqueta.cuenta"/></span><s:property value="cuenta.id" />
         
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
-                <caption>Cuenta</caption>
+                <caption><s:text name="global.etiqueta.cuenta"/></caption>
                 <thead>
                     <tr>
-                        <th>Producto</th>
-                        <th>Unidades</th>     
-                        <th>PVP</th>
-                        <th>Total</th>
+                        <th><s:text name="global.etiqueta.producto"/></th>
+                        <th><s:text name="global.etiqueta.unidades"/></th>     
+                        <th><s:text name="global.etiqueta.pvp"/></th>
+                        <th><s:text name="global.etiqueta.total"/></th>
                     </tr>
                 <tbody>
                     <%
@@ -79,7 +79,7 @@
         <div>
             <table>
                 <tr>
-                    <td><span class="label label-default">Base imponible</span><s:property value="pedido.importe" />€</td>
+                    <td><span class="label label-default"><s:text name="global.etiqueta.baseImponible"/></span><s:property value="pedido.importe" />€</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -95,11 +95,11 @@
                     <tr>
                         <td></td>
                         <td><span class="label label-default"><s:property value="nombre" /></span><s:property value="valor" /></td>
-                        <td><span class="label label-default">Impuesto <s:property value="nombre" /></span><%= formato.format(impuesto) %></td>
+                        <td><span class="label label-default"><s:text name="global.etiqueta.impuesto"/> <s:property value="nombre" /></span><%= formato.format(impuesto) %></td>
                     </tr>
                 </s:iterator>
                 <tr>
-                    <td><span class="label label-default">Total</span><s:property value="cuenta.cantidad" />€</td>                   
+                    <td><span class="label label-default"><s:text name="global.etiqueta.total"/></span><s:property value="cuenta.cantidad" />€</td>                   
                     <td></td>
                     <td></td>
                 </tr>
@@ -112,7 +112,7 @@
             <div style="float: left">
                 <form action="OperacionesComedor" method="POST">
                     <input type="hidden" name="operacion" value="cargarMesas"/>
-                    <button type="submit" class="btn btn-default">Volver</button>
+                    <button type="submit" class="btn btn-default"><s:text name="global.etiqueta.volver"/></button>
                 </form>  
             </div>
             <div style="float: left; margin-left: 5px;">
@@ -120,7 +120,7 @@
                     <s:param name="operacion">descargarCuenta</s:param> 
                 </s:url>
                 <a href="<s:property value="#enlace" />" >
-                    <img src="../img/pdf.png" width="32" height="32" alt="Descargar cuenta" title="Descargar cuenta"/>
+                    <img src="../img/pdf.png" width="32" height="32" alt="<s:text name="global.etiqueta.descargarCuenta"/>" title="Descargar cuenta"/>
                 </a>      
             </div>
             <div style="float: left; margin-left: 10px;">

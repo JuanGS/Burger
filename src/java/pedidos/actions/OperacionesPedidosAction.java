@@ -248,7 +248,7 @@ public class OperacionesPedidosAction extends ActionSupport implements ServletRe
         Producto producto = null;
         for(Producto p : listaProductos) { //Recorremos la listaProductos
             if(p.getId() == id) { //Si encontramos el producto
-                if("Hamburguesa".equals(p.getCategoria())) { //Si el producto es de la categoria hamburguesa
+                if(getText("global.producto.hamburguesa").equals(p.getCategoria())) { //Si el producto es de la categoria hamburguesa
                     //Creamos un objeto Hamburguesa y le asignamos los datos del producto que estamos analizando
                     Producto hamburguesa = new Hamburguesa();
                     hamburguesa.setId(p.getId());
@@ -282,10 +282,10 @@ public class OperacionesPedidosAction extends ActionSupport implements ServletRe
 
             switch (resultadoOperacion) {
                 case 1:
-                    output.print("<p>Operacion realizada correctamente</p>*");
+                    output.print("<p>"+getText("global.success.realizarOperacion")+"</p>*");
                     break;
                 default:
-                    output.print("<p>Error al realizar la operación</p>*");
+                    output.print("<p>"+getText("global.error.realizarOperacion")+"</p>*");
                     break;
             }  
 
@@ -294,9 +294,9 @@ public class OperacionesPedidosAction extends ActionSupport implements ServletRe
             //La volvemos a guardar en sesion porque ha cambiado
             session.put("listaMesas", listaMesas); 
 
-            output.print("<span class='label label-primary'>Número mesa</span>");
+            output.print("<span class='label label-primary'>"+getText("global.pedidos.numeroMesa")+"</span>");
             output.print("<select id='selectMesas' class='form-control' required>");
-            output.print("<option value='' disabled selected>Elija una mesa...</option>");
+            output.print("<option value='' disabled selected>"+getText("global.pedidos.elijaMesa")+"</option>");
             for (Mesa mesa : listaMesas) {
                 if (mesa.getEstado().equals("libre")) {
                     output.print("<option value='"+mesa.getNumero()+"'>"+mesa.getNumero()+"</option>");

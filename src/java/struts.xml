@@ -3,12 +3,18 @@
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-    
- <constant name="struts.devMode" value="true" />
         
     <!-- Configuration for the default package. -->
-    <package name="default" extends="struts-default">   
-         
+    <package name="default" namespace="/" extends="struts-default">   
+
+        <!-- 
+            Esta action no invoca ninguna clase porque para lo unico que lo queremos es para que se lance la peticion y se recarge la pagina con el idioma seleccionado.
+            En realidad se esta llamando a un action por defecto.
+        -->
+        <action name="Locale">
+            <result>/login.jsp</result>
+        </action>          
+        
         <action name="Login" class="login.actions.LoginAction">
             <result name="usuario">/aplicaciones.jsp</result>
             <result name="admin">/administracion.jsp</result>
@@ -20,11 +26,11 @@
         </action>        
         
         <action name="Aplicaciones">
-            <result type="redirect">/aplicaciones.jsp</result>
-        </action>
-        
+            <result>/aplicaciones.jsp</result>
+        </action>                
+                                                        
         <action name="Administracion">
-            <result type="redirect">/administracion.jsp</result>
+            <result>/administracion.jsp</result>
         </action>                            
         
     </package>
