@@ -14,7 +14,7 @@
     <head>
         <jsp:include page="../head.jsp"/>
         
-        <title><s:text name="global.cuenta.title"/></title>
+        <title><s:text name="cuenta.title"/></title>
     </head>
     <body>
         
@@ -22,21 +22,21 @@
             <jsp:forward page="../login.jsp" />
         </s:if>        
         
-        <h1><s:text name="global.cuenta.title"/></h1>
+        <h1><s:text name="cuenta.title"/></h1>
         
         <hr/>
         
-        <span class="label label-default"><s:text name="global.etiqueta.cuenta"/></span><s:property value="cuenta.id" />
+        <span class="label label-default"><s:text name="cuenta.cuenta"/></span><s:property value="cuenta.id" />
         
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
-                <caption><s:text name="global.etiqueta.cuenta"/></caption>
+                <caption><s:text name="cuenta.cuenta"/></caption>
                 <thead>
                     <tr>
-                        <th><s:text name="global.etiqueta.producto"/></th>
-                        <th><s:text name="global.etiqueta.unidades"/></th>     
-                        <th><s:text name="global.etiqueta.pvp"/></th>
-                        <th><s:text name="global.etiqueta.total"/></th>
+                        <th><s:text name="cuenta.producto"/></th>
+                        <th><s:text name="cuenta.unidades"/></th>     
+                        <th><s:text name="cuenta.pvp"/></th>
+                        <th><s:text name="cuenta.total"/></th>
                     </tr>
                 <tbody>
                     <%
@@ -79,7 +79,7 @@
         <div>
             <table>
                 <tr>
-                    <td><span class="label label-default"><s:text name="global.etiqueta.baseImponible"/></span><s:property value="pedido.importe" />€</td>
+                    <td><span class="label label-default"><s:text name="cuenta.baseImponible"/></span><s:property value="pedido.importe" />€</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -95,11 +95,11 @@
                     <tr>
                         <td></td>
                         <td><span class="label label-default"><s:property value="nombre" /></span><s:property value="valor" /></td>
-                        <td><span class="label label-default"><s:text name="global.etiqueta.impuesto"/> <s:property value="nombre" /></span><%= formato.format(impuesto) %></td>
+                        <td><span class="label label-default"><s:text name="cuenta.impuesto"/> <s:property value="nombre" /></span><%= formato.format(impuesto) %></td>
                     </tr>
                 </s:iterator>
                 <tr>
-                    <td><span class="label label-default"><s:text name="global.etiqueta.total"/></span><s:property value="cuenta.cantidad" />€</td>                   
+                    <td><span class="label label-default"><s:text name="cuenta.total"/></span><s:property value="cuenta.cantidad" />€</td>                   
                     <td></td>
                     <td></td>
                 </tr>
@@ -112,7 +112,7 @@
             <div style="float: left">
                 <form action="OperacionesComedor" method="POST">
                     <input type="hidden" name="operacion" value="cargarMesas"/>
-                    <button type="submit" class="btn btn-default"><s:text name="global.etiqueta.volver"/></button>
+                    <button type="submit" class="btn btn-default"><s:text name="cuenta.volver"/></button>
                 </form>  
             </div>
             <div style="float: left; margin-left: 5px;">
@@ -120,7 +120,7 @@
                     <s:param name="operacion">descargarCuenta</s:param> 
                 </s:url>
                 <a href="<s:property value="#enlace" />" >
-                    <img src="../img/pdf.png" width="32" height="32" alt="<s:text name="global.etiqueta.descargarCuenta"/>" title="Descargar cuenta"/>
+                    <img src="../img/pdf.png" width="32" height="32" alt="<s:text name="cuenta.descargarCuenta"/>" title="Descargar cuenta"/>
                 </a>      
             </div>
             <div style="float: left; margin-left: 10px;">

@@ -23,5 +23,4 @@ public class LogoutAction extends ActionSupport {
         
         return SUCCESS;
     }
-    
 }

@@ -26,12 +26,12 @@
         <title><s:text name="global.aplicaciones.title"/></title>
     </head>
     <body>
-
-        <s:if test="#session.login != 'true'">
-            <jsp:forward page="login.jsp" />
-        </s:if>
         
-        <h1><s:text name="global.etiqueta.nombreRestaurante"/></h1>
+       <s:if test="#session.login != 'true'">
+           <jsp:forward page="login.jsp" /> 
+        </s:if>
+    
+        <h1><s:text name="global.aplicaciones.nombreRestaurante"/></h1>
 
         <s:if test="hasActionMessages()">
             <div class="welcome">
@@ -43,7 +43,7 @@
                 String usuario = session.getAttribute("usuario").toString();
             %>
             <div class="welcome">
-                <s:text name="global.etiqueta.usuario"/>: <%= usuario %>
+                <s:text name="global.aplicaciones.usuario"/>: <%= usuario %>
             </div>
         </s:else>
         
@@ -51,17 +51,17 @@
         <s:form action="pedidos/OperacionesPedidos">
             <%--Indicamos la operacion que queremos ejecutar --%>
             <input type="hidden" name="operacion" value="cargarPedidos" />
-            <button type="submit" class="btn btn-default"><s:text name="global.etiqueta.pedidos"/></button>
+            <button type="submit" class="btn btn-default"><s:text name="global.aplicaciones.pedidos"/></button>
         </s:form>
             <br/>
         <s:form action="comedor/OperacionesComedor">
             <%--Indicamos la operacion que queremos ejecutar --%>
             <input type="hidden" name="operacion" value="cargarMesas" />
-            <button type="submit" class="btn btn-default"><s:text name="global.etiqueta.comedor"/></button>            
+            <button type="submit" class="btn btn-default"><s:text name="global.aplicaciones.comedor"/></button>            
         </s:form>
         <br/>
         <s:form action="Logout">
-            <button type="submit" class="btn btn-default"><s:text name="global.etiqueta.cerrarSesion"/></button>
+            <button type="submit" class="btn btn-default"><s:text name="global.aplicaciones.cerrarSesion"/></button>
         </s:form>            
             
         <jsp:include page="footer.jsp"/>  

@@ -13,7 +13,7 @@
     <head>
         <jsp:include page="../../head.jsp"/>
         <link rel="stylesheet" href="../css/estiloGeneral.css"/>        
-        <title><s:text name="global.etiqueta.producto"/></title>
+        <title><s:text name="producto.producto"/></title>
     </head>
     <body>
         
@@ -21,39 +21,39 @@
             <jsp:forward page="../../login.jsp" />
         </s:if>         
         
-        <h1><s:text name="global.etiqueta.producto"/></h1>
+        <h1><s:text name="producto.producto"/></h1>
         <hr/>  
        
         <div id="divFormAlta">
             <form>
                 <fieldset>
-                    <legend><s:text name="global.producto.altaProducto"/></legend>
+                    <legend><s:text name="producto.altaProducto"/></legend>
                     <div id="divNombre" class="form-group">
-                        <label class="sr-only" for="nombre"><s:text name="global.etiqueta.nombre"/></label>
-                        <input type="text" id="nombre" class="form-control" placeholder="<s:text name="global.etiqueta.nombre"/>" required/>
+                        <label class="sr-only" for="nombre"><s:text name="producto.nombre"/></label>
+                        <input type="text" id="nombre" class="form-control" placeholder="<s:text name="producto.nombre"/>" required/>
                     </div>
                     <div id="divPrecio" class="form-group">
-                        <label class="sr-only" for="precio"><s:text name="global.etiqueta.precio"/></label>
-                        <input type="text" id="precio" class="form-control" placeholder="<s:text name="global.etiqueta.precio"/>" required/>
+                        <label class="sr-only" for="precio"><s:text name="producto.precio"/></label>
+                        <input type="text" id="precio" class="form-control" placeholder="<s:text name="producto.precio"/>" required/>
                     </div>  
                     <div id="divDescripcion" class="form-group">
-                        <label class="sr-only" for="descripcion"><s:text name="global.etiqueta.descripcion"/></label>
-                        <input type="text" id="descripcion" class="form-control" placeholder="<s:text name="global.etiqueta.descripcion"/>" required/>
+                        <label class="sr-only" for="descripcion"><s:text name="producto.descripcion"/></label>
+                        <input type="text" id="descripcion" class="form-control" placeholder="<s:text name="producto.descripcion"/>" required/>
                     </div>
                     <div id="divCategoria" class="form-group">
                         <select id="selectCategoria" class="form-control" required>
-                            <option value="" disabled selected><s:text name="global.producto.elijaCategoria"/></option>
+                            <option value="" disabled selected><s:text name="producto.elijaProducto"/></option>
                             <s:iterator value="listaCategoria">   
                                 <option value="<s:property value="nombre"/>"><s:property value="nombre"/></option>
                             </s:iterator>
                         </select>
                     </div>                   
                     <div class='checkbox'>
-                        <label><input type='checkbox' id="checkAlta" checked><s:text name="global.etiqueta.habilitada"/></label>
+                        <label><input type='checkbox' id="checkAlta" checked><s:text name="producto.habilitada"/></label>
                     </div>
                     <div class="form-group">
-                        <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="<s:text name="global.etiqueta.alta"/>" />
-                        <input type="button" id="botonReiniciar" class="btn btn-default btn-sm" value="<s:text name="global.etiqueta.reiniciar"/>" onclick="reiniciar()" />
+                        <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="<s:text name="producto.alta"/>" />
+                        <input type="button" id="botonReiniciar" class="btn btn-default btn-sm" value="<s:text name="producto.reiniciar"/>" onclick="reiniciar()" />
                     </div>                    
                 </fieldset>
             </form>
@@ -66,15 +66,15 @@
         <div id="divListaProducto" style="float: left; margin-right: 50px">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
-                    <caption><s:text name="global.etiqueta.productos"/></caption>
+                    <caption><s:text name="producto.productos"/></caption>
                     <thead>
                         <tr>
-                            <th><s:text name="global.etiqueta.nombre"/></th>
-                            <th><s:text name="global.etiqueta.precio"/></th>     
-                            <th><s:text name="global.etiqueta.categoria"/></th>                            
-                            <th><s:text name="global.etiqueta.habilitada"/></th>
-                            <th><s:text name="global.etiqueta.habilitada"/></th>                             
-                            <th><s:text name="global.etiqueta.descripcion"/></th>                            
+                            <th><s:text name="producto.nombre"/></th>
+                            <th><s:text name="producto.precio"/></th>     
+                            <th><s:text name="producto.categoria"/></th>                            
+                            <th><s:text name="producto.habilitada"/></th>
+                            <th><s:text name="producto.editar"/></th>                             
+                            <th><s:text name="producto.descripcion"/></th>                            
                         </tr>
                     </thead>                        
                     <tbody id="cuerpoTablaProducto">
@@ -104,13 +104,13 @@
          
         <div style="clear: left">
             <hr/>
-            <p><s:text name="global.mensaje.darBaja"/></p>   
+            <p><s:text name="producto.mensaje.darBaja"/></p>   
         </div>
         
         <div style="clear: left">
             <hr/>
             <s:form action="VolverAdministracion">
-                <button type="submit" class="btn btn-default btn-sm"><s:text name="global.etiqueta.volver"/></button>
+                <button type="submit" class="btn btn-default btn-sm"><s:text name="producto.volver"/></button>
             </s:form>            
         </div>            
         

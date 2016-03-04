@@ -20,33 +20,34 @@
                 list-style: none; 
             }
         </style>
-        
-        <title><s:text name="global.login.title"/></title>
+               
+        <title><s:text name="login.title"/></title>
+        <s:head/>
     </head>
     <body>        
         
         <div style="float: right">
-            <jsp:include page="locales.jsp" />
+            <s:include value="locales.jsp" />
         </div>
-        
+
         <div id="divFormAlta" style="clear: both">
-            <form action="Login" method="POST">
+            <s:form action="Login" method="POST" validate="true">
                 <fieldset>
-                    <legend><s:text name="global.login.form"/></legend>
+                    <legend><s:text name="login.form"/></legend>
                     <div id="divUsuario" class="form-group">
-                        <label class="control-label"><s:text name="global.etiqueta.usuario"/></label>
-                        <input type="text" class="form-control" name="usuario" value="<s:property value="usuario" />"  placeholder="<s:text name="global.etiqueta.usuario"/>" required/>
+                        <label class="control-label"><s:text name="login.usuario"/></label>
+                        <s:textfield cssClass="form-control" name="usuario"/>
                     </div>
                     <div id="divPassword" class="form-group">
-                        <label class="control-label"><s:text name="global.etiqueta.password"/></label>
-                        <input type="password" name="password" class="form-control" placeholder="<s:text name="global.etiqueta.password"/>" required/>  
+                        <label class="control-label"><s:text name="login.password"/></label>
+                        <s:textfield cssClass="form-control" name="password"/>
                     </div>    
                     <div class="form-group" style="float: left;">
-                        <button class="btn btn-default btn-sm"><s:text name="global.etiqueta.validar"/></button>
-                        <button type="reset" class="btn btn-default btn-sm"><s:text name="global.etiqueta.reiniciar"/></button>
-                    </div>                
+                        <button class="btn btn-default btn-sm"><s:text name="login.validar"/></button>
+                        <button type="button" class="btn btn-default btn-sm" onclick="reiniciarCampos()"><s:text name="login.reiniciar"/></button>
+                    </div>  
                 </fieldset>
-            </form>
+            </s:form>
         </div>  
 
         <s:if test="hasActionErrors()">
@@ -56,7 +57,8 @@
             </div>
         </s:if>                    
                     
-        <jsp:include page="footer.jsp"/>      
-
+        <jsp:include page="footer.jsp"/>
+        <script src="login.js"></script>
+        
     </body>
 </html>

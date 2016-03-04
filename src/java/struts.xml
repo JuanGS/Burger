@@ -3,22 +3,51 @@
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-        
+
     <!-- Configuration for the default package. -->
     <package name="default" namespace="/" extends="struts-default">   
 
+        <interceptors>
+            <!-- Declaramos el interceptor -->
+            <interceptor name="sesionValida" class="interceptores.InterceptorAcceso"></interceptor>
+            
+            <!-- Colocamos el interceptor en la pila que se ejecuta por defecto -->
+            <interceptor-stack name="secureStack">
+                <interceptor-ref name="sesionValida">
+                    <!-- Indicamos los actions que queremos dejar como publicos -->
+                    <param name="actionsPublicos">Login</param>
+                </interceptor-ref>
+                
+                <!-- Añadimos los interceptores por defecto -->
+                <interceptor-ref name="defaultStack" />
+                <interceptor-ref name="timer" />
+                <interceptor-ref name="logger" />                
+            </interceptor-stack>
+            
+        </interceptors>
+        
+        <!-- Pila que se ejecuta por defecto -->
+        <default-interceptor-ref name="secureStack" />
+        
+        <!-- Como el result para el caso del login será usado para todos los Actions de la aplicación, debemos colocarlo de forma global  -->
+        <global-results>
+            <result name="login">/login.jsp</result>
+        </global-results>        
+        
         <!-- 
             Esta action no invoca ninguna clase porque para lo unico que lo queremos es para que se lance la peticion y se recarge la pagina con el idioma seleccionado.
             En realidad se esta llamando a un action por defecto.
         -->
         <action name="Locale">
+            <!-- Añadimos el interceptor de internacionalizacion al action -->
+            <interceptor-ref name="i18n" />
             <result>/login.jsp</result>
         </action>          
         
         <action name="Login" class="login.actions.LoginAction">
             <result name="usuario">/aplicaciones.jsp</result>
             <result name="admin">/administracion.jsp</result>
-            <result name="input">/login.jsp</result>  
+            <result name="input">/login.jsp</result>
         </action>
         
         <action name="Logout" class="login.actions.LogoutAction">

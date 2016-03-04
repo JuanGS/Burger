@@ -16,7 +16,7 @@
     <head>
         <jsp:include page="../../head.jsp"/>
         <link rel="stylesheet" href="../css/estiloGeneral.css"/>       
-        <title><s:text name="global.etiqueta.usuarios"/></title>
+        <title><s:text name="usuario.usuarios"/></title>
     </head>
     <body>
         
@@ -24,18 +24,18 @@
             <jsp:forward page="../../login.jsp" />
         </s:if>        
         
-        <h1><s:text name="global.etiqueta.usuarios"/></h1>
+        <h1><s:text name="usuario.usuarios"/></h1>
         
         <hr/> 
 
         <div id="divListaUsuario" style="float: left; margin-right: 50px">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
-                    <caption><s:text name="global.etiqueta.usuarios"/></caption>
+                    <caption><s:text name="usuario.usuarios"/></caption>
                     <thead>
                         <tr>
-                            <th><s:text name="global.etiqueta.usuario"/></th>
-                            <th><s:text name="global.etiqueta.password"/></th>
+                            <th><s:text name="usuario.usuario"/></th>
+                            <th><s:text name="usuario.password"/></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -63,18 +63,18 @@
         <div id="divFormAlta">
             <form>
                 <fieldset>
-                    <legend><s:text name="global.usuario.altaUsuario"/></legend>
+                    <legend><s:text name="usuario.altaUsuario"/></legend>
                         <div id="divUsuario" class="form-group">
-                            <label class="control-label" for="usuario"><s:text name="global.etiqueta.usuario"/></label>
-                            <input type="text" id="usuario" class="form-control" placeholder="<s:text name="global.etiqueta.usuario"/>" required/>
+                            <label class="control-label" for="usuario"><s:text name="usuario.usuario"/></label>
+                            <input type="text" id="usuario" class="form-control" placeholder="<s:text name="usuario.usuario"/>" required/>
                         </div>
                         <div id="divPassword" class="form-group">
-                            <label class="control-label" for="password"><s:text name="global.etiqueta.password"/></label>
-                            <input type="text" id="password" class="form-control" placeholder="<s:text name="global.etiqueta.password"/>" required/>  
+                            <label class="control-label" for="password"><s:text name="usuario.password"/></label>
+                            <input type="text" id="password" class="form-control" placeholder="<s:text name="usuario.password"/>" required/>  
                         </div>    
                         <div class="form-group" style="float: left;">
-                            <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="<s:text name="global.etiqueta.alta"/>"/>
-                            <input type="reset" class="btn btn-default btn-sm" value="<s:text name="global.etiqueta.reiniciar"/>" onclick="limpiarCampos()" />
+                            <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="<s:text name="usuario.alta"/>"/>
+                            <input type="reset" class="btn btn-default btn-sm" value="<s:text name="usuario.reiniciar"/>" onclick="limpiarCampos()" />
                         </div>
                         <div id="divRespuesta" style="float: left; margin-left: 20px;"></div>
                         <div style="clear: both;"></div>                  
@@ -87,7 +87,7 @@
         <div style="clear: left">    
             <hr/>
             <s:form action="VolverAdministracion">
-                <button type="submit" class="btn btn-default btn-sm"><s:text name="global.etiqueta.volver"/></button>
+                <button type="submit" class="btn btn-default btn-sm"><s:text name="usuario.volver"/></button>
             </s:form>            
         </div>           
         

@@ -17,7 +17,7 @@
     <head>
         <jsp:include page="../head.jsp"/>
         <link rel="stylesheet" href="../css/estiloGeneral.css"/>        
-        <title><s:text name="global.verPedido.title"/></title>
+        <title><s:text name="verPedido.title"/></title>
     </head>
     <body>
         
@@ -25,21 +25,21 @@
             <jsp:forward page="../login.jsp" />
         </s:if>        
         
-        <h1><s:text name="global.etiqueta.pedido"/></h1>
+        <h1><s:text name="verPedido.pedido"/></h1>
         
         <hr/>
-        <s:label><s:text name="global.pedidos.numeroMesa"/>: </s:label><s:property value="pedido.numeroMesa"/>
+        <label><s:text name="verPedido.numeroMesa"/>: </label><s:property value="pedido.numeroMesa"/>
         <hr/>
         
         <div id="divListaPedido">
             <div class="table-responsive">
                 <table id="tablaPedido" class="table table-striped table-bordered">
-                    <caption><s:text name="global.etiqueta.pedido"/></caption>
+                    <caption><s:text name="verPedido.pedido"/></caption>
                         <thead>
                         <tr>
-                            <th><s:text name="global.etiqueta.nombre"/></th>
-                            <th><s:text name="global.etiqueta.unidades"/></th>     
-                            <th><s:text name="global.etiqueta.eliminar"/></th>                                                     
+                            <th><s:text name="verPedido.nombre"/></th>
+                            <th><s:text name="verPedido.unidades"/></th>     
+                            <th><s:text name="verPedido.eliminar"/></th>                                                     
                         </tr>
                         <tbody id="cuerpoTablaPedido">
                             <%
@@ -89,7 +89,7 @@
         <div style="clear: left">
             <s:form id="formVolver" action="OperacionesPedidos">
                 <input type="hidden" name="operacion" value="vuelta"/>
-                <button type="submit" class="btn btn-default btn-sm"><s:text name="global.etiqueta.volver"/></button>
+                <button type="submit" class="btn btn-default btn-sm"><s:text name="verPedido.volver"/></button>
             </s:form>            
         </div>            
         

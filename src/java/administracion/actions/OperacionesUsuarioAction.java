@@ -89,13 +89,13 @@ public class OperacionesUsuarioAction extends ActionSupport implements ServletRe
         
         switch (resultadoOperacion) {
             case 1:
-                output.print("<p>"+getText("global.success.realizarOperacion")+"</p>*");
+                output.print("<p>"+getText("usuario.success.realizarOperacion")+"</p>*");
                 break;
             case 2:
-                output.print("<p>"+getText("global.error.usuarioExiste")+"</p>*");           
+                output.print("<p>"+getText("usuario.error.usuarioExiste")+"</p>*");           
                 break;
             default:
-                output.print("<p>"+getText("global.error.realizarOperacion")+"</p>*");
+                output.print("<p>"+getText("usuario.error.realizarOperacion")+"</p>*");
                 break;
         }
 

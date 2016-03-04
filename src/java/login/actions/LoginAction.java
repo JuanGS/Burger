@@ -26,32 +26,32 @@ public class LoginAction extends ActionSupport {
 
     @Override
     public String execute() throws Exception {       
-        
-        Map session = ActionContext.getContext().getSession();
-        session.put("login", "true");
-        session.put("usuario", usuarioEncontrado.getUsuario());        
-        
-        if(usuarioEncontrado.getRol().equals("admin")) {
-            navegacion = "admin";
-        } else {
-            navegacion = "usuario";
-        }
-        return navegacion;
-    }
-
-    @Override
-    public void validate() {
+ 
         usuarioEncontrado = gou.obtenerUsuario(usuario);
+        navegacion = "input";
+        
+        if (usuarioEncontrado != null) {
+            if (usuarioEncontrado.getPassword().equals(password)) {
+                addActionMessage(getText("global.aplicaciones.usuario") + ": " + usuario);
 
-        if(usuarioEncontrado != null) {
-            if(usuarioEncontrado.getPassword().equals(password)) {
-                addActionMessage(getText("global.etiqueta.usuario") + ": " + usuario);
+                Map session = ActionContext.getContext().getSession();
+                session.put("usuario", usuarioEncontrado.getUsuario());
+                session.put("login", true);
+
+                if (usuarioEncontrado.getRol().equals("admin")) {
+                    navegacion = "admin";
+                } else {
+                    navegacion = "usuario";
+                }
+
             } else {
-               addActionError(getText("global.error.passwordIncorrecto")); 
+                addActionError(getText("login.error.passwordIncorrecto"));
             }
         } else {
-            addActionError(getText("global.error.usuarioNoEncontrado"));
-        }
+            addActionError(getText("login.error.usuarioNoEncontrado"));
+        }      
+
+        return navegacion;
     }
 
     public String getUsuario() {

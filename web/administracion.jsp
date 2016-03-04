@@ -13,29 +13,29 @@
     <head>
         <jsp:include page="head.jsp"/>
         
-        <title><s:text name="global.administracion.title"/></title>
+        <title><s:text name="administracion.title"/></title>
     </head>
     <body>
-
+        
         <s:if test="#session.login != 'true'">
             <jsp:forward page="login.jsp" />
         </s:if>        
 
-        <h1><s:text name="global.administracion.panelAdministracion"/></h1>
+        <h1><s:text name="administracion.panelAdministracion"/></h1>
         <hr/>
         <s:form action="administracion/OperacionesAdministracion">
-            <h2><s:text name="global.administracion.gestionUsuarios"/></h2>
-            <button type="submit" class="btn btn-default" value="usuario" name="opcion"><s:text name="global.etiqueta.usuario"/></button>            
-            <h2><s:text name="global.administracion.gestionDatosRestaurante"/></h2>
-            <button type="submit" class="btn btn-default" value="datosRestaurante" name="opcion"><s:text name="global.etiqueta.datosRestaurante"/></button>
-            <h2><s:text name="global.administracion.getionGenero"/></h2>
-            <button type="submit" class="btn btn-default" value="categoria" name="opcion"><s:text name="global.etiqueta.categoria"/></button>   
-            <button type="submit" class="btn btn-default" value="producto" name="opcion"><s:text name="global.etiqueta.producto"/></button>              
+            <h2><s:text name="administracion.gestionUsuarios"/></h2>
+            <button type="submit" class="btn btn-default" value="usuario" name="opcion"><s:text name="administracion.usuario"/></button>            
+            <h2><s:text name="administracion.gestionDatosRestaurante"/></h2>
+            <button type="submit" class="btn btn-default" value="datosRestaurante" name="opcion"><s:text name="administracion.datosRestaurante"/></button>
+            <h2><s:text name="administracion.getionGenero"/></h2>
+            <button type="submit" class="btn btn-default" value="categoria" name="opcion"><s:text name="administracion.categoria"/></button>   
+            <button type="submit" class="btn btn-default" value="producto" name="opcion"><s:text name="administracion.producto"/></button>              
         </s:form>
         <hr/>
         
         <s:form action="Logout">
-            <button type="submit" class="btn btn-default"><s:text name="global.etiqueta.cerrarSesion"/></button>
+            <button type="submit" class="btn btn-default"><s:text name="administracion.cerrarSesion"/></button>
         </s:form>           
         
         <jsp:include page="footer.jsp"/>          
