@@ -98,9 +98,9 @@ function validarCamposDatosLocal() {
     if (cif.value === '') {
         document.getElementById('divCif').className = 'form-group has-error has-feedback';
         if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+CIF_OBLIGATORIO_es+'</strong>';
+            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+CIF_OBLIGATORIO_es+'</strong>';
         } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+CIF_OBLIGATORIO_en+'</strong>';
+            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+CIF_OBLIGATORIO_en+'</strong>';
         } 
     } else {
         document.getElementById('divCif').className = 'form-group';
@@ -110,9 +110,9 @@ function validarCamposDatosLocal() {
     if (nombre.value === '') {
         document.getElementById('divNombre').className = 'form-group has-error has-feedback';       
         if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_es+'</strong>';
+            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_es+'</strong>';
         } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_en+'</strong>';
+            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_en+'</strong>';
         } 
     } else {
         document.getElementById('divNombre').className = 'form-group';
@@ -122,9 +122,9 @@ function validarCamposDatosLocal() {
     if (direccion.value === '') {
         document.getElementById('divDireccion').className = 'form-group has-error has-feedback';     
         if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+DIRECCION_OBLIGATORIA_es+'</strong>';
+            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+DIRECCION_OBLIGATORIA_es+'</strong>';
         } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+DIRECCION_OBLIGATORIA_en+'</strong>';
+            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+DIRECCION_OBLIGATORIA_en+'</strong>';
         } 
     } else {
         document.getElementById('divDireccion').className = 'form-group';
@@ -134,9 +134,9 @@ function validarCamposDatosLocal() {
     if (telefono.value === '') {
         document.getElementById('divTelefono').className = 'form-group has-error has-feedback';          
         if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+TELEFONO_OBLIGATORIO_es+'</strong>';
+            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+TELEFONO_OBLIGATORIO_es+'</strong>';
         } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+TELEFONO_OBLIGATORIO_en+'</strong>';
+            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+TELEFONO_OBLIGATORIO_en+'</strong>';
         } 
     } else {
         document.getElementById('divTelefono').className = 'form-group';
@@ -158,12 +158,12 @@ function validarCamposNumeroMesas() {
     
     var numero = parseInt(numeroMesas.value);
 
-    if (numeroMesas.value === '' || numero < 0) {
+    if (numeroMesas.value === '' || numero < 1) {
         document.getElementById('divNumeroMesas').className = 'form-group has-error has-feedback';
         if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+NUMERO_MESA_OBLIGATORIO_es+'</strong>';
+            divRespuestaNumeroMesas.innerHTML = '<strong style="color: red;">'+NUMERO_MESA_OBLIGATORIO_es+'</strong>';
         } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+NUMERO_MESA_OBLIGATORIO_en+'</strong>';
+            divRespuestaNumeroMesas.innerHTML = '<strong style="color: red;">'+NUMERO_MESA_OBLIGATORIO_en+'</strong>';
         } 
     } else {
         document.getElementById('divNumeroMesas').className = 'form-group';
@@ -188,9 +188,9 @@ function validarCamposImpuestos() {
     if (iva.value === '') {
         document.getElementById('divImpuestoIva').className = 'form-group has-error has-feedback';
         if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+IVA_OBLIGATORIO_es+'</strong>';
+            divRespuestaImpuestos.innerHTML = '<strong style="color: red;">'+IVA_OBLIGATORIO_es+'</strong>';
         } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+IVA_OBLIGATORIO_en+'</strong>';
+            divRespuestaImpuestos.innerHTML = '<strong style="color: red;">'+IVA_OBLIGATORIO_en+'</strong>';
         } 
     } else {
         document.getElementById('divImpuestoIva').className = 'form-group';
@@ -200,9 +200,9 @@ function validarCamposImpuestos() {
     if (servicioMesa.value === '') {
         document.getElementById('divImpuestoServicioMesa').className = 'form-group has-error has-feedback';
         if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+SERVICIO_MESA_OBLIGATORIO_es+'</strong>';
+            divRespuestaImpuestos.innerHTML = '<strong style="color: red;">'+SERVICIO_MESA_OBLIGATORIO_es+'</strong>';
         } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+SERVICIO_MESA_OBLIGATORIO_en+'</strong>';
+            divRespuestaImpuestos.innerHTML = '<strong style="color: red;">'+SERVICIO_MESA_OBLIGATORIO_en+'</strong>';
         } 
     } else {
         document.getElementById('divImpuestoServicioMesa').className = 'form-group';
@@ -270,9 +270,9 @@ function leerDatosLocal() {
 
         } else {
             if (sessionStorage.getItem("idioma") === 'es') {
-                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_es + '</strong>';
+                divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_es + '</strong>';
             } else if (sessionStorage.getItem("idioma") === 'en') {
-                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
+                divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
             }
             temporizadorDatosLocal();
         }
@@ -299,9 +299,9 @@ function leerNumeroMesas() {
             solicitud.send(operacion);
         } else {
             if (sessionStorage.getItem("idioma") === 'es') {
-                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_es + '</strong>';
+                divRespuestaNumeroMesas.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_es + '</strong>';
             } else if (sessionStorage.getItem("idioma") === 'en') {
-                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
+                divRespuestaNumeroMesas.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
             }
             temporizadorNumeroMesas();
         }
@@ -342,9 +342,9 @@ function leerImpuestos() {
             solicitud.send(operacion);
         } else {
             if (sessionStorage.getItem("idioma") === 'es') {
-                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_es + '</strong>';
+                divRespuestaImpuestos.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_es + '</strong>';
             } else if (sessionStorage.getItem("idioma") === 'en') {
-                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
+                divRespuestaImpuestos.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
             }
             temporizadorImpuestos();
         }

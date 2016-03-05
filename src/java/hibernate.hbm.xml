@@ -25,6 +25,7 @@
     <class name="administracion.modelo.Mesa" table="mesa">
         <id name="numero" column="numero_mesa" type="int" />
         <property name="estado" column="estado_mesa" type="string"/>
+        <property name="activo" column="activo" type="boolean"/>
     </class>
    
     <class name="administracion.modelo.Impuesto" table="impuesto">

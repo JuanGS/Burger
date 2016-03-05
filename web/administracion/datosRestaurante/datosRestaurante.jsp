@@ -57,7 +57,7 @@
             <form id="formNumeroMesas">
                 <div id="divNumeroMesas" class="form-group">
                     <label class="control-label" for="numeroMesas"><s:text name="datosRestaurante.numeroMesas"/></label>
-                    <s:textfield id="numeroMesas" cssClass="form-control" name="numeroMesas" value="%{numeroMesas}" />    
+                    <s:textfield id="numeroMesas" cssClass="form-control" name="numeroMesas" value="%{numeroMesas}" type="number" />    
                 </div>
                 <div style="float: left">
                     <input type="button" id="botonModificarNumeroMesas" class="btn btn-default btn-sm" value="<s:text name="datosRestaurante.aplicarCambios"/>" disabled="disabled"/>

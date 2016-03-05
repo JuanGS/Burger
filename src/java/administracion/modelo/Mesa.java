@@ -13,6 +13,7 @@ public class Mesa {
     
     private int numero;
     private String estado;
+    private boolean activo;
 
     public int getNumero() {
         return numero;
@@ -28,5 +29,13 @@ public class Mesa {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 }

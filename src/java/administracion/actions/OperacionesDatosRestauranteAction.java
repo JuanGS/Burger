@@ -118,32 +118,32 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
     private void montarVistaDatosRestaurante(int resultadoOperacion, Restaurante restaurante) throws IOException {
         switch (resultadoOperacion) {
             case 1:
-                output.print("<p>" + getText("global.success.realizarOperacion") + "</p>*");
+                output.print("<p>" + getText("datosRestaurante.success.realizarOperacion") + "</p>*");
                 break;
             default:
-                output.print("<p>" + getText("global.error.realizarOperacion") + "</p>*");
+                output.print("<p>" + getText("datosRestaurante.error.realizarOperacion") + "</p>*");
                 break;
         }
 
         output.print("<form id='formDatosLocal'>");
         output.print("<div id='divCif' class='form-group'>");
-        output.print("<label class='control-label' for='cif'>" + getText("global.etiqueta.cif") + "</label>");
+        output.print("<label class='control-label' for='cif'>" + getText("datosRestaurante.cif") + "</label>");
         output.print("<input type='text' id='cif' class='form-control' name='cif' value='" + restaurante.getCif() + "'  disabled='true' />");
         output.print("</div>");
         output.print("<div id='divNombre' class='form-group'>");
-        output.print("<label class='control-label' for='nombre'>" + getText("global.etiqueta.nombre") + "</label>");
+        output.print("<label class='control-label' for='nombre'>" + getText("datosRestaurante.nombre") + "</label>");
         output.print("<input type='text' id='nombre' class='form-control' name='nombre' value='" + restaurante.getNombre() + "' />");
         output.print("</div>");
         output.print("<div id='divDireccion' class='form-group'>");
-        output.print("<label class='control-label' for='direccion'>" + getText("global.etiqueta.direccion") + "</label>");
+        output.print("<label class='control-label' for='direccion'>" + getText("datosRestaurante.direccion") + "</label>");
         output.print("<input type='text' id='direccion' class='form-control' name='direccion' value='" + restaurante.getDireccion() + "' />");
         output.print("</div>");
         output.print("<div id='divTelefono' class='form-group'>");
-        output.print("<label class='control-label' for='telefono'>" + getText("global.etiqueta.telefono") + "</label>");
+        output.print("<label class='control-label' for='telefono'>" + getText("datosRestaurante.telefono") + "</label>");
         output.print("<input type='text' id='telefono' class='form-control' name='telefono' value='" + restaurante.getTelefono() + "' />");
         output.print("</div>");
         output.print("<div style='float: left'>");
-        output.print("<input type='button' id='botonModificarDatosLocal' class='btn btn-default btn-sm' value='" + getText("global.etiqueta.aplicarCambios") + "' disabled='disabled'/>");
+        output.print("<input type='button' id='botonModificarDatosLocal' class='btn btn-default btn-sm' value='" + getText("datosRestaurante.aplicarCambios") + "' disabled='disabled'/>");
         output.print("</div>");
         output.print("</form>");
     }
@@ -151,19 +151,19 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
     private void montarVistaNumeroMesas(int resultadoOperacion, int numeroMesas, int numeroMesasInicial) throws IOException {
         switch (resultadoOperacion) {
             case 1:
-                output.print("<p>" + getText("global.success.realizarOperacion") + "</p>*");
+                output.print("<p>" + getText("datosRestaurante.success.realizarOperacion") + "</p>*");
                 break;
             case -1:
-                output.print("<p>" + getText("global.error.mesaOcupada") + "</p>*");
+                output.print("<p>" + getText("datosRestaurante.error.mesaOcupada") + "</p>*");
                 break;
             default:
-                output.print("<p>" + getText("global.error.realizarOperacion") + "</p>*");
+                output.print("<p>" + getText("datosRestaurante.error.realizarOperacion") + "</p>*");
                 break;
         }
 
         output.print("<form id='formNumeroMesas'>");
         output.print("<div id='divNumeroMesas' class='form-group'>");
-        output.print("<label for='numeroMesas'>" + getText("global.etiqueta.numeroMesas") + "</label>");
+        output.print("<label for='numeroMesas'>" + getText("datosRestaurante.numeroMesas") + "</label>");
         if (resultadoOperacion == 1) {
             output.print("<input type='text' id='numeroMesas' class='form-control' name='numeroMesas' value='" + numeroMesas + "' />");
         } else {
@@ -171,7 +171,7 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
         }
         output.print("</div>");
         output.print("<div style='float: left'>");
-        output.print("<input type='button' id='botonModificarNumeroMesas' class='btn btn-default btn-sm' value='" + getText("global.etiqueta.aplicarCambios") + "' disabled='disabled'/>");
+        output.print("<input type='button' id='botonModificarNumeroMesas' class='btn btn-default btn-sm' value='" + getText("datosRestaurante.aplicarCambios") + "' disabled='disabled'/>");
         output.print("</div>");
         output.print("</form>");
     }
@@ -179,10 +179,10 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
     private void montarVistaImpuestos(int resultadoOperacion, List<Impuesto> listaImpuestos) throws IOException {
         switch (resultadoOperacion) {
             case 1:
-                output.print("<p>" + getText("global.success.realizarOperacion") + "</p>*");
+                output.print("<p>" + getText("datosRestaurante.success.realizarOperacion") + "</p>*");
                 break;
             default:
-                output.print("<p>" + getText("global.error.realizarOperacion") + "</p>*");
+                output.print("<p>" + getText("datosRestaurante.error.realizarOperacion") + "</p>*");
                 break;
         }
 
@@ -210,7 +210,7 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
             }
         }
         output.print("<div style='float: left'>");
-        output.print("<input type='button' id='botonModificarImpuestos' class='btn btn-default btn-sm' value='" + getText("global.etiqueta.aplicarCambios") + "' disabled='disabled'/>");
+        output.print("<input type='button' id='botonModificarImpuestos' class='btn btn-default btn-sm' value='" + getText("datosRestaurante.aplicarCambios") + "' disabled='disabled'/>");
         output.print("</div>");
         output.print("</form>");
     }

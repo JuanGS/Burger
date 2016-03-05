@@ -76,7 +76,7 @@ public class GestorOperacionesDatosRestaurante {
             HibernateUtil hb = new HibernateUtil();
             sesion = hb.getSessionFactory().openSession();
             sesion.beginTransaction();        
-            String sql = "SELECT MAX(numero_mesa) AS numero_mesa,estado_mesa FROM mesa";
+            String sql = "SELECT MAX(numero_mesa) AS numero_mesa,estado_mesa,activo FROM mesa WHERE activo = true"; //Nos interesa el numero de mesas activas
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Mesa.class);
             List<Mesa> lista = query.list(); 
             numeroMesa = lista.get(0).getNumero();
@@ -129,11 +129,24 @@ public class GestorOperacionesDatosRestaurante {
 
             if(numeroMesasNuevo > numeroMesasInicial) { //En este caso queremos ampliar el numero de mesas
                 diferencia = numeroMesasNuevo - numeroMesasInicial; //Obtenemos la diferencia
-                for(int i=numeroMesasInicial+1; i<=numeroMesasNuevo; i++) { //Itreamos desde el mayor numero de mesa hasta el numero de mesas final que queremos
-                    Mesa mesa = new Mesa(); //Creamos la mesa
-                    mesa.setNumero(i);
-                    mesa.setEstado(ESTADO_MESA);
-                    sesion.save(mesa); //Hacemos el INSERT
+                
+                //Obtenemos el numero de mesas total. Teniendo en cuenta las activas + las no activas (si las hay)
+                String sql = "SELECT numero_mesa,estado_mesa,activo FROM mesa";
+                SQLQuery query = sesion.createSQLQuery(sql).addEntity(Mesa.class);
+                int numeroMesasTotal = (int) query.list().size();             
+
+                for(int i=numeroMesasInicial+1; i<=numeroMesasNuevo; i++) { //Itreamos desde el mayor numero de mesa activo actualmente hasta el numero de mesas final que queremos                   
+                    if(numeroMesasTotal > i) { //Quiere decir que la mesa ya existia pero estaba deshabilitada                       
+                        String sql1 = "UPDATE mesa SET activo = true WHERE numero_mesa = " + i; //Actualizamos su estado
+                        SQLQuery query1 = sesion.createSQLQuery(sql1);
+                        query1.executeUpdate();                     
+                    } else { //La mesa no exite y la creamos                 
+                        Mesa mesa = new Mesa(); //Creamos la mesa
+                        mesa.setNumero(i);
+                        mesa.setEstado(ESTADO_MESA);
+                        mesa.setActivo(true);
+                        sesion.save(mesa); //Hacemos el INSERT
+                    }
                 }
                 sesion.getTransaction().commit();
                 resultadoOperacion = OPERACION_SUCCESS;
@@ -142,16 +155,16 @@ public class GestorOperacionesDatosRestaurante {
                 List<Mesa> listaMesas = obtenerListadoMesas(); //Obtenemos el listado de mesas (nos interesa para ver el estado)
                 boolean reducir = true; //Indica si podemos realizar la operacion para reducir el numero de mesas          
                 diferencia = numeroMesasInicial - numeroMesasNuevo; //Numero de mesas que queremos reducir
-                for(int i=numeroMesasInicial-1; i>=numeroMesasNuevo; i--) { //Iteremos por las mesas que queremos eliminar
+                for(int i=numeroMesasInicial-1; i>=numeroMesasNuevo; i--) { //Iteremos por las mesas que queremos desactivar
                     if(!listaMesas.get(i).getEstado().equals(ESTADO_MESA)) { //Si la mesa no esta libre
                         reducir = false; //NO PERMITIMOS LA OPERACION
                         resultadoOperacion = OPERACION_NO_POSIBLE;
                         break;
                     }
                 }
-                if(reducir) { //Si todas las mesas que queremos eliminar estan libres
-                    for(int i=numeroMesasInicial-1; i>=numeroMesasNuevo; i--) { //Las recorremos y las eliminamos
-                        String sql = "DELETE FROM mesa WHERE numero_mesa = " + (i+1);
+                if(reducir) { //Si todas las mesas que queremos desactivar estan libres
+                    for(int i=numeroMesasInicial-1; i>=numeroMesasNuevo; i--) { //Las recorremos y las desactivamos
+                        String sql = "UPDATE mesa SET activo = false WHERE numero_mesa = " + (i+1);
                         SQLQuery query = sesion.createSQLQuery(sql);
                         query.executeUpdate();                 
                     }
@@ -178,7 +191,7 @@ public class GestorOperacionesDatosRestaurante {
             HibernateUtil hb = new HibernateUtil();
             sesion = hb.getSessionFactory().openSession();
             sesion.beginTransaction();        
-            String sql = "SELECT numero_mesa,estado_mesa FROM mesa";
+            String sql = "SELECT numero_mesa,estado_mesa,activo FROM mesa WHERE activo = true"; //En este caso siempre nos van a interesar las mesas que esten en estado activo=true
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Mesa.class);
             lista = query.list();
             sesion.getTransaction().commit();
