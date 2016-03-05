@@ -16,11 +16,11 @@ import java.util.Map;
  * @author juang
  */
 public class LoginAction extends ActionSupport {
-    
+        
     private String usuario;
     private String password;
     private Usuario usuarioEncontrado;
-    private String navegacion;
+    private String navegacion;  
     
     GestorOperacionesUsuario gou = new GestorOperacionesUsuario();
 

@@ -26,8 +26,12 @@ function validarCampos() {
     var campo4 = false;    
 
     if (!nombre.validity.valid) {
-        document.getElementById('divNombre').className = 'form-group has-error has-feedback';
-        divRespuesta.innerHTML += '<strong style="color: red">Nombre obligatorio</strong><br/>';        
+        document.getElementById('divNombre').className = 'form-group has-error has-feedback';        
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_en+'</strong>';
+        }
     } else {
         document.getElementById('divNombre').className = 'form-group';
         campo1 = true;
@@ -35,7 +39,11 @@ function validarCampos() {
     
     if (!precio.validity.valid) {
         document.getElementById('divPrecio').className = 'form-group has-error has-feedback';
-        divRespuesta.innerHTML += '<strong style="color: red">Precio obligatorio</strong><br/>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+PRECIO_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+PRECIO_OBLIGATORIO_en+'</strong>';
+        }
     } else {
         document.getElementById('divPrecio').className = 'form-group';
         campo2 = true;
@@ -43,7 +51,11 @@ function validarCampos() {
     
     if (!descripcion.validity.valid) {
         document.getElementById('divDescripcion').className = 'form-group has-error has-feedback';
-        divRespuesta.innerHTML += '<strong style="color: red">Descripción obligatorio</strong><br/>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+DESCRIPCION_OBLIGATORIA_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+DESCRIPCION_OBLIGATORIA_en+'</strong>';
+        }
     } else {
         document.getElementById('divDescripcion').className = 'form-group';
         campo3 = true;
@@ -51,7 +63,11 @@ function validarCampos() {
 
     if (selectCategoria.value === "") {
         document.getElementById('divCategoria').className = 'form-group has-error has-feedback';
-        divRespuesta.innerHTML += '<strong style="color: red">Categoría obligatorio</strong><br/>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+CATEGORIA_OBLIGATORIA_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+CATEGORIA_OBLIGATORIA_en+'</strong>';
+        }
     } else {
         document.getElementById('divCategoria').className = 'form-group';
         campo4 = true;

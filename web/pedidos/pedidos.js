@@ -151,7 +151,11 @@ function validarCampos() {
  
     if (selectMesas.value === "") {
         document.getElementById('divListaMesas').className = 'form-group has-error has-feedback';
-        divRespuestaMesas.innerHTML = '<strong style="color: red">Número de mesa obligatorio</strong>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuestaMesas.innerHTML = '<strong style="color: red">' + NUMERO_MESA_OBLIGATORIO_es + '</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuestaMesas.innerHTML = '<strong style="color: red">' + NUMERO_MESA_OBLIGATORIO_en + '</strong>';
+        }        
     } else {
         document.getElementById('divListaMesas').className = 'form-group';
         divRespuestaMesas.innerHTML = '';
@@ -159,7 +163,11 @@ function validarCampos() {
     }     
 
     if (arrayPedido.length < 1) {
-        divRespuestaPedido.innerHTML = '<strong style="color: red">El pedido no tiene ningún producto</strong>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuestaPedido.innerHTML = '<strong style="color: red">' + PEDIDO_VACIO_es + '</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuestaPedido.innerHTML = '<strong style="color: red">' + PEDIDO_VACIO_en + '</strong>';
+        }           
     } else {
         divRespuestaPedido.innerHTML = '';
         campo2 = true;
@@ -210,8 +218,12 @@ function realizarPedido() {
     }
 }
 
-function limpiarPedido() {   
-    var respuesta = confirm("¿Limpiar el pedido actual?");
+function limpiarPedido() {
+    if (sessionStorage.getItem("idioma") === 'es') {
+        var respuesta = confirm(LIMPIAR_PEDIDO_es);
+    } else if (sessionStorage.getItem("idioma") === 'en') {
+        var respuesta = confirm(LIMPIAR_PEDIDO_en);
+    }
     if (respuesta === true) {
         //Inicializamos los array
         arrayPedido = [];
@@ -225,11 +237,19 @@ function limpiarPedido() {
         //Eliminamos los datos de la sesion
         eliminarDatosSesion();
 
-        divRespuesta.innerHTML = '<strong style="color: blue;">Pedido reiniciado</strong>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: blue;">' + PEDIDO_REINICIADO_es + '</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: blue;">' + PEDIDO_REINICIADO_en + '</strong>';
+        }
     } else {
-        divRespuesta.innerHTML = '<strong style="color: blue;">Operación cancelada. Continua con el pedido</strong>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: blue;">' + OPERACION_CANCELADA_es + '</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: blue;">' + OPERACION_CANCELADA_en + '</strong>';
+        }
     }
-    
+
     temporizador();
 }
 

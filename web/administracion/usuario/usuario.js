@@ -36,7 +36,11 @@ function validarCampos() {
 
     if (!usuario.validity.valid) {
         document.getElementById('divUsuario').className = 'form-group has-error has-feedback';
-        divRespuesta.innerHTML += '<strong style="color: red">Usuario obligatorio</strong><br/>';   
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+USUARIO_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+USUARIO_OBLIGATORIO_en+'</strong>';
+        } 
     } else {
         document.getElementById('divUsuario').className = 'form-group';
         campo1 = true;
@@ -44,7 +48,11 @@ function validarCampos() {
 
     if (!password.validity.valid || password.value.length > 8) {
         document.getElementById('divPassword').className = 'form-group has-error';
-        divRespuesta.innerHTML += '<strong style="color: red">Password longitud [1-8]</strong>';  
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+PASSWORD_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+PASSWORD_OBLIGATORIO_en+'</strong>';
+        } 
     } else {
         document.getElementById('divPassword').className = 'form-group';
         campo2 = true;

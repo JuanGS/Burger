@@ -40,7 +40,7 @@
                     </div>
                     <div id="divPassword" class="form-group">
                         <label class="control-label"><s:text name="login.password"/></label>
-                        <s:textfield cssClass="form-control" name="password"/>
+                        <s:textfield cssClass="form-control" name="password" type="password"/>
                     </div>    
                     <div class="form-group" style="float: left;">
                         <button class="btn btn-default btn-sm"><s:text name="login.validar"/></button>
@@ -48,7 +48,7 @@
                     </div>  
                 </fieldset>
             </s:form>
-        </div>  
+        </div> 
 
         <s:if test="hasActionErrors()">
             <div class="errors alert alert-danger alert-dismissible" role="alert">

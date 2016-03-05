@@ -106,6 +106,7 @@
         </s:form>      
         
         <jsp:include page="../../footer.jsp"/>
+        <script src="../js/idiomas.js"></script> 
         <script src="../administracion/datosRestaurante/datosRestaurante.js"></script>
     </body>
 </html>

@@ -118,7 +118,8 @@
             </s:form>            
         </div>                  
                 
-        <jsp:include page="../footer.jsp"/>       
+        <jsp:include page="../footer.jsp"/>   
+        <script src="../js/idiomas.js"></script>
         <script src="../pedidos/pedidos.js"></script>
         
     </body>

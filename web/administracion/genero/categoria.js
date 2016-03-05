@@ -22,7 +22,11 @@ function validarCampos() {
 
     if (!nombre.validity.valid) {
         document.getElementById('divNombre').className = 'form-group has-error has-feedback';
-        divRespuesta.innerHTML += '<strong style="color: red">Nombre obligatorio</strong>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_en+'</strong>';
+        } 
     } else {
         document.getElementById('divNombre').className = 'form-group';
         campo1 = true;

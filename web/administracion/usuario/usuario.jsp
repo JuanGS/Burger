@@ -92,6 +92,7 @@
         </div>           
         
         <jsp:include page="../../footer.jsp"/>       
+        <script src="../js/idiomas.js"></script>        
         <script src="../administracion/usuario/usuario.js"></script>        
         
     </body>

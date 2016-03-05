@@ -97,31 +97,47 @@ function validarCamposDatosLocal() {
 
     if (cif.value === '') {
         document.getElementById('divCif').className = 'form-group has-error has-feedback';
-        divRespuestaDatosLocal.innerHTML += '<strong style="color: red">CIF obligatorio</strong><br/>';  
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+CIF_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+CIF_OBLIGATORIO_en+'</strong>';
+        } 
     } else {
         document.getElementById('divCif').className = 'form-group';
         campo1 = true;
     }
 
     if (nombre.value === '') {
-        document.getElementById('divNombre').className = 'form-group has-error has-feedback';
-        divRespuestaDatosLocal.innerHTML += '<strong style="color: red">Nombre obligatorio</strong><br/>';        
+        document.getElementById('divNombre').className = 'form-group has-error has-feedback';       
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_en+'</strong>';
+        } 
     } else {
         document.getElementById('divNombre').className = 'form-group';
         campo2 = true;
     }
 
     if (direccion.value === '') {
-        document.getElementById('divDireccion').className = 'form-group has-error has-feedback';
-        divRespuestaDatosLocal.innerHTML += '<strong style="color: red">Direccion obligatorio</strong><br/>';        
+        document.getElementById('divDireccion').className = 'form-group has-error has-feedback';     
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+DIRECCION_OBLIGATORIA_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+DIRECCION_OBLIGATORIA_en+'</strong>';
+        } 
     } else {
         document.getElementById('divDireccion').className = 'form-group';
         campo3 = true;
     }
 
     if (telefono.value === '') {
-        document.getElementById('divTelefono').className = 'form-group has-error has-feedback';
-        divRespuestaDatosLocal.innerHTML += '<strong style="color: red">Teléfono obligatorio</strong>';          
+        document.getElementById('divTelefono').className = 'form-group has-error has-feedback';          
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+TELEFONO_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+TELEFONO_OBLIGATORIO_en+'</strong>';
+        } 
     } else {
         document.getElementById('divTelefono').className = 'form-group';
         campo4 = true;
@@ -144,7 +160,11 @@ function validarCamposNumeroMesas() {
 
     if (numeroMesas.value === '' || numero < 0) {
         document.getElementById('divNumeroMesas').className = 'form-group has-error has-feedback';
-        divRespuestaNumeroMesas.innerHTML += '<strong style="color: red">Número de mesa obligatorio</strong>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+NUMERO_MESA_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+NUMERO_MESA_OBLIGATORIO_en+'</strong>';
+        } 
     } else {
         document.getElementById('divNumeroMesas').className = 'form-group';
         campo1 = true;
@@ -167,7 +187,11 @@ function validarCamposImpuestos() {
     
     if (iva.value === '') {
         document.getElementById('divImpuestoIva').className = 'form-group has-error has-feedback';
-        divRespuestaImpuestos.innerHTML += '<strong style="color: red">IVA obligatorio</strong>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+IVA_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+IVA_OBLIGATORIO_en+'</strong>';
+        } 
     } else {
         document.getElementById('divImpuestoIva').className = 'form-group';
         campo1 = true;
@@ -175,7 +199,11 @@ function validarCamposImpuestos() {
  
     if (servicioMesa.value === '') {
         document.getElementById('divImpuestoServicioMesa').className = 'form-group has-error has-feedback';
-        divRespuestaImpuestos.innerHTML += '<strong style="color: red">Servicio de mesa obligatorio</strong>';
+        if (sessionStorage.getItem("idioma") === 'es') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+SERVICIO_MESA_OBLIGATORIO_es+'</strong>';
+        } else if (sessionStorage.getItem("idioma") === 'en') {
+            divRespuesta.innerHTML = '<strong style="color: red;">'+SERVICIO_MESA_OBLIGATORIO_en+'</strong>';
+        } 
     } else {
         document.getElementById('divImpuestoServicioMesa').className = 'form-group';
         campo2 = true;
@@ -241,16 +269,20 @@ function leerDatosLocal() {
             solicitud.send(operacion);
 
         } else {
-            divRespuestaDatosLocal.innerHTML = "<strong style='color: red;'>No se ha modificado ningun valor</strong>";
+            if (sessionStorage.getItem("idioma") === 'es') {
+                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_es + '</strong>';
+            } else if (sessionStorage.getItem("idioma") === 'en') {
+                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
+            }
             temporizadorDatosLocal();
         }
     }
 }
 
 function leerNumeroMesas() {
-    if(validarCamposNumeroMesas()) { //Primero validamos los campos
-        var numeroMesas = document.getElementById('numeroMesas').value; 
-        
+    if (validarCamposNumeroMesas()) { //Primero validamos los campos
+        var numeroMesas = document.getElementById('numeroMesas').value;
+
         if (comprobarCambiosNumeroMesas(numeroMesas)) { //Comporbamos que ha cambiado algun valor
             //Creamos un objeto para almacenar los valores
             var operacion = new FormData();
@@ -264,38 +296,42 @@ function leerNumeroMesas() {
             solicitud.addEventListener('loadstart', inicioNumeroMesas);
             solicitud.addEventListener('load', mostrarNumeroMesas);
             solicitud.open("POST", url, true);
-            solicitud.send(operacion);           
+            solicitud.send(operacion);
         } else {
-            divRespuestaNumeroMesas.innerHTML = "<strong style='color: red;'>No se ha modificado ningun valor</strong>";
+            if (sessionStorage.getItem("idioma") === 'es') {
+                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_es + '</strong>';
+            } else if (sessionStorage.getItem("idioma") === 'en') {
+                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
+            }
             temporizadorNumeroMesas();
         }
     }
 }
 
 function leerImpuestos() {
-    if(validarCamposImpuestos()) { //Primero validamos los campos
-        var iva = document.getElementById('iva').value; 
+    if (validarCamposImpuestos()) { //Primero validamos los campos
+        var iva = document.getElementById('iva').value;
         var servicioMesa = document.getElementById('servicio mesa').value;
-               
+
         if (comprobarCambiosImpuestos(iva, servicioMesa)) { //Comporbamos que ha cambiado algun valor
-            var idIva = document.getElementById('idIva').value; 
-            var idServicioMesa = document.getElementById('idServicioMesa').value;  
-                          
+            var idIva = document.getElementById('idIva').value;
+            var idServicioMesa = document.getElementById('idServicioMesa').value;
+
             //Creamos una variable con formato JSON
             //Pasamos las dos listas para modificar solo los campos que han cambiado
             var impuestosJSON = [
-                    {"idImpuesto": idIva, "nombre": "iva", "valor": iva},
-                    {"idImpuesto": idServicioMesa, "nombre": "servicio mesa", "valor": servicioMesa}
-                ];
+                {"idImpuesto": idIva, "nombre": "iva", "valor": iva},
+                {"idImpuesto": idServicioMesa, "nombre": "servicio mesa", "valor": servicioMesa}
+            ];
             var impuestosInicialesJSON = [
-                    {"idImpuesto": idIva, "nombre": "iva", "valor": ivaInicial},
-                    {"idImpuesto": idServicioMesa, "nombre": "servicio mesa", "valor": servicioMesaInicial}
-                ]; 
+                {"idImpuesto": idIva, "nombre": "iva", "valor": ivaInicial},
+                {"idImpuesto": idServicioMesa, "nombre": "servicio mesa", "valor": servicioMesaInicial}
+            ];
             //Creamos un objeto para almacenar los valores
             var operacion = new FormData();
             operacion.append('operacion', 'modificarImpuestos');
             operacion.append('listaImpuestos', JSON.stringify(impuestosJSON));
-            operacion.append('listaImpuestosIniciales', JSON.stringify(impuestosInicialesJSON));            
+            operacion.append('listaImpuestosIniciales', JSON.stringify(impuestosInicialesJSON));
             //Creamos la solicitud AJAX
             //Especificamos la action a ejecutar
             var url = "OperacionesDatosRestaurante";
@@ -303,12 +339,16 @@ function leerImpuestos() {
             solicitud.addEventListener('loadstart', inicioImpuestos);
             solicitud.addEventListener('load', mostrarImpuestos);
             solicitud.open("POST", url, true);
-            solicitud.send(operacion);           
+            solicitud.send(operacion);
         } else {
-            divRespuestaImpuestos.innerHTML = "<strong style='color: red;'>No se ha modificado ningun valor</strong>";
+            if (sessionStorage.getItem("idioma") === 'es') {
+                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_es + '</strong>';
+            } else if (sessionStorage.getItem("idioma") === 'en') {
+                divRespuesta.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
+            }
             temporizadorImpuestos();
         }
-    }    
+    }
 }
 
 //Metodo que se inicia cuando comienza la solicitud
