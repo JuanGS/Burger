@@ -31,7 +31,7 @@
         </div>
 
         <div id="divFormAlta" style="clear: both">
-            <s:form action="Login" method="POST" validate="true">
+            <s:form action="Login" namespace="/" method="POST" validate="true">
                 <fieldset>
                     <legend><s:text name="login.form"/></legend>
                     <div id="divUsuario" class="form-group">

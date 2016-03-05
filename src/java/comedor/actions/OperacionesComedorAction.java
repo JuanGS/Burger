@@ -27,6 +27,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import comedor.modelo.Cuenta;
 import comedor.modelo.ProductoLineaPedido;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -69,10 +70,8 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
     private ServletOutputStream output;        
     private InputStream respuesta;
     private String nombreDocumento;
-    //Windows. Desarrollo.
-    private String rutaCuentas = System.getProperty("catalina.base") + "\\webapps\\cuentas\\"; //Crear la carpeta "cuentas" en el directorio catalina.base
-    //Linux. Produccion.
-//    private String rutaCuentas = System.getProperty("catalina.base") + "/webapps/Burger/cuentas/"; //Crear la carpeta "cuentas" en el directorio catalina.base
+
+    private final String RUTA_CUENTAS = System.getProperty("catalina.base") + File.separator + "webapps" + File.separator + "cuentas" + File.separator; //Crear la carpeta "cuentas" en el directorio catalina.base/webapps
         
     //Para gestionar la sesion
     private Map session = ActionContext.getContext().getSession();    
@@ -160,14 +159,14 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
                     //Generamos el pdf con los datos del pedido
                     crearPDF();
                     //Asignamos el documento al flujo de respuesta      
-                    respuesta = new DataInputStream(new FileInputStream(rutaCuentas+nombreDocumento));
+                    respuesta = new DataInputStream(new FileInputStream(RUTA_CUENTAS+nombreDocumento));
                     
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(OperacionesComedorAction.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Error al crear el PDF. FileNotFoundException: " + ex);
                 } catch (DocumentException ex) {
-                    Logger.getLogger(OperacionesComedorAction.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Error al crear el PDF. DocumentException: " + ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(OperacionesComedorAction.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Error al crear el PDF. IOException: " + ex);
                 }
                 
                 //Limpiamos la sesion
@@ -296,99 +295,120 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
         return producto;
     }    
     
-    private void crearPDF() throws IOException, DocumentException {     
+    private void crearPDF() throws IOException, DocumentException {
         Restaurante restaurante = godr.obtenerDatosRestaurante();
 
-        //Creamos el documento
-        Document documento = new Document();
-        //Creamos el OutputStream para el fichero pdf   
-        FileOutputStream destino = new FileOutputStream(rutaCuentas+nombreDocumento);        
-        //Asociamos el FileOutputStream al Document
-        PdfWriter.getInstance(documento, destino);
-        //Abrimos el documento
-        documento.open();
-        
-        //Añadimos el nombre del restaurante
-        Font titulo = FontFactory.getFont(FontFactory.TIMES, 16, Font.BOLDITALIC);
-        Chunk chunk = new Chunk(restaurante.getNombre(), titulo);
-        Paragraph parrafo = new Paragraph(chunk);
-        parrafo.setAlignment(Element.ALIGN_CENTER);
-        documento.add(parrafo);
-        //Añadimos la imagen
-        URL url = new URL("http://" + request.getServerName() + ":" + request.getServerPort() + "" + request.getContextPath() + "/img/elvis.png");             
-        Image foto = Image.getInstance(url);
-        foto.scaleToFit(100, 100);
-        foto.setAlignment(Chunk.ALIGN_MIDDLE);
-        documento.add(foto);        
-        //Añadimos los datos del restaurante
-        Font datos = FontFactory.getFont(FontFactory.TIMES, 12, Font.NORMAL);
-        chunk = new Chunk(getText("cuenta.cif")+": " + restaurante.getCif(), datos);
-        documento.add(new Paragraph(chunk));
-        chunk = new Chunk(getText("cuenta.direccion")+": " + restaurante.getDireccion(), datos);
-        documento.add(new Paragraph(chunk));
-        chunk = new Chunk(getText("cuenta.telefono")+": " + restaurante.getTelefono(), datos);
-        documento.add(new Paragraph(chunk));   
-        //Añadimos los datos de la cuenta
-        chunk = new Chunk(getText("cuenta.cuentaId")+": " + cuenta.getId(), datos);
-        documento.add(new Paragraph(chunk)); 
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-        chunk = new Chunk(getText("cuenta.fecha")+": " + formatoFecha.format(cuenta.getFecha()), datos);
-        documento.add(new Paragraph(chunk));
-        SimpleDateFormat formtoHora = new SimpleDateFormat("HH:mm:ss");        
-        chunk = new Chunk(getText("cuenta.hora")+": " + formtoHora.format(cuenta.getFecha()), datos);
-        documento.add(new Paragraph(chunk));        
-        //Añadimos los datos del pedido
-        //Obtenemos el usuario, es decir, del camarero con el nombre que tenemos registrado en la session 
-        chunk = new Chunk(getText("cuenta.camarero")+": " + session.get("usuario").toString(), datos);
-        documento.add(new Paragraph(chunk));       
-        documento.add(new Chunk(Chunk.NEWLINE)); //Salto de linea        
-        //Añadimos la tabla con los datos del pedido
-        //Creamos una tabla
-        PdfPTable tabla = new PdfPTable(4); //Especificamos el numero de columnas
-        //Añadimos la cabecera de la tabla
-        tabla.addCell(getText("cuenta.producto"));
-        tabla.addCell(getText("cuenta.unidades"));
-        tabla.addCell(getText("cuenta.pvp"));
-        tabla.addCell(getText("cuenta.total"));        
-        for(Producto producto : pedido.getListaProductos()) {
-            tabla.addCell(producto.getNombre());
-            tabla.addCell(String.valueOf(producto.getUnidades()));
-            tabla.addCell(String.valueOf(producto.getPrecio()));
-            tabla.addCell(String.valueOf(producto.getPrecio() * producto.getUnidades()));
-            
-            if(producto instanceof Hamburguesa) {
-                Hamburguesa h = (Hamburguesa) producto;
-                for(Producto extra : h.getListaProductosExtra()) { 
-                    tabla.addCell(extra.getNombre());
-                    tabla.addCell(String.valueOf(extra.getUnidades()));
-                    tabla.addCell(String.valueOf(extra.getPrecio()));
-                    tabla.addCell(String.valueOf(extra.getPrecio() * extra.getUnidades()));                    
-                }
+        //Creamos el directorio donde almacenar los pdf sino existe
+        File file = new File(RUTA_CUENTAS); //Especificamos la ruta
+        if (!file.exists()) { //Si el directorio no existe
+            if (file.mkdir()) { //Creamos el directorio
+                //Le asignamos los permisos 777
+                file.setExecutable(true);
+                file.setReadable(true);
+                file.setExecutable(true);
+            } else {
+                System.err.println("Error al crear el directorio especificado");
+                throw new IOException(); //Lanzamos una excepcion
             }
         }
-        //Añadimos la tabla al documento
-        documento.add(tabla);
-        documento.add(new Chunk(Chunk.NEWLINE)); //Salto de linea
-        //Añadimos una tabla con los impuestos y el total a pagar
-        tabla = new PdfPTable(3); //Especificamos el numero de columnas    
-        tabla.addCell(getText("cuenta.baseImponible")+": " + pedido.getImporte() + "€");
-        tabla.addCell("");
-        tabla.addCell("");
-        DecimalFormat formato = new DecimalFormat("#.##€");
-        for(Impuesto dato : listaImpuestos) {
+
+        if (file.exists()) { //Si el directorio existe
+            //Creamos el documento
+            Document documento = new Document();
+            //Creamos el OutputStream para el fichero pdf   
+            FileOutputStream destino = new FileOutputStream(RUTA_CUENTAS + nombreDocumento);
+
+            //Asociamos el FileOutputStream al Document
+            PdfWriter.getInstance(documento, destino);
+            //Abrimos el documento
+            documento.open();
+
+            //Añadimos el nombre del restaurante
+            Font titulo = FontFactory.getFont(FontFactory.TIMES, 16, Font.BOLDITALIC);
+            Chunk chunk = new Chunk(restaurante.getNombre(), titulo);
+            Paragraph parrafo = new Paragraph(chunk);
+            parrafo.setAlignment(Element.ALIGN_CENTER);
+            documento.add(parrafo);
+            //Añadimos la imagen
+            URL url = new URL("http://" + request.getServerName() + ":" + request.getServerPort() + "" + request.getContextPath() + "/img/elvis.png");
+            Image foto = Image.getInstance(url);
+            foto.scaleToFit(100, 100);
+            foto.setAlignment(Chunk.ALIGN_MIDDLE);
+            documento.add(foto);
+            //Añadimos los datos del restaurante
+            Font datos = FontFactory.getFont(FontFactory.TIMES, 12, Font.NORMAL);
+            chunk = new Chunk(getText("cuenta.cif") + ": " + restaurante.getCif(), datos);
+            documento.add(new Paragraph(chunk));
+            chunk = new Chunk(getText("cuenta.direccion") + ": " + restaurante.getDireccion(), datos);
+            documento.add(new Paragraph(chunk));
+            chunk = new Chunk(getText("cuenta.telefono") + ": " + restaurante.getTelefono(), datos);
+            documento.add(new Paragraph(chunk));
+            //Añadimos los datos de la cuenta
+            chunk = new Chunk(getText("cuenta.cuentaId") + ": " + cuenta.getId(), datos);
+            documento.add(new Paragraph(chunk));
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            chunk = new Chunk(getText("cuenta.fecha") + ": " + formatoFecha.format(cuenta.getFecha()), datos);
+            documento.add(new Paragraph(chunk));
+            SimpleDateFormat formtoHora = new SimpleDateFormat("HH:mm:ss");
+            chunk = new Chunk(getText("cuenta.hora") + ": " + formtoHora.format(cuenta.getFecha()), datos);
+            documento.add(new Paragraph(chunk));
+            //Añadimos los datos del pedido
+            //Obtenemos el usuario, es decir, del camarero con el nombre que tenemos registrado en la session 
+            chunk = new Chunk(getText("cuenta.camarero") + ": " + session.get("usuario").toString(), datos);
+            documento.add(new Paragraph(chunk));
+            documento.add(new Chunk(Chunk.NEWLINE)); //Salto de linea        
+            //Añadimos la tabla con los datos del pedido
+            //Creamos una tabla
+            PdfPTable tabla = new PdfPTable(4); //Especificamos el numero de columnas
+            //Añadimos la cabecera de la tabla
+            tabla.addCell(getText("cuenta.producto"));
+            tabla.addCell(getText("cuenta.unidades"));
+            tabla.addCell(getText("cuenta.pvp"));
+            tabla.addCell(getText("cuenta.total"));
+            for (Producto producto : pedido.getListaProductos()) {
+                tabla.addCell(producto.getNombre());
+                tabla.addCell(String.valueOf(producto.getUnidades()));
+                tabla.addCell(String.valueOf(producto.getPrecio()));
+                tabla.addCell(String.valueOf(producto.getPrecio() * producto.getUnidades()));
+
+                if (producto instanceof Hamburguesa) {
+                    Hamburguesa h = (Hamburguesa) producto;
+                    for (Producto extra : h.getListaProductosExtra()) {
+                        tabla.addCell(extra.getNombre());
+                        tabla.addCell(String.valueOf(extra.getUnidades()));
+                        tabla.addCell(String.valueOf(extra.getPrecio()));
+                        tabla.addCell(String.valueOf(extra.getPrecio() * extra.getUnidades()));
+                    }
+                }
+            }
+            //Añadimos la tabla al documento
+            documento.add(tabla);
+            documento.add(new Chunk(Chunk.NEWLINE)); //Salto de linea
+            //Añadimos una tabla con los impuestos y el total a pagar
+            tabla = new PdfPTable(3); //Especificamos el numero de columnas    
+            tabla.addCell(getText("cuenta.baseImponible") + ": " + pedido.getImporte() + "€");
             tabla.addCell("");
-            tabla.addCell(dato.getNombre() + ": " + dato.getValor());
-            double impuesto = (pedido.getImporte() * dato.getValor()) / 100;
-            tabla.addCell(getText("cuenta.impuesto")+ " " + dato.getNombre() + ": " + formato.format(impuesto)); 
+            tabla.addCell("");
+            DecimalFormat formato = new DecimalFormat("#.##€");
+            for (Impuesto dato : listaImpuestos) {
+                tabla.addCell("");
+                tabla.addCell(dato.getNombre() + ": " + dato.getValor());
+                double impuesto = (pedido.getImporte() * dato.getValor()) / 100;
+                tabla.addCell(getText("cuenta.impuesto") + " " + dato.getNombre() + ": " + formato.format(impuesto));
+            }
+            tabla.addCell(getText("cuenta.total") + ": " + cuenta.getCantidad() + "€");
+            tabla.addCell("");
+            tabla.addCell("");
+            //Añadimos la tabla al documento
+            documento.add(tabla);
+
+            //Cerramos el documento
+            documento.close();
+            
+        } else { //Si el directoiro no existe
+            System.err.println("Error. No existe el directorio especificado");
+            throw new IOException(); //Lanzamos una excepcion
         }
-        tabla.addCell(getText("cuenta.total")+": " + cuenta.getCantidad() + "€");
-        tabla.addCell("");
-        tabla.addCell("");  
-        //Añadimos la tabla al documento
-        documento.add(tabla);
-        
-        //Cerramos el documento
-        documento.close(); 
     }
     
     @Override
