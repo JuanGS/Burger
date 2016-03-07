@@ -11,10 +11,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="../../head.jsp"/>
-        <link rel="stylesheet" href="../css/estiloGeneral.css"/>         
-        <title><s:text name="datosRestaurante.datosRestaurante"/></title>
-       
+        <jsp:include page="../../head.jsp"/>  
+        <title><s:text name="datosRestaurante.datosRestaurante"/></title>    
     </head>
     <body>
         
@@ -57,7 +55,8 @@
             <form id="formNumeroMesas">
                 <div id="divNumeroMesas" class="form-group">
                     <label class="control-label" for="numeroMesas"><s:text name="datosRestaurante.numeroMesas"/></label>
-                    <s:textfield id="numeroMesas" cssClass="form-control" name="numeroMesas" value="%{numeroMesas}" type="number" />    
+<%--                    <s:textfield id="numeroMesas" cssClass="form-control" name="numeroMesas" value="" type="number" />  --%>
+                    <input type='number' id='numeroMesas' class='form-control' name='numeroMesas' value="<s:property value="numeroMesas" />" step="1" />
                 </div>
                 <div style="float: left">
                     <input type="button" id="botonModificarNumeroMesas" class="btn btn-default btn-sm" value="<s:text name="datosRestaurante.aplicarCambios"/>" disabled="disabled"/>
@@ -77,7 +76,7 @@
                     %>               
                     <div id="divImpuestoIva" class="form-group">
                         <label class="control-label"><s:property value="nombre"/></label>
-                        <s:textfield id="iva" cssClass="form-control" name="iva" value="%{valor}" /> 
+                        <input type='number' id='iva' class='form-control' name='iva' value="<s:property value="valor" />" step="0.1" />
                         <s:hidden id="idIva" value="%{idImpuesto}" />
                     </div>                           
                     <%
@@ -85,7 +84,7 @@
                     %>     
                     <div id="divImpuestoServicioMesa" class="form-group">
                         <label class="control-label"><s:property value="nombre"/></label>
-                        <s:textfield id="servicio mesa" cssClass="form-control" name="servicio mesa" value="%{valor}" />
+                        <input type='number' id='servicio mesa' class='form-control' name='servicio mesa' value="<s:property value="valor" />" step="0.1" />
                         <s:hidden id="idServicioMesa" value="%{idImpuesto}" />
                     </div>  
                     <%
@@ -106,7 +105,6 @@
         </s:form>      
         
         <jsp:include page="../../footer.jsp"/>
-        <script src="../js/idiomas.js"></script> 
         <script src="../administracion/datosRestaurante/datosRestaurante.js"></script>
     </body>
 </html>

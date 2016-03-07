@@ -4,6 +4,7 @@
     Author     : Juan
 --%>
 
+<%@page import="java.net.URL"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib prefix="s" uri="/struts-tags" %>
@@ -26,11 +27,11 @@
         <title><s:text name="global.aplicaciones.title"/></title>
     </head>
     <body>
-        
+      
        <s:if test="#session.login != 'true'">
            <jsp:forward page="login.jsp" /> 
         </s:if>
-    
+  
         <h1><s:text name="global.aplicaciones.nombreRestaurante"/></h1>
 
         <s:if test="hasActionMessages()">

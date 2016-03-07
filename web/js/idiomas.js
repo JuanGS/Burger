@@ -4,10 +4,12 @@
  * and open the template in the editor.
  */
 
-sessionStorage.setItem("idioma", "es"); //Añadimos un valor de idioma por defecto
+if(sessionStorage.getItem("idioma") === null) { //Sino hay definido ningun idoma
+    sessionStorage.setItem("idioma", "es"); //Añadimos un valor de idioma por defecto
+}
 
 function cambiarIdioma(siglas) {
-    sessionStorage.setItem("idioma", siglas);
+    sessionStorage.setItem("idioma", siglas); 
 }
 
 /*

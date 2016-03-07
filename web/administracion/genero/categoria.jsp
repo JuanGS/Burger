@@ -11,8 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="../../head.jsp"/>
-        <link rel="stylesheet" href="../css/estiloGeneral.css"/>            
+        <jsp:include page="../../head.jsp"/>        
         <title><s:text name="categoria.categoria"/></title>
     </head>
     <body>
@@ -85,7 +84,6 @@
         </div>        
         
         <jsp:include page="../../footer.jsp"/>   
-        <script src="../js/idiomas.js"></script> 
         <script src="../administracion/genero/categoria.js"></script>        
     </body>
 </html>

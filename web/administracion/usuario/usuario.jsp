@@ -14,8 +14,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="../../head.jsp"/>
-        <link rel="stylesheet" href="../css/estiloGeneral.css"/>       
+        <jsp:include page="../../head.jsp"/> 
         <title><s:text name="usuario.usuarios"/></title>
     </head>
     <body>
@@ -91,8 +90,7 @@
             </s:form>            
         </div>           
         
-        <jsp:include page="../../footer.jsp"/>       
-        <script src="../js/idiomas.js"></script>        
+        <jsp:include page="../../footer.jsp"/>           
         <script src="../administracion/usuario/usuario.js"></script>        
         
     </body>

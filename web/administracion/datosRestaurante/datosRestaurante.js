@@ -268,7 +268,7 @@ function leerDatosLocal() {
             solicitud.open("POST", url, true);
             solicitud.send(operacion);
 
-        } else {
+        } else {          
             if (sessionStorage.getItem("idioma") === 'es') {
                 divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_es + '</strong>';
             } else if (sessionStorage.getItem("idioma") === 'en') {

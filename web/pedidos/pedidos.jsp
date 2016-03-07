@@ -14,7 +14,6 @@
 <html>
     <head>
         <jsp:include page="../head.jsp"/>
-        <link rel="stylesheet" href="../css/estiloGeneral.css"/>
         <title><s:text name="pedidos.title"/></title>
     </head>
     <body>
@@ -119,7 +118,6 @@
         </div>                  
                 
         <jsp:include page="../footer.jsp"/>   
-        <script src="../js/idiomas.js"></script>
         <script src="../pedidos/pedidos.js"></script>
         
     </body>

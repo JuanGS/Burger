@@ -14,8 +14,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="../head.jsp"/>
-        <link rel="stylesheet" href="../css/estiloGeneral.css"/>        
+        <jsp:include page="../head.jsp"/>     
         <title><s:text name="comedor.title"/></title>
     </head>
     <body>

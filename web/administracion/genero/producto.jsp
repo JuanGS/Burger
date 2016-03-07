@@ -11,8 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="../../head.jsp"/>
-        <link rel="stylesheet" href="../css/estiloGeneral.css"/>        
+        <jsp:include page="../../head.jsp"/>      
         <title><s:text name="producto.producto"/></title>
     </head>
     <body>
@@ -115,7 +114,6 @@
         </div>            
         
         <jsp:include page="../../footer.jsp"/>  
-        <script src="../js/idiomas.js"></script> 
         <script src="../administracion/genero/producto.js"></script>         
     </body>
 </html>

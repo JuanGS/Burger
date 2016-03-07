@@ -17,7 +17,6 @@ var divListaMesas;
 var divRespuesta;
 
 function iniciar() {
-    
     //Recuperamos los datos de la sesion
     recuperarDatosSesion();
 

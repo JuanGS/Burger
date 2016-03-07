@@ -79,6 +79,17 @@ public class GestorOperacionesGenero {
             String sql = "UPDATE categoria SET activo = "+activo+" WHERE id_categoria = " + id;
             SQLQuery query = sesion.createSQLQuery(sql);
             query.executeUpdate();
+            
+            //Si deshabilitamos la categoria Hamburguesa deshabilitamos la categoria Extra
+            Categoria categoria = obtenerCategoria(id); //Obtenemos la informacion de la categoria que acabamos de deshabilitar
+            if (categoria.getNombre().equals("Hamburguesa")) { //Si el nombre de la categoria es Hamburguesa
+                //Obtenemos el id de la categoria Extra
+                Categoria categoriaExtra = obtenerCategoria("Extra");
+                String sql1 = "UPDATE categoria SET activo = " + activo + " WHERE id_categoria = " + categoriaExtra.getId();
+                SQLQuery query1 = sesion.createSQLQuery(sql1);
+                query1.executeUpdate();
+            }        
+            
             sesion.getTransaction().commit();
             resultadoOperacion = OPERACION_SUCCESS;
         } catch (Exception e) {
@@ -121,6 +132,50 @@ public class GestorOperacionesGenero {
         }     
         return resultadoOperacion;
     }
+    
+    public Categoria obtenerCategoria(int id) {
+        Session sesion = null;
+        Categoria categoria = null;
+        try {           
+            HibernateUtil hb = new HibernateUtil();
+            sesion = hb.getSessionFactory().openSession();
+            sesion.beginTransaction();        
+            String sql = "SELECT id_categoria,nombre_categoria,activo FROM categoria WHERE id_categoria = " + id;            
+            SQLQuery query = sesion.createSQLQuery(sql).addEntity(Categoria.class);             
+            categoria = (Categoria) query.list().get(0);          
+            sesion.getTransaction().commit();     
+        } catch(Exception e) {
+            System.out.println("Error obtener categoria: " + e);
+        } finally {
+            if(sesion != null) {
+                sesion.close();
+            }
+        }
+
+        return categoria;         
+    }   
+    
+    public Categoria obtenerCategoria(String nombreCategoria) {
+        Session sesion = null;
+        Categoria categoria = null;
+        try {           
+            HibernateUtil hb = new HibernateUtil();
+            sesion = hb.getSessionFactory().openSession();
+            sesion.beginTransaction();        
+            String sql = "SELECT id_categoria,nombre_categoria,activo FROM categoria WHERE nombre_categoria = '" + nombreCategoria + "'";            
+            SQLQuery query = sesion.createSQLQuery(sql).addEntity(Categoria.class);             
+            categoria = (Categoria) query.list().get(0);          
+            sesion.getTransaction().commit();     
+        } catch(Exception e) {
+            System.out.println("Error obtener categoria: " + e);
+        } finally {
+            if(sesion != null) {
+                sesion.close();
+            }
+        }
+
+        return categoria;         
+    }      
     
     public List<Producto> obtenerListaProductos() {
         Session sesion = null;

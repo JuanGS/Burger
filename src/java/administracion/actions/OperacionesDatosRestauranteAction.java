@@ -165,9 +165,9 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
         output.print("<div id='divNumeroMesas' class='form-group'>");
         output.print("<label for='numeroMesas'>" + getText("datosRestaurante.numeroMesas") + "</label>");
         if (resultadoOperacion == 1) {
-            output.print("<input type='text' id='numeroMesas' class='form-control' name='numeroMesas' value='" + numeroMesas + "' />");
+            output.print("<input type='number' id='numeroMesas' class='form-control' name='numeroMesas' value='" + numeroMesas + "' step='1' />");
         } else {
-            output.print("<input type='text' id='numeroMesas' class='form-control' name='numeroMesas' value='" + numeroMesasInicial + "' />");
+            output.print("<input type='number' id='numeroMesas' class='form-control' name='numeroMesas' value='" + numeroMesasInicial + "' step='1' />");
         }
         output.print("</div>");
         output.print("<div style='float: left'>");
@@ -192,18 +192,18 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
                 output.print("<div id='divImpuestoIva' class='form-group'>");
                 output.print("<label class='control-label'>" + listaImpuestos.get(i).getNombre() + "</label>");
                 if (resultadoOperacion == 1) {
-                    output.print("<input type='text' id='iva' class='form-control' name='iva' value=" + listaImpuestos.get(i).getValor() + " />");
+                    output.print("<input type='text' id='iva' class='form-control' name='iva' value=" + listaImpuestos.get(i).getValor() + " step='0.1' />");
                 } else {
-                    output.print("<input type='text' id='iva' class='form-control' name='iva' value=" + listaImpuestos.get(i).getValor() + " />");
+                    output.print("<input type='text' id='iva' class='form-control' name='iva' value=" + listaImpuestos.get(i).getValor() + " step='0.1' />");
                 }
                 output.print("</div>");
             } else if (listaImpuestos.get(i).getNombre().equals("servicio mesa")) {
                 output.print("<div id='divImpuestoServicioMesa' class='form-group'>");
                 output.print("<label class='control-label'>" + listaImpuestos.get(i).getNombre() + "</label>");
                 if (resultadoOperacion == 1) {
-                    output.print("<input type='text' id='servicio mesa' class='form-control' name='servicio mesa' value=" + listaImpuestos.get(i).getValor() + " />");
+                    output.print("<input type='text' id='servicio mesa' class='form-control' name='servicio mesa' value=" + listaImpuestos.get(i).getValor() + " step='0.1' />");
                 } else {
-                    output.print("<input type='text' id='servicio mesa' class='form-control' name='servicio mesa' value=" + listaImpuestos.get(i).getValor() + " />");
+                    output.print("<input type='text' id='servicio mesa' class='form-control' name='servicio mesa' value=" + listaImpuestos.get(i).getValor() + " step='0.1' />");
                 }
 
                 output.print("</div>");
