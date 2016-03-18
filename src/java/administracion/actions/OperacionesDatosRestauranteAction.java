@@ -33,17 +33,9 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
     private ServletOutputStream output;   
 
     @Override
-    public String execute() {
+    public String execute() throws Exception {
         //Obtenemos los datos del request
         String operacion = request.getParameter("operacion");
-
-        //Configuramos los datos del response
-        response.setContentType("text/html; charset=iso-8859-1");
-        try {
-            output = response.getOutputStream(); //Obtenemos una referencia al objeto que nos permite escribir en la respuesta del servlet      
-        } catch (IOException e) {
-            System.out.println("Error al obtener el OutputStream: " + e);
-        }
 
         GestorOperacionesDatosRestaurante gdt = new GestorOperacionesDatosRestaurante();
         int resultadoOperacion = 0;
@@ -62,7 +54,7 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
                 try {
                     montarVistaDatosRestaurante(resultadoOperacion, restaurante);
                 } catch (IOException e) {
-                    System.out.println("Error al montar la vista datos restaurante: " + e);
+                    System.out.println("OperacionesDatosRestauranteAction. Error al montar la vista datos restaurante: " + e);
                 }
 
                 break;
@@ -77,7 +69,7 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
                 try {
                     montarVistaNumeroMesas(resultadoOperacion, numeroMesas, numeroMesasInicial);
                 } catch (IOException e) {
-                    System.out.println("Error al montar la vista numero de mesas: " + e);
+                    System.out.println("OperacionesDatosRestauranteAction. Error al montar la vista numero de mesas: " + e);
                 }
 
                 break;
@@ -106,7 +98,7 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
                 try {
                     montarVistaImpuestos(resultadoOperacion, listaImpuestos);
                 } catch (IOException e) {
-                    System.out.println("Error al montar la vista impuestos: " + e);
+                    System.out.println("OperacionesDatosRestauranteAction. Error al montar la vista impuestos: " + e);
                 }
 
                 break;
@@ -116,103 +108,140 @@ public class OperacionesDatosRestauranteAction extends ActionSupport implements 
     }
 
     private void montarVistaDatosRestaurante(int resultadoOperacion, Restaurante restaurante) throws IOException {
-        switch (resultadoOperacion) {
-            case 1:
-                output.print("<p>" + getText("datosRestaurante.success.realizarOperacion") + "</p>*");
-                break;
-            default:
-                output.print("<p>" + getText("datosRestaurante.error.realizarOperacion") + "</p>*");
-                break;
-        }
+        try {
+            //Configuramos los datos del response
+            response.setContentType("text/html; charset=iso-8859-1");
+            output = response.getOutputStream(); //Obtenemos una referencia al objeto que nos permite escribir en la respuesta del servlet
 
-        output.print("<form id='formDatosLocal'>");
-        output.print("<div id='divCif' class='form-group'>");
-        output.print("<label class='control-label' for='cif'>" + getText("datosRestaurante.cif") + "</label>");
-        output.print("<input type='text' id='cif' class='form-control' name='cif' value='" + restaurante.getCif() + "'  disabled='true' />");
-        output.print("</div>");
-        output.print("<div id='divNombre' class='form-group'>");
-        output.print("<label class='control-label' for='nombre'>" + getText("datosRestaurante.nombre") + "</label>");
-        output.print("<input type='text' id='nombre' class='form-control' name='nombre' value='" + restaurante.getNombre() + "' />");
-        output.print("</div>");
-        output.print("<div id='divDireccion' class='form-group'>");
-        output.print("<label class='control-label' for='direccion'>" + getText("datosRestaurante.direccion") + "</label>");
-        output.print("<input type='text' id='direccion' class='form-control' name='direccion' value='" + restaurante.getDireccion() + "' />");
-        output.print("</div>");
-        output.print("<div id='divTelefono' class='form-group'>");
-        output.print("<label class='control-label' for='telefono'>" + getText("datosRestaurante.telefono") + "</label>");
-        output.print("<input type='text' id='telefono' class='form-control' name='telefono' value='" + restaurante.getTelefono() + "' />");
-        output.print("</div>");
-        output.print("<div style='float: left'>");
-        output.print("<input type='button' id='botonModificarDatosLocal' class='btn btn-default btn-sm' value='" + getText("datosRestaurante.aplicarCambios") + "' disabled='disabled'/>");
-        output.print("</div>");
-        output.print("</form>");
+            switch (resultadoOperacion) {
+                case 1:
+                    output.print("<p>" + getText("datosRestaurante.success.realizarOperacion") + "</p>*");
+                    break;
+                default:
+                    output.print("<p>" + getText("datosRestaurante.error.realizarOperacion") + "</p>*");
+                    break;
+            }
+
+            output.print("<form id='formDatosLocal'>");
+            output.print("<div id='divCif' class='form-group' data-toggle='divCif' data-placement='bottom' title='" + getText("global.error.campoObligatorio") + "'/>");
+            output.print("<label class='control-label' for='cif'>" + getText("datosRestaurante.cif") + "</label>");
+            output.print("<input type='text' id='cif' class='form-control' name='cif' value='" + restaurante.getCif() + "' required autocomplete='off' disabled='true' />");
+            output.print("</div>");
+            output.print("<div id='divNombre' class='form-group' data-toggle='divNombre' data-placement='bottom' title='" + getText("global.error.campoObligatorio") + "'/>");
+            output.print("<label class='control-label' for='nombre'>" + getText("datosRestaurante.nombre") + "</label>");
+            output.print("<input type='text' id='nombre' class='form-control' name='nombre' value='" + restaurante.getNombre() + "' required autocomplete='off' />");
+            output.print("</div>");
+            output.print("<div id='divDireccion' class='form-group' data-toggle='divDireccion' data-placement='bottom' title='" + getText("global.error.campoObligatorio") + "'/>");
+            output.print("<label class='control-label' for='direccion'>" + getText("datosRestaurante.direccion") + "</label>");
+            output.print("<input type='text' id='direccion' class='form-control' name='direccion' value='" + restaurante.getDireccion() + "' required autocomplete='off' />");
+            output.print("</div>");
+            output.print("<div id='divTelefono' class='form-group' data-toggle='divTelefono' data-placement='bottom' title='" + getText("global.error.telefonoFormato") + "'/>");
+            output.print("<label class='control-label' for='telefono'>" + getText("datosRestaurante.telefono") + "</label>");
+            output.print("<input type='tel' id='telefono' class='form-control' name='telefono' value='" + restaurante.getTelefono() + "' required autocomplete='off' />");
+            output.print("</div>");
+            output.print("<div style='float: left'>");
+            output.print("<button type='button' id='botonModificarDatosLocal' class='btn btn-default btn-sm has-spinner' style='margin-right: 3px' disabled>"
+                    + "<span class='spinner'><i class='glyphicon glyphicon-refresh spin'></i></span>"
+                    + getText("datosRestaurante.aplicarCambios")
+                    + "</button></td>");                
+            output.print("</div>");
+            output.print("</form>");
+        } catch (Exception e) {
+            System.out.println("OperacionesDatosRestauranteAction. Error al montar la vista resultado: " + e);
+            throw e;
+        } finally {
+            //Cerramos el flujo de respuesta del servlet
+            output.flush();
+            output.close();
+        }
     }
 
     private void montarVistaNumeroMesas(int resultadoOperacion, int numeroMesas, int numeroMesasInicial) throws IOException {
-        switch (resultadoOperacion) {
-            case 1:
-                output.print("<p>" + getText("datosRestaurante.success.realizarOperacion") + "</p>*");
-                break;
-            case -1:
-                output.print("<p>" + getText("datosRestaurante.error.mesaOcupada") + "</p>*");
-                break;
-            default:
-                output.print("<p>" + getText("datosRestaurante.error.realizarOperacion") + "</p>*");
-                break;
-        }
+        try {
+            //Configuramos los datos del response
+            response.setContentType("text/html; charset=iso-8859-1");
+            output = response.getOutputStream(); //Obtenemos una referencia al objeto que nos permite escribir en la respuesta del servlet
 
-        output.print("<form id='formNumeroMesas'>");
-        output.print("<div id='divNumeroMesas' class='form-group'>");
-        output.print("<label for='numeroMesas'>" + getText("datosRestaurante.numeroMesas") + "</label>");
-        if (resultadoOperacion == 1) {
-            output.print("<input type='number' id='numeroMesas' class='form-control' name='numeroMesas' value='" + numeroMesas + "' step='1' />");
-        } else {
-            output.print("<input type='number' id='numeroMesas' class='form-control' name='numeroMesas' value='" + numeroMesasInicial + "' step='1' />");
-        }
-        output.print("</div>");
-        output.print("<div style='float: left'>");
-        output.print("<input type='button' id='botonModificarNumeroMesas' class='btn btn-default btn-sm' value='" + getText("datosRestaurante.aplicarCambios") + "' disabled='disabled'/>");
-        output.print("</div>");
-        output.print("</form>");
+            switch (resultadoOperacion) {
+                case 1:
+                    output.print("<p>" + getText("datosRestaurante.success.realizarOperacion") + "</p>*");
+                    break;
+                case -1:
+                    output.print("<p>" + getText("datosRestaurante.error.mesaOcupada") + "</p>*");
+                    break;
+                default:
+                    output.print("<p>" + getText("datosRestaurante.error.realizarOperacion") + "</p>*");
+                    break;
+            }
+
+            output.print("<form id='formNumeroMesas'>");
+            output.print("<div id='divNumeroMesas' class='form-group' data-toggle='divNumeroMesas' data-placement='bottom' title='" + getText("global.error.campoObligatorio") + "'/>");
+            output.print("<label for='numeroMesas'>" + getText("datosRestaurante.numeroMesas") + "</label>");
+            output.print("<input type='number' id='numeroMesas' class='form-control' name='numeroMesas' value='" + numeroMesas + "' required autocomplete='off' step='1' />");
+            output.print("</div>");
+            output.print("<div style='float: left'>");
+            output.print("<button type='button' id='botonModificarNumeroMesas' class='btn btn-default btn-sm has-spinner' style='margin-right: 3px' disabled>"
+                    + "<span class='spinner'><i class='glyphicon glyphicon-refresh spin'></i></span>"
+                    + getText("datosRestaurante.aplicarCambios")
+                    + "</button></td>");             
+            output.print("</div>");
+            output.print("</form>");
+        } catch (Exception e) {
+            System.out.println("OperacionesDatosRestauranteAction. Error al montar la vista resultado: " + e);
+            throw e;
+        } finally {
+            //Cerramos el flujo de respuesta del servlet
+            output.flush();
+            output.close();
+        }     
     }
 
     private void montarVistaImpuestos(int resultadoOperacion, List<Impuesto> listaImpuestos) throws IOException {
-        switch (resultadoOperacion) {
-            case 1:
-                output.print("<p>" + getText("datosRestaurante.success.realizarOperacion") + "</p>*");
-                break;
-            default:
-                output.print("<p>" + getText("datosRestaurante.error.realizarOperacion") + "</p>*");
-                break;
-        }
+        try {
+            //Configuramos los datos del response
+            response.setContentType("text/html; charset=iso-8859-1");
+            output = response.getOutputStream(); //Obtenemos una referencia al objeto que nos permite escribir en la respuesta del servlet
 
-        output.print("<form id='formImpuestos'>");
-        for (int i = 0; i < listaImpuestos.size(); i++) {
-            if (listaImpuestos.get(i).getNombre().equals("iva")) {
-                output.print("<div id='divImpuestoIva' class='form-group'>");
-                output.print("<label class='control-label'>" + listaImpuestos.get(i).getNombre() + "</label>");
-                if (resultadoOperacion == 1) {
-                    output.print("<input type='text' id='iva' class='form-control' name='iva' value=" + listaImpuestos.get(i).getValor() + " step='0.1' />");
-                } else {
-                    output.print("<input type='text' id='iva' class='form-control' name='iva' value=" + listaImpuestos.get(i).getValor() + " step='0.1' />");
-                }
-                output.print("</div>");
-            } else if (listaImpuestos.get(i).getNombre().equals("servicio mesa")) {
-                output.print("<div id='divImpuestoServicioMesa' class='form-group'>");
-                output.print("<label class='control-label'>" + listaImpuestos.get(i).getNombre() + "</label>");
-                if (resultadoOperacion == 1) {
-                    output.print("<input type='text' id='servicio mesa' class='form-control' name='servicio mesa' value=" + listaImpuestos.get(i).getValor() + " step='0.1' />");
-                } else {
-                    output.print("<input type='text' id='servicio mesa' class='form-control' name='servicio mesa' value=" + listaImpuestos.get(i).getValor() + " step='0.1' />");
-                }
-
-                output.print("</div>");
+            switch (resultadoOperacion) {
+                case 1:
+                    output.print("<p>" + getText("datosRestaurante.success.realizarOperacion") + "</p>*");
+                    break;
+                default:
+                    output.print("<p>" + getText("datosRestaurante.error.realizarOperacion") + "</p>*");
+                    break;
             }
-        }
-        output.print("<div style='float: left'>");
-        output.print("<input type='button' id='botonModificarImpuestos' class='btn btn-default btn-sm' value='" + getText("datosRestaurante.aplicarCambios") + "' disabled='disabled'/>");
-        output.print("</div>");
-        output.print("</form>");
+
+            output.print("<form id='formImpuestos'>");
+            for (int i = 0; i < listaImpuestos.size(); i++) {
+                if (listaImpuestos.get(i).getNombre().equals("iva")) {
+                    output.print("<div id='divImpuestoIva' class='form-group' data-toggle='divImpuestoIva' data-placement='bottom' title='" + getText("global.error.campoObligatorio") + "'/>");
+                    output.print("<label class='control-label'>" + listaImpuestos.get(i).getNombre() + "</label>");
+                    output.print("<input type='number' id='iva' class='form-control' name='iva' value=" + listaImpuestos.get(i).getValor() + " placeholder=" + getText("datosRestaurante.impuestos") + " required autocomplete='off' step='0.1' />");
+                    output.print("<s:hidden id='idIva' value='"+listaImpuestos.get(i).getIdImpuesto()+"' />");
+                    output.print("</div>");
+                } else if (listaImpuestos.get(i).getNombre().equals("servicio mesa")) {
+                    output.print("<div id='divImpuestoServicioMesa' class='form-group' data-toggle='divImpuestoServicioMesa' data-placement='bottom' title='" + getText("global.error.campoObligatorio") + "'/>");
+                    output.print("<label class='control-label'>" + listaImpuestos.get(i).getNombre() + "</label>");
+                    output.print("<input type='number' id='servicio mesa' class='form-control' name='servicio mesa' value=" + listaImpuestos.get(i).getValor() + " placeholder=" + getText("datosRestaurante.impuestos") + " required autocomplete='off' step='0.1' />");
+                    output.print("<s:hidden id='idServicioMesa' value='"+listaImpuestos.get(i).getIdImpuesto()+"' />");                    
+                    output.print("</div>");
+                }
+            }
+            output.print("<div style='float: left'>");
+            output.print("<button type='button' id='botonModificarImpuestos' class='btn btn-default btn-sm has-spinner' style='margin-right: 3px' disabled>"
+                    + "<span class='spinner'><i class='glyphicon glyphicon-refresh spin'></i></span>"
+                    + getText("datosRestaurante.aplicarCambios")
+                    + "</button></td>");                
+            output.print("</div>");
+            output.print("</form>");
+        } catch (Exception e) {
+            System.out.println("OperacionesDatosRestauranteAction. Error al montar la vista resultado: " + e);
+            throw e;
+        } finally {
+            //Cerramos el flujo de respuesta del servlet
+            output.flush();
+            output.close();
+        }       
     }
 
     @Override

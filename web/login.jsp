@@ -31,20 +31,23 @@
         </div>
 
         <div id="divFormAlta" style="clear: both">
-            <s:form action="/Login" method="POST" validate="true">
+            <s:form id="formLogin" action="/Login" method="POST">
                 <fieldset>
                     <legend><s:text name="login.form"/></legend>
-                    <div id="divUsuario" class="form-group">
+                    <div id="divUsuario" class="form-group" data-toggle="divUsuario" data-placement="bottom" title="<s:text name="global.error.campoObligatorio"/>">
                         <label class="control-label"><s:text name="login.usuario"/></label>
-                        <s:textfield cssClass="form-control" name="usuario"/> 
+                        <input type="text" id="usuario" class="form-control" name="usuario" placeholder="<s:text name="login.usuario"/>" required autocomplete="off"/>
                     </div>
-                    <div id="divPassword" class="form-group">
+                    <div id="divPassword" class="form-group" data-toggle="divPassword" data-placement="bottom" title="<s:text name="global.error.campoObligatorio"/>">
                         <label class="control-label"><s:text name="login.password"/></label>
-                        <s:textfield cssClass="form-control" name="password" type="password"/> 
+                        <input type="password" id="password" class="form-control" name="password" placeholder="<s:text name="login.password"/>" required/>                        
                     </div>   
                     <div class="form-group" style="float: left;">
-                        <button class="btn btn-default btn-sm"><s:text name="login.validar"/></button>
-                        <button type="button" class="btn btn-default btn-sm" onclick="reiniciarCampos()"><s:text name="login.reiniciar"/></button>
+                        <button type="submit" id="botonValidar" class="btn btn-default btn-sm has-spinner">
+                            <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
+                            <s:text name="login.validar"/>
+                        </button>                        
+                        <button type="reset" class="btn btn-default btn-sm"><s:text name="login.reiniciar"/></button>                        
                     </div>  
                 </fieldset>
             </s:form>
@@ -58,7 +61,7 @@
         </s:if>                    
                     
         <jsp:include page="footer.jsp"/>
-        <script src="login.js"></script>
+        <script src="login.js"></script>           
         
     </body>
 </html>

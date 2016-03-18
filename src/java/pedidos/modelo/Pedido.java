@@ -7,13 +7,14 @@ package pedidos.modelo;
 
 import java.util.List;
 import administracion.modelo.Producto;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author juang
  */
-public class Pedido {
+public class Pedido implements Serializable {
     
     private int id;
     private int numeroMesa;

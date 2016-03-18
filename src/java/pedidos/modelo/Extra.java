@@ -6,11 +6,12 @@
 package pedidos.modelo;
 
 import administracion.modelo.Producto;
+import java.io.Serializable;
 
 /**
  *
  * @author juang
  */
-public class Extra extends Producto {
+public class Extra extends Producto implements Serializable {
     
 }

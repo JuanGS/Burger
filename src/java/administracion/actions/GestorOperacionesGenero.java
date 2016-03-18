@@ -9,6 +9,7 @@ import administracion.modelo.Categoria;
 import administracion.modelo.Producto;
 import hibernate.HibernateUtil;
 import java.util.List;
+import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
@@ -19,7 +20,6 @@ import org.hibernate.exception.ConstraintViolationException;
  */
 public class GestorOperacionesGenero {
     
-    private static final int CONEXION_BD_FALLO = -1;
     private static final int OPERACION_SUCCESS = 1;
     private static final int OPERACION_ERROR = 0;    
     private static final int CLAVE_DUPLICADA = 2;    
@@ -35,6 +35,9 @@ public class GestorOperacionesGenero {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Categoria.class);
             lista = query.list();
             sesion.getTransaction().commit();
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener lista categorias: " + e);
         } finally {
@@ -57,6 +60,9 @@ public class GestorOperacionesGenero {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Categoria.class);
             lista = query.list();
             sesion.getTransaction().commit();
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener lista categorias: " + e);
         } finally {
@@ -92,6 +98,9 @@ public class GestorOperacionesGenero {
             
             sesion.getTransaction().commit();
             resultadoOperacion = OPERACION_SUCCESS;
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch (Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error baja usuario: " + e);
@@ -115,13 +124,13 @@ public class GestorOperacionesGenero {
             SQLQuery query =  sesion.createSQLQuery(sql);
             query.executeUpdate();
             sesion.getTransaction().commit();
-            resultadoOperacion = OPERACION_SUCCESS;
-        } catch(ExceptionInInitializerError e) {
-            resultadoOperacion = CONEXION_BD_FALLO;
-            System.out.println("Error al establecer la conexion con la BD: " + e);          
+            resultadoOperacion = OPERACION_SUCCESS;       
         } catch(ConstraintViolationException e) {
             resultadoOperacion = CLAVE_DUPLICADA;
             System.out.println("Error alta categoria por calve duplicada: " + e);
+        } catch (HibernateException e) {             
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error alta categoria: " + e);
@@ -144,6 +153,9 @@ public class GestorOperacionesGenero {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Categoria.class);             
             categoria = (Categoria) query.list().get(0);          
             sesion.getTransaction().commit();     
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener categoria: " + e);
         } finally {
@@ -166,6 +178,9 @@ public class GestorOperacionesGenero {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Categoria.class);             
             categoria = (Categoria) query.list().get(0);          
             sesion.getTransaction().commit();     
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener categoria: " + e);
         } finally {
@@ -188,6 +203,9 @@ public class GestorOperacionesGenero {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Producto.class);             
             lista = query.list();          
             sesion.getTransaction().commit();     
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener productos: " + e);
         } finally {
@@ -210,6 +228,9 @@ public class GestorOperacionesGenero {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Producto.class);
             lista = query.list();
             sesion.getTransaction().commit();
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener lista categorias: " + e);
         } finally {
@@ -234,6 +255,9 @@ public class GestorOperacionesGenero {
             query.executeUpdate();
             sesion.getTransaction().commit();
             resultadoOperacion = OPERACION_SUCCESS;
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch (Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error baja usuario: " + e);
@@ -257,13 +281,13 @@ public class GestorOperacionesGenero {
             SQLQuery query =  sesion.createSQLQuery(sql);
             query.executeUpdate();
             sesion.getTransaction().commit();
-            resultadoOperacion = OPERACION_SUCCESS;
-        } catch(ExceptionInInitializerError e) {
-            resultadoOperacion = CONEXION_BD_FALLO;
-            System.out.println("Error al establecer la conexion con la BD: " + e);          
+            resultadoOperacion = OPERACION_SUCCESS;        
         } catch(ConstraintViolationException e) {
             resultadoOperacion = CLAVE_DUPLICADA;
             System.out.println("Error alta producto por calve duplicada: " + e);
+        } catch (HibernateException e) {             
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error alta producto: " + e);
@@ -286,6 +310,9 @@ public class GestorOperacionesGenero {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Producto.class);             
             producto = (Producto) query.list().get(0);          
             sesion.getTransaction().commit();     
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener productos: " + e);
         } finally {
@@ -310,6 +337,9 @@ public class GestorOperacionesGenero {
             query.executeUpdate();
             sesion.getTransaction().commit();
             resultadoOperacion = OPERACION_SUCCESS;
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch (Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error baja usuario: " + e);

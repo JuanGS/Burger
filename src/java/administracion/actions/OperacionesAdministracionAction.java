@@ -31,15 +31,11 @@ public class OperacionesAdministracionAction extends ActionSupport{
     
     private String navegacion; //Para gestionar la nevegacion del xml
     
-    /**
-     * Metodo para gestionar las acciones del controlador.
-     * @return el resultado de procesar la accion.
-     * @throws java.lang.Exception
-     */    
     @Override
     public String execute() throws Exception {
   
         //Analizamos la opcion seleccionada por el usuario
+
         switch(opcion) {
             case "usuario":
                 GestorOperacionesUsuario ga = new GestorOperacionesUsuario();

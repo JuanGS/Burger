@@ -5,11 +5,13 @@
  */
 package administracion.modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author juang
  */
-public class Restaurante {
+public class Restaurante implements Serializable {
     
     private String cif;
     private String nombre;

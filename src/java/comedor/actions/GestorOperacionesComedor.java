@@ -10,6 +10,7 @@ import comedor.modelo.Cuenta;
 import comedor.modelo.ProductoLineaPedido;
 import hibernate.HibernateUtil;
 import java.util.List;
+import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import pedidos.modelo.Pedido;
@@ -34,6 +35,9 @@ public class GestorOperacionesComedor {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Pedido.class);             
             pedido = (Pedido) query.list().get(0);          
             sesion.getTransaction().commit();     
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener id pedido: " + e);
         } finally {
@@ -56,6 +60,9 @@ public class GestorOperacionesComedor {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(ProductoLineaPedido.class);             
             listaLineasPedido = query.list();          
             sesion.getTransaction().commit();     
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener lineas pedido: " + e);
         } finally {
@@ -106,6 +113,9 @@ public class GestorOperacionesComedor {
             
             //Si todo a ido bien realizamos la transaccion
             sesion.getTransaction().commit();
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch (Exception e) {
             System.out.println("Error al generar la cuenta pedido: " + e);
         } finally {
@@ -134,6 +144,9 @@ public class GestorOperacionesComedor {
             //Si todo a ido bien realizamos la transaccion
             sesion.getTransaction().commit();
             resultadoOperacion = OPERACION_SUCCESS;
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch (Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error al generar la cuenta pedido: " + e);

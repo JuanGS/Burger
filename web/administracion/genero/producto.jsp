@@ -24,22 +24,22 @@
         <hr/>  
        
         <div id="divFormAlta">
-            <form>
+            <form id="formAltaProducto">
                 <fieldset>
                     <legend><s:text name="producto.altaProducto"/></legend>
-                    <div id="divNombre" class="form-group">
+                    <div id="divNombre" class="form-group" data-toggle="divNombre" data-placement="bottom" title="<s:text name="global.error.campoObligatorio"/>">
                         <label class="sr-only" for="nombre"><s:text name="producto.nombre"/></label>
-                        <input type="text" id="nombre" class="form-control" placeholder="<s:text name="producto.nombre"/>" required/>
+                        <input type="text" id="nombre" class="form-control" placeholder="<s:text name="producto.nombre"/>" required autocomplete="off"/>
                     </div>
-                    <div id="divPrecio" class="form-group">
+                    <div id="divPrecio" class="form-group" data-toggle="divPrecio" data-placement="bottom" title="<s:text name="global.error.campoObligatorio"/>">
                         <label class="sr-only" for="precio"><s:text name="producto.precio"/></label>
-                        <input type="text" id="precio" class="form-control" placeholder="<s:text name="producto.precio"/>" required/>
+                        <input type="number" id="precio" class="form-control" placeholder="<s:text name="producto.precio"/>" required autocomplete="off" step="0.01"/>
                     </div>  
-                    <div id="divDescripcion" class="form-group">
+                    <div id="divDescripcion" class="form-group" data-toggle="divDescripcion" data-placement="bottom" title="<s:text name="global.error.campoObligatorio"/>">
                         <label class="sr-only" for="descripcion"><s:text name="producto.descripcion"/></label>
-                        <input type="text" id="descripcion" class="form-control" placeholder="<s:text name="producto.descripcion"/>" required/>
+                        <input type="text" id="descripcion" class="form-control" placeholder="<s:text name="producto.descripcion"/>" required autocomplete="off"/>
                     </div>
-                    <div id="divCategoria" class="form-group">
+                    <div id="divCategoria" class="form-group" data-toggle="divCategoria" data-placement="bottom" title="<s:text name="global.error.campoObligatorio"/>">
                         <select id="selectCategoria" class="form-control" required>
                             <option value="" disabled selected><s:text name="producto.elijaProducto"/></option>
                             <s:iterator value="listaCategoria">   
@@ -47,12 +47,15 @@
                             </s:iterator>
                         </select>
                     </div>                   
-                    <div class='checkbox'>
+                    <div class="checkbox">
                         <label><input type='checkbox' id="checkAlta" checked><s:text name="producto.habilitada"/></label>
                     </div>
                     <div class="form-group">
-                        <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="<s:text name="producto.alta"/>" />
-                        <input type="button" id="botonReiniciar" class="btn btn-default btn-sm" value="<s:text name="producto.reiniciar"/>" onclick="reiniciar()" />
+                        <button type="button" id="botonAlta" class="btn btn-default btn-sm has-spinner">
+                            <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
+                            <s:text name="producto.alta"/>
+                        </button>     
+                        <button type="reset" class="btn btn-default btn-sm"><s:text name="producto.reiniciar"/></button>
                     </div>                    
                 </fieldset>
             </form>
@@ -64,7 +67,7 @@
         
         <div id="divListaProducto" style="float: left; margin-right: 50px">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered">
+                <table id="tablaProductos" class="table table-striped table-bordered">
                     <caption><s:text name="producto.productos"/></caption>
                     <thead>
                         <tr>
@@ -77,6 +80,9 @@
                         </tr>
                     </thead>                        
                     <tbody id="cuerpoTablaProducto">
+                        <%
+                            int nFila = 1; //La primera fila es la cabecera
+                        %>                        
                         <s:iterator value="listaProducto">
                             <tr>
                                 <td style="display:none;"><s:property value="id"/></td>
@@ -91,7 +97,10 @@
                                     } else {
                                         out.print("<td><div class='checkbox'><label><input type='checkbox' onclick='cambiarEstado("+idProducto+", true)'></label></div></td>");
                                     }
-                                    out.print("<td><button type='button' id='botonModificar' class='btn btn-default' aria-label='Left Align' onclick=" + "cargarDatosProducto("+ idProducto+ ")" + "><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button></td>");
+                                    out.print("<td><button type='button' class='btn btn-default has-spinner' onclick='cargarDatosProducto("+idProducto+","+ nFila++ +")'>"
+                                                + "<span class='spinner'><i class='glyphicon glyphicon-refresh spin'></i></span>"
+                                                + "<span class='glyphicon glyphicon-pencil'></span>"
+                                                + "</button></td>");
                                 %>  
                                 <td><s:property value="descripcion"/></td>                                
                             </tr>

@@ -17,16 +17,12 @@ function iniciar() {
 
 //Metodo para validar los campos del formulario (necesario porque utilizamos AJAX)
 function validarCampos() {
-    var nombre = document.getElementById('nombre');
     var campo1 = false;
 
-    if (!nombre.validity.valid) {
-        document.getElementById('divNombre').className = 'form-group has-error has-feedback';
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_en+'</strong>';
-        } 
+    if (!document.getElementById('nombre').validity.valid) {
+        $('[data-toggle="divNombre"]').tooltip('show');  
+        temporizadorTooltip();
+        document.getElementById('divNombre').className = 'form-group has-error has-feedback';    
     } else {
         document.getElementById('divNombre').className = 'form-group';
         campo1 = true;
@@ -34,14 +30,13 @@ function validarCampos() {
 
     if (campo1) {
         return true;
-    } else {
-        temporizador();
-        return false;
-    }
+    }    
 }
 
 function altaCategoria() {
-    if (validarCampos()) { //Primero comprobamos que los campos no estan vacios
+    if (validarCampos()) { //Primero comprobamos que los campos no estan vacios                
+        $(this).toggleClass('active'); //Activamos el spinner
+        
         //Obtenemos los valores de los campos que queremos enviar
         var nombre = document.getElementById('nombre').value;
         var checkAlta = document.getElementById('checkAlta').checked;
@@ -56,10 +51,9 @@ function altaCategoria() {
         //Especificamos la action a ejecutar
         var url = "OperacionesGenero";
         var solicitud = new XMLHttpRequest();
-        solicitud.addEventListener('loadstart', inicio);
         solicitud.addEventListener('load', mostrar);
         solicitud.open("POST", url, true);
-        solicitud.send(operacion);        
+        solicitud.send(operacion);
     }    
 }
 
@@ -74,34 +68,17 @@ function cambiarEstado(id, activo) {
     //Especificamos la action a ejecutar
     var url = "OperacionesGenero";
     var solicitud = new XMLHttpRequest();
-    solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrar);
     solicitud.open("POST", url, true);
     solicitud.send(operacion);    
-}
-
-//Metodo que se inicia cuando comienza la solicitud
-function inicio() {
-    divRespuesta.innerHTML = "<div class='sk-fading-circle'>" +
-            "<div class='sk-circle1 sk-circle'></div>" +
-            "<div class='sk-circle2 sk-circle'></div>" +
-            "<div class='sk-circle3 sk-circle'></div>" +
-            "<div class='sk-circle4 sk-circle'></div>" +
-            "<div class='sk-circle5 sk-circle'></div>" +
-            "<div class='sk-circle6 sk-circle'></div>" +
-            "<div class='sk-circle7 sk-circle'></div>" +
-            "<div class='sk-circle8 sk-circle'></div>" +
-            "<div class='sk-circle9 sk-circle'></div>" +
-            "<div class='sk-circle10 sk-circle'></div>" +
-            "<div class='sk-circle11 sk-circle'></div>" +
-            "<div class='sk-circle12 sk-circle'></div>" +
-            "</div>";
 }
 
 //Metodo que se ejecuta cuando se ha completado la solicitud
 function mostrar(e) {
     var datos = e.target;
     if (datos.status == 200) {
+        
+        $('.has-spinner').removeClass('active'); //Desactivamos el spinner        
         
         //Obtenemos la cadena completa de respuesta
         var completa = datos.responseText;
@@ -113,15 +90,11 @@ function mostrar(e) {
         divRespuesta.innerHTML = '<strong style="color: blue;">'+resultado+'</strong>';
         cuerpoTablaCategoria.innerHTML = tabla;        
         
-        temporizador(); 
+        //Si 'completa' contiene el tag <html>  quiere decir que estamos devolviendo una pagina completa
+        if(!completa.includes("<!DOCTYPE html>")) { //Si no lo contiene
+            temporizador(divRespuesta); //Activamos el temporizador (sera un mensaje corto)
+        }   
     }
-}
-
-//Metodo para limpiar la respuesta despues de X segundos
-function temporizador() {
-    setTimeout(function () {
-        divRespuesta.innerHTML = '';
-    }, 3000);
 }
 
 addEventListener('load', iniciar);

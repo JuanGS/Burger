@@ -5,11 +5,13 @@
  */
 package administracion.modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author juang
  */
-public class Producto {
+public class Producto implements Serializable {
     
     //Informacion de la BD
     private int id;

@@ -5,13 +5,14 @@
  */
 package comedor.modelo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author juang
  */
-public class Cuenta {
+public class Cuenta implements Serializable {
     
     private int id;
     private double cantidad;

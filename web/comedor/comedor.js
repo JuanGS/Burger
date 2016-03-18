@@ -7,10 +7,14 @@
 var divRespuesta;
 
 function iniciar() {
-    divRespuesta = document.getElementById('divRespuesta');     
+    divRespuesta = document.getElementById('divRespuesta'); 
+    var botonActualizarMesas = document.getElementById('botonActualizarMesas');
+    botonActualizarMesas.addEventListener('click', actualizarMesas);      
 }
 
 function actualizarMesas() {
+    $(this).toggleClass('active'); //Activamos el spinner 
+    
     //Creamos un objeto para almacenar los valores
     var operacion = new FormData();
     operacion.append('operacion', 'actualizarMesas');
@@ -19,13 +23,14 @@ function actualizarMesas() {
     //Especificamos la action a ejecutar
     var url = "OperacionesComedor";
     var solicitud = new XMLHttpRequest();
-    solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrar);
     solicitud.open("POST", url, true);
     solicitud.send(operacion);
 }
 
-function cuentaPagada(numeroMesa) {
+function cuentaPagada(obj, numeroMesa) {
+    $(obj).toggleClass('active'); //Activamos el spinner 
+    
     //Creamos un objeto para almacenar los valores
     var operacion = new FormData();
     operacion.append('operacion', 'cuentaPagada');
@@ -35,34 +40,17 @@ function cuentaPagada(numeroMesa) {
     //Especificamos la action a ejecutar
     var url = "OperacionesComedor";
     var solicitud = new XMLHttpRequest();
-    solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrar);
     solicitud.open("POST", url, true);
     solicitud.send(operacion);    
-}
-
-//Metodo que se inicia cuando comienza la solicitud
-function inicio() {
-    divRespuesta.innerHTML = "<div class='sk-fading-circle'>" +
-            "<div class='sk-circle1 sk-circle'></div>" +
-            "<div class='sk-circle2 sk-circle'></div>" +
-            "<div class='sk-circle3 sk-circle'></div>" +
-            "<div class='sk-circle4 sk-circle'></div>" +
-            "<div class='sk-circle5 sk-circle'></div>" +
-            "<div class='sk-circle6 sk-circle'></div>" +
-            "<div class='sk-circle7 sk-circle'></div>" +
-            "<div class='sk-circle8 sk-circle'></div>" +
-            "<div class='sk-circle9 sk-circle'></div>" +
-            "<div class='sk-circle10 sk-circle'></div>" +
-            "<div class='sk-circle11 sk-circle'></div>" +
-            "<div class='sk-circle12 sk-circle'></div>" +
-            "</div>";
 }
 
 //Metodo que se ejecuta cuando se ha completado la solicitud
 function mostrar(e) {
     var datos = e.target;
     if (datos.status === 200) {
+
+        $('.has-spinner').removeClass('active'); //Desactivamos el spinner
 
         document.getElementById('divMesas').innerHTML = datos.responseText; 
         divRespuesta.innerHTML = '';

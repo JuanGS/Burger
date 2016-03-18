@@ -29,7 +29,7 @@
 
         <div id="divListaUsuario" style="float: left; margin-right: 50px">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered">
+                <table id="tablaUsuarios" class="table table-striped table-bordered">
                     <caption><s:text name="usuario.usuarios"/></caption>
                     <thead>
                         <tr>
@@ -39,6 +39,9 @@
                         </tr>
                     </thead>
                     <tbody id="cuerpoTablaUsuario">
+                        <%
+                            int nFila = 2; //La primera fila es la del admin
+                        %>
                         <s:iterator value="listaUsuarios">
                             <tr>
                                 <td><s:property value="usuario"/></td>
@@ -49,7 +52,10 @@
                                        out.print("<td></td>"); 
                                     } else {
                                         int id = Integer.parseInt(request.getAttribute("id").toString()); //Obtenemos el usuario del request0
-                                        out.print("<td><button type='button' class='btn btn-default' aria-label='Left Align' onclick=" + "bajaUsuarioSeleccionado("+ id+ ")" + "><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button></td>");
+                                        out.print("<td><button type='button' class='btn btn-danger has-spinner' onclick='bajaUsuarioSeleccionado("+id+","+ nFila++ +")'>"
+                                                + "<span class='spinner'><i class='glyphicon glyphicon-refresh spin'></i></span>"
+                                                + "<span class='glyphicon glyphicon-trash'></span>"
+                                                + "</button></td>");
                                     }
                                 %> 
                             </tr>
@@ -60,20 +66,23 @@
         </div>  
         
         <div id="divFormAlta">
-            <form>
+            <form id="formAltaUsuario">
                 <fieldset>
                     <legend><s:text name="usuario.altaUsuario"/></legend>
-                        <div id="divUsuario" class="form-group">
+                        <div id="divUsuario" class="form-group" data-toggle="divUsuario" data-placement="bottom" title="<s:text name="global.error.campoObligatorio"/>">
                             <label class="control-label" for="usuario"><s:text name="usuario.usuario"/></label>
-                            <input type="text" id="usuario" class="form-control" placeholder="<s:text name="usuario.usuario"/>" required/>
+                            <input type="text" id="usuario" class="form-control" placeholder="<s:text name="usuario.usuario"/>" required autocomplete="off"/>
                         </div>
-                        <div id="divPassword" class="form-group">
+                        <div id="divPassword" class="form-group" data-toggle="divPassword" data-placement="bottom" title="<s:text name="global.error.passwordSize"/>">
                             <label class="control-label" for="password"><s:text name="usuario.password"/></label>
-                            <input type="text" id="password" class="form-control" placeholder="<s:text name="usuario.password"/>" required/>  
+                            <input type="password" id="password" class="form-control" placeholder="<s:text name="usuario.password"/>" required autocomplete="off" maxlength="8"/>                            
                         </div>    
                         <div class="form-group" style="float: left;">
-                            <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="<s:text name="usuario.alta"/>"/>
-                            <input type="reset" class="btn btn-default btn-sm" value="<s:text name="usuario.reiniciar"/>" onclick="limpiarCampos()" />
+                            <button type="button" id="botonAlta" class="btn btn-default btn-sm has-spinner">
+                                <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
+                                <s:text name="usuario.alta"/>
+                            </button>                               
+                            <button type="reset" class="btn btn-default btn-sm"><s:text name="usuario.reiniciar"/></button>
                         </div>
                         <div id="divRespuesta" style="float: left; margin-left: 20px;"></div>
                         <div style="clear: both;"></div>                  
@@ -92,6 +101,6 @@
         
         <jsp:include page="../../footer.jsp"/>           
         <script src="../administracion/usuario/usuario.js"></script>        
-        
+
     </body>
 </html>

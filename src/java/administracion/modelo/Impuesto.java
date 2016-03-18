@@ -5,11 +5,13 @@
  */
 package administracion.modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author juang
  */
-public class Impuesto {
+public class Impuesto implements Serializable {
     
     private int idImpuesto;
     private String nombre;

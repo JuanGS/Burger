@@ -9,6 +9,7 @@ import administracion.modelo.Usuario;
 import hibernate.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
@@ -19,7 +20,6 @@ import org.hibernate.exception.ConstraintViolationException;
  */
 public class GestorOperacionesUsuario {
     
-    private static final int CONEXION_BD_FALLO = -1;
     private static final int OPERACION_SUCCESS = 1;
     private static final int OPERACION_ERROR = 0;    
     private static final int CLAVE_DUPLICADA = 2;    
@@ -35,6 +35,9 @@ public class GestorOperacionesUsuario {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Usuario.class);
             usuarioEncontrado = (Usuario) query.list().get(0);
             sesion.getTransaction().commit();
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch (Exception e) {
             System.out.println("Error obtener usuario: " + e);
         } finally {
@@ -61,12 +64,12 @@ public class GestorOperacionesUsuario {
             query.executeUpdate();
             sesion.getTransaction().commit();
             resultadoOperacion = OPERACION_SUCCESS;
-        } catch(ExceptionInInitializerError e) {
-            resultadoOperacion = CONEXION_BD_FALLO;
-            System.out.println("Error al establecer la conexion con la BD: " + e);          
         } catch(ConstraintViolationException e) {
             resultadoOperacion = CLAVE_DUPLICADA;
             System.out.println("Error alta usuario por calve duplicada: " + e);
+        } catch(HibernateException e) {
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error alta usuario: " + e);
@@ -89,8 +92,10 @@ public class GestorOperacionesUsuario {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Usuario.class);
             lista = query.list();
             sesion.getTransaction().commit();
+        } catch(HibernateException e) {
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch (Exception e) {
-            lista = new ArrayList<>(); //Devolvemos una lista vacia
             System.out.println("Error obtener lista de usarios: " + e);
         } finally {
             if(sesion != null) {
@@ -114,6 +119,9 @@ public class GestorOperacionesUsuario {
             query.executeUpdate();
             sesion.getTransaction().commit();
             resultadoOperacion = OPERACION_SUCCESS;
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch (Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error baja usuario: " + e);

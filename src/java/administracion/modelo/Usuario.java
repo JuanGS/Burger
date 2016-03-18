@@ -5,11 +5,13 @@
  */
 package administracion.modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author juang
  */
-public class Usuario {
+public class Usuario implements Serializable {
     
     private int id;
     private String usuario;

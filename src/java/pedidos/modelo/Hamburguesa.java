@@ -7,13 +7,14 @@ package pedidos.modelo;
 
 import java.util.List;
 import administracion.modelo.Producto;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author juang
  */
-public class Hamburguesa extends Producto {
+public class Hamburguesa extends Producto implements Serializable {
     
     private List<Extra> listaProductosExtra;
 

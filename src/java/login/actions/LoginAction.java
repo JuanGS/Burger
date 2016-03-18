@@ -25,7 +25,7 @@ public class LoginAction extends ActionSupport {
     GestorOperacionesUsuario gou = new GestorOperacionesUsuario();
 
     @Override
-    public String execute() throws Exception {       
+    public String execute() {       
  
         usuarioEncontrado = gou.obtenerUsuario(usuario);
         navegacion = "input";
@@ -43,7 +43,7 @@ public class LoginAction extends ActionSupport {
                 } else {
                     navegacion = "usuario";
                 }
-
+                
             } else {
                 addActionError(getText("login.error.passwordIncorrecto"));
             }

@@ -8,51 +8,32 @@ var divRespuesta;
 
 //Metodo que se ejecuta al cargar la pagina
 function iniciar() {
-    asignarListenerInput();
     cuerpoTablaUsuario = document.getElementById('cuerpoTablaUsuario');    
     divRespuesta = document.getElementById('divRespuesta');
     var botonAlta = document.getElementById('botonAlta');
-    botonAlta.addEventListener('click', altaUsuario);
-}
-
-//Metodo para asignar escuchas a los input de los formularios
-function asignarListenerInput() {
-    //Escuchas para limpiar el texto de respuesta cuando un input coja el foco
-    document.getElementById('usuario').addEventListener('focus', focoObtenido);   
-    document.getElementById('password').addEventListener('focus', focoObtenido);    
-}
-
-//Metodo que se ejecuta cuando un input coja el foco para limpiar los div de respuesta
-function focoObtenido() {
-    document.getElementById('divRespuesta').innerHTML = '';
+    botonAlta.addEventListener('click', altaUsuario);  
 }
 
 //Metodo para validar los campos del formulario (necesario porque utilizamos AJAX)
 function validarCampos() {
-    var usuario = document.getElementById('usuario');
-    var password = document.getElementById('password');
     var campo1 = false;
     var campo2 = false;
 
-    if (!usuario.validity.valid) {
+    if (!document.getElementById('usuario').validity.valid) {
         document.getElementById('divUsuario').className = 'form-group has-error has-feedback';
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+USUARIO_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+USUARIO_OBLIGATORIO_en+'</strong>';
-        } 
+        $('[data-toggle="divUsuario"]').tooltip('show');  
+        temporizadorTooltip();
+        document.getElementById('divUsuario').className = 'form-group has-error has-feedback';    
     } else {
         document.getElementById('divUsuario').className = 'form-group';
         campo1 = true;
     }
 
-    if (!password.validity.valid || password.value.length > 8) {
+    if (!document.getElementById('password').validity.valid) {
         document.getElementById('divPassword').className = 'form-group has-error';
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+PASSWORD_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+PASSWORD_OBLIGATORIO_en+'</strong>';
-        } 
+        $('[data-toggle="divPassword"]').tooltip('show');  
+        temporizadorTooltip();
+        document.getElementById('divPassword').className = 'form-group has-error has-feedback';
     } else {
         document.getElementById('divPassword').className = 'form-group';
         campo2 = true;
@@ -60,15 +41,14 @@ function validarCampos() {
 
     if (campo1 && campo2) {
         return true;
-    } else {
-        temporizador();
-        return false;
     }
 }
 
 //Metodo para procesar la operacion
 function altaUsuario() {
     if (validarCampos()) { //Primero comprobamos que los campos no estan vacios
+        $(this).toggleClass('active'); //Activamos el spinner  
+        
         //Obtenemos los valores de los campos que queremos enviar
         var usuario = document.getElementById('usuario').value;
         var password = document.getElementById('password').value;
@@ -78,21 +58,24 @@ function altaUsuario() {
         //Creamos un objeto para almacenar los valores
         var operacion = new FormData();
         operacion.append('operacion', 'altaUsuario');
-        operacion.append("usuario", JSON.stringify(usuarioJSON));
+        operacion.append('usuario', JSON.stringify(usuarioJSON));
 
         //Creamos la solicitud AJAX
         //Especificamos la action a ejecutar
         var url = "OperacionesUsuario";
         var solicitud = new XMLHttpRequest();
-        solicitud.addEventListener('loadstart', inicio);
         solicitud.addEventListener('load', mostrar);
-        solicitud.open("POST", url, true);
-        solicitud.send(operacion);
+        solicitud.open('POST', url, true);
+        solicitud.send(operacion);      
     }
 }
 
 //Metodo para procesar la operacion
-function bajaUsuarioSeleccionado(usuario) {
+function bajaUsuarioSeleccionado(usuario, nFila) {    
+    
+    //Activamos el spinner. Obtenemos de la tabla -> la fila -> la columna 2 y accedemos al boton
+    $('#tablaUsuarios tr:nth-child('+nFila+') td:eq(2) button').toggleClass('active');
+
      //Creamos un objeto para almacenar los valores
     var operacion = new FormData();
     operacion.append('operacion', 'bajaUsuario');
@@ -102,34 +85,18 @@ function bajaUsuarioSeleccionado(usuario) {
     //Especificamos la action a ejecutar
     var url = "OperacionesUsuario";
     var solicitud = new XMLHttpRequest();
-    solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrar);
     solicitud.open("POST", url, true);
-    solicitud.send(operacion);
-}
-
-//Metodo que se inicia cuando comienza la solicitud
-function inicio() {
-    divRespuesta.innerHTML = "<div class='sk-fading-circle'>" +
-            "<div class='sk-circle1 sk-circle'></div>" +
-            "<div class='sk-circle2 sk-circle'></div>" +
-            "<div class='sk-circle3 sk-circle'></div>" +
-            "<div class='sk-circle4 sk-circle'></div>" +
-            "<div class='sk-circle5 sk-circle'></div>" +
-            "<div class='sk-circle6 sk-circle'></div>" +
-            "<div class='sk-circle7 sk-circle'></div>" +
-            "<div class='sk-circle8 sk-circle'></div>" +
-            "<div class='sk-circle9 sk-circle'></div>" +
-            "<div class='sk-circle10 sk-circle'></div>" +
-            "<div class='sk-circle11 sk-circle'></div>" +
-            "<div class='sk-circle12 sk-circle'></div>" +
-            "</div>";
+    solicitud.send(operacion);  
 }
 
 //Metodo que se ejecuta cuando se ha completado la solicitud
 function mostrar(e) {
     var datos = e.target;
     if (datos.status == 200) {
+        
+        $('.has-spinner').removeClass('active'); //Desactivamos el spinner
+        
         //Obtenemos la cadena completa de respuesta
         var completa = datos.responseText;
         //Sacamos la primera parte de la cadena (sabemos que es el resultado de la operacion)
@@ -140,20 +107,11 @@ function mostrar(e) {
         divRespuesta.innerHTML = '<strong style="color: blue;">'+resultado+'</strong>';
         cuerpoTablaUsuario.innerHTML = tabla;        
         
-        temporizador();        
+        //Si 'completa' contiene el tag <html>  quiere decir que estamos devolviendo una pagina completa
+        if(!completa.includes("<!DOCTYPE html>")) { //Si no lo contiene
+            temporizador(divRespuesta); //Activamos el temporizador (sera un mensaje corto)
+        }       
     }
-}
-
-//Metodo para limpiar los campos del formulario
-function limpiarCampos() {
-    divRespuesta.innerHTML = "";
-}
-
-//Metodo para limpiar la respuesta despues de X segundos
-function temporizador() {
-    setTimeout(function () {
-        divRespuesta.innerHTML = '';
-    }, 3000);
 }
 
 addEventListener('load', iniciar);

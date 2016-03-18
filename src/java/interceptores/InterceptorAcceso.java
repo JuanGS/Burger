@@ -33,7 +33,7 @@ public class InterceptorAcceso extends AbstractInterceptor {
     
     @Override
     public String intercept(ActionInvocation ai) throws Exception {
-        
+
         String result = Action.LOGIN; //Inicializamos a un valor por defecto
         String actionActual = (String)ActionContext.getContext().get(ActionContext.ACTION_NAME); //Obtenemos el nombre del action
         
@@ -44,7 +44,7 @@ public class InterceptorAcceso extends AbstractInterceptor {
         if(ai.getInvocationContext().getSession().containsKey("usuario") || actionsSinFiltrar.contains(actionActual)) {
             result = ai.invoke();
         }
-     
+        
         return result;
     }
 

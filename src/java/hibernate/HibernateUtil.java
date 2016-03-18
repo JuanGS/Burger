@@ -8,6 +8,7 @@ package hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.HibernateException;
 import org.hibernate.service.ServiceRegistry;
 
 /**
@@ -22,7 +23,7 @@ public class HibernateUtil {
     
     private SessionFactory buildSessionFactory() {
         try {
-            if(sessionFactory == null) {
+            if (sessionFactory == null) {
                 Configuration configuration = new Configuration().configure(HibernateUtil.class.getResource("/hibernate.cfg.xml"));
                 StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
                 serviceRegistryBuilder.applySettings(configuration.getProperties());
@@ -30,9 +31,9 @@ public class HibernateUtil {
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
             }
             return sessionFactory;
-        } catch(Throwable e) {
-            System.err.println("Error al crear SessionFactory: " + e);
-            throw new ExceptionInInitializerError(e);
+        } catch (Exception e) {
+            System.err.println("Error al crear SessionFactory en HibernateUtil: " + e);
+            throw new HibernateException(e);
         }
     }
     

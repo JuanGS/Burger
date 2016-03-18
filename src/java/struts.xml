@@ -7,12 +7,14 @@
     <!-- Configuration for the default package. -->
     <package name="default" namespace="/" extends="struts-default">   
 
+        <!-- Declaramos los interceptores que utilizaremos en este paquete -->
         <interceptors>
-            <!-- Declaramos el interceptor -->
+            <!-- Declaramos el interceptor que hemos creado -->
             <interceptor name="sesionValida" class="interceptores.InterceptorAcceso"></interceptor>
             
-            <!-- Colocamos el interceptor en la pila que se ejecuta por defecto -->
-            <interceptor-stack name="secureStack">
+            <!-- Colocamos el interceptor en la pila que queremos utilizar (en este caso definida por nosotros) -->
+            <interceptor-stack name="miStack">
+                <interceptor-ref name="exception" />
                 <interceptor-ref name="sesionValida">
                     <!-- Indicamos los actions que queremos dejar como publicos -->
                     <param name="actionsPublicos">Login</param>
@@ -26,13 +28,20 @@
             
         </interceptors>
         
-        <!-- Pila que se ejecuta por defecto -->
-        <default-interceptor-ref name="secureStack" />
+        <!-- Pila que se ejecuta -->
+        <default-interceptor-ref name="miStack" />
         
-        <!-- Como el result para el caso del login será usado para todos los Actions de la aplicación, debemos colocarlo de forma global  -->
+        <!-- Result que queremos declarar de forma global  -->
         <global-results>
+            <result name="errorHibernate">/errorHibernate.jsp</result>          
+            <result name="error">/error.jsp</result>
             <result name="login">/login.jsp</result>
-        </global-results>        
+        </global-results>    
+        
+        <global-exception-mappings>
+            <exception-mapping exception="org.hibernate.HibernateException" result="errorHibernate"/>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>                
         
         <!-- 
             Esta action no invoca ninguna clase porque para lo unico que lo queremos es para que se lance la peticion y se recarge la pagina con el idioma seleccionado.
@@ -41,6 +50,7 @@
         <action name="Locale">
             <!-- Añadimos el interceptor de internacionalizacion al action -->
             <interceptor-ref name="i18n" />
+            <interceptor-ref name="basicStack"/>
             <result>/login.jsp</result>
         </action>          
         

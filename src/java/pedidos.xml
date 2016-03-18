@@ -13,7 +13,8 @@
             <interceptor name="sesionValida" class="interceptores.InterceptorAcceso"></interceptor>
             
             <!-- Colocamos el interceptor en la pila que se ejecuta por defecto -->
-            <interceptor-stack name="secureStack">
+            <interceptor-stack name="miStack">
+                <interceptor-ref name="exception" />
                 <interceptor-ref name="sesionValida">
                     <!-- Indicamos los actions que queremos dejar como publicos -->
                     <param name="actionsPublicos">Login</param>
@@ -28,12 +29,19 @@
         </interceptors>
         
         <!-- Pila que se ejecuta por defecto -->
-        <default-interceptor-ref name="secureStack" />        
+        <default-interceptor-ref name="miStack" />
         
         <!-- Como el result para el caso del login será usado para todos los Actions de la aplicación, debemos colocarlo de forma global  -->
         <global-results>
+            <result name="errorHibernate">/errorHibernate.jsp</result>            
+            <result name="error">/error.jsp</result>
             <result name="login">/login.jsp</result>
-        </global-results>          
+        </global-results>  
+        
+        <global-exception-mappings>
+            <exception-mapping exception="org.hibernate.HibernateException" result="errorHibernate"/>           
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>                        
                 
         <action name="OperacionesPedidos" class="pedidos.actions.OperacionesPedidosAction">
             <result name="CARGAR_PEDIDO">/pedidos/pedidos.jsp</result>

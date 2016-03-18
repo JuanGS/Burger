@@ -99,11 +99,14 @@
                 <button type="submit" class="btn btn-default btn-info" name="operacion" value="verPedido"><s:text name="pedidos.verPedido"/></button>
                 <input type="hidden" id="numeroMesa" name="numeroMesa"/>
                 <input type="hidden" id="arrayPedido" name="arrayPedido"/>  
-                <input type="button" class="btn btn-default btn-warning" value="<s:text name="pedidos.limpiarPedido"/>" onclick="limpiarPedido();"/>
-                <input type="button" class="btn btn-default btn-success" value="<s:text name="pedidos.realizarPedido"/>" onclick="realizarPedido();"/>
+                <button type="button" id="botonLimpiar" class="btn btn-default"><s:text name="pedidos.limpiarPedido"/></button>
+                <button type="button" id="botonRealizarPedido" class="btn btn-success has-spinner">
+                    <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
+                        <s:text name="pedidos.realizarPedido"/>
+                </button>  
             </form>
         </div>
-  
+
         <div>
             <div id="divRespuestaPedido"></div> 
             <div id="divRespuestaMesas"></div> 
@@ -119,6 +122,37 @@
                 
         <jsp:include page="../footer.jsp"/>   
         <script src="../pedidos/pedidos.js"></script>
+        
+        <script>
+            var titulo;
+            var botonLimpiar;
+            var botonCancelar;
+            if (sessionStorage.getItem("idioma") === 'es') {
+                titulo = LIMPIAR_PEDIDO_es;
+                botonLimpiar = BOTON_LIMPIAR_es;
+                botonCancelar = BOTON_CANCELAR_es;
+            } else if (sessionStorage.getItem("idioma") === 'en') {
+                titulo = LIMPIAR_PEDIDO_en;
+                botonLimpiar = BOTON_LIMPIAR_en;
+                botonCancelar = BOTON_CANCELAR_en;
+            }
+            
+            $('#botonLimpiar').css('margin-right', '2px');
+            
+            $('#botonLimpiar').confirmation({
+                title: titulo,
+                placement: "bottom",
+                popout: "true",
+                btnOkLabel: botonLimpiar,
+                btnOkIcon: "glyphicon glyphicon-ok-circle",
+                btnOkClass: "btn-success",
+                btnCancelLabel: botonCancelar,
+                btnCancelIcon: "glyphicon glyphicon-ban-circle",
+                btnCancelClass: "btn-danger",                
+                onConfirm: function(event) { limpiarPedido(true); $('#botonLimpiar').confirmation('hide');  },
+                onCancel: function(event) { limpiarPedido(false); }
+            }); 
+        </script>
         
     </body>
 </html>

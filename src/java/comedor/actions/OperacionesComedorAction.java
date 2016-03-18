@@ -7,7 +7,6 @@ package comedor.actions;
 
 import administracion.actions.GestorOperacionesDatosRestaurante;
 import administracion.actions.GestorOperacionesGenero;
-import administracion.actions.GestorOperacionesUsuario;
 import administracion.modelo.Impuesto;
 import administracion.modelo.Mesa;
 import administracion.modelo.Producto;
@@ -29,7 +28,6 @@ import comedor.modelo.ProductoLineaPedido;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +36,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,7 +68,7 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
     private InputStream respuesta;
     private String nombreDocumento;
 
-    private final String RUTA_CUENTAS = System.getProperty("catalina.base") + File.separator + "webapps" + File.separator + "cuentas" + File.separator; //Crear la carpeta "cuentas" en el directorio catalina.base/webapps
+    private String RUTA_CUENTAS;
         
     //Para gestionar la sesion
     private Map session = ActionContext.getContext().getSession();    
@@ -77,17 +76,13 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
     //Para gestionar las peticiones a BD
     private final GestorOperacionesDatosRestaurante godr = new GestorOperacionesDatosRestaurante(); 
     private final GestorOperacionesGenero gog = new GestorOperacionesGenero();
-    private final GestorOperacionesUsuario gou = new GestorOperacionesUsuario();    
     private final GestorOperacionesComedor goc = new GestorOperacionesComedor();
     
     //Para gestionar la nevegacion del xml
     private String navegacion; 
 
     @Override
-    public String execute() {    
-        //Configuramos el objeto para response
-        response.setContentType("text/html; charset=iso-8859-1");
-        
+    public String execute() throws Exception {            
         int numeroMesa;
         
         //Obtenemos los datos del request
@@ -97,10 +92,11 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
             case "cargarMesas":
                 //Obtenemos el listado de mesas en BD
                 listaMesas = godr.obtenerListadoMesas();
-                
                 listaProductos = gog.obtenerListaProductosActivos(); //Obtenemos los productos activos
                 
-                session.put("listaProductosComedor", listaProductos);                  
+                if(listaProductos != null) {
+                    session.put("listaProductosComedor", listaProductos);                  
+                }
                 
                 navegacion = "CARGAR_MESAS";
                
@@ -109,10 +105,10 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
             case "actualizarMesas":
                 try {
                     actualizarVistaMesas();
-                } catch (IOException ex) {
-                    System.out.println("Error al actualizar la vista mesas");
+                } catch (Exception e) {
+                    System.out.println("OperacionesComedorAction. Error al actualizar la vista mesas: " + e);
                 }
-                
+
                 navegacion = null;
 
                 break;
@@ -149,22 +145,24 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
                 //Recuperamos impuestos de la sesion
                 listaImpuestos = (List<Impuesto>) session.get("listaImpuestosComedor");                 
                
+                //Construimos la ruta donde almacenar el PDF
+                String ruta = request.getServletContext().getInitParameter("RutaCuentas"); //Obtenemos del web.xml el parametro RutaCuentas            
+                ruta = ruta.replaceAll("/", Matcher.quoteReplacement(File.separator)); //Recomponemos la ruta con el separtor adecuado al sistema operativo                  
+                RUTA_CUENTAS = System.getProperty("catalina.base") + ruta; //Indicamos la ruta desde el CATALINA_BASE 
+                
                 //Asignamos el nombreDocumento
                 SimpleDateFormat formatoNombreCuenta = new SimpleDateFormat("_yyyyMMdd_HHmmss_");
-                nombreDocumento = "cuenta"+formatoNombreCuenta.format(cuenta.getFecha())+cuenta.getId()+".pdf";
+                nombreDocumento = "cuenta"+formatoNombreCuenta.format(cuenta.getFecha())+cuenta.getId()+".pdf";                     
                 
                 try {
                     //Generamos el pdf con los datos del pedido
                     crearPDF();
                     //Asignamos el documento al flujo de respuesta      
-                    respuesta = new DataInputStream(new FileInputStream(RUTA_CUENTAS+nombreDocumento));
+                    respuesta = new DataInputStream(new FileInputStream(RUTA_CUENTAS + nombreDocumento));
                     
-                } catch (FileNotFoundException ex) {
-                    System.err.println("Error al crear el PDF. FileNotFoundException: " + ex);
-                } catch (DocumentException ex) {
-                    System.err.println("Error al crear el PDF. DocumentException: " + ex);
-                } catch (IOException ex) {
-                    System.err.println("Error al crear el PDF. IOException: " + ex);
+                } catch (IOException | DocumentException e) {
+                    System.err.println("OperacionesComedorAction. Error al crear el PDF: " + e);
+                    throw e;
                 }
                 
                 //Limpiamos la sesion
@@ -185,8 +183,8 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
 
                 try {
                     actualizarVistaMesas();
-                } catch (IOException ex) {
-                    System.out.println("Error al actualizar la vista mesas");
+                } catch (IOException e) {
+                    System.out.println("OperacionesComedorAction. Error al actualizar la vista mesas: " + e);
                 }                
                 
                 navegacion = null;
@@ -197,35 +195,50 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
         return navegacion;
     }
     
-    private void actualizarVistaMesas() throws IOException {
-        output = response.getOutputStream(); //Obtenemos una referencia al objeto que nos permite escribir en la respuesta del servlet  
-        
-        //Obtenemos el listado de mesas en BD
-        listaMesas = godr.obtenerListadoMesas();        
-        
-        for (Mesa mesa : listaMesas) {
-            if (mesa.getEstado().equals("libre")) {
-                output.print("<div style='float: left; margin-right: 20px;'>");
-                output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: green'>");
-                output.print("</div>");
-            } else if (mesa.getEstado().equals("ocupada")) {
-                output.print("<div style='float: left; margin-right: 20px;'>");
-                output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: red'><br/><br/>");
-                output.print("<form action='OperacionesComedor' method='POST'>");
-                output.print("<button type='submit' class='btn btn-default btn-default' name='operacion' value='generarCuenta'>"+getText("comedor.generarCuenta")+"</button>");
-                output.print("<input type='hidden' id='numeroMesa' name='numeroMesa' value='"+mesa.getNumero()+"'/>");                 
-                output.print("</form>");              
-                output.print("</div>");
-            } else if (mesa.getEstado().equals("pendiente")) {
-                output.print("<div style='float: left; margin-right: 20px;'>");
-                output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: yellow'><br/><br/>");
-                output.print("<input type='button' class='btn btn-default btn-default' value='"+getText("comedor.cuentaPagada")+"' onclick='cuentaPagada("+mesa.getNumero()+")'/>");  
-                output.print("</div>");
-            } else {
-                output.print("<div style='float: left; margin-right: 20px;'>");
-                output.print("<p><strong style='color: red;'>"+getText("comedor.error.cargarMesa")+"</strong></p>");
-                output.print("</div>");
+    private void actualizarVistaMesas() throws Exception {
+        try {
+            //Obtenemos el listado de mesas en BD
+            listaMesas = godr.obtenerListadoMesas();
+            
+            //Configuramos el objeto para response
+            response.setContentType("text/html; charset=iso-8859-1");
+            output = response.getOutputStream(); //Obtenemos una referencia al objeto que nos permite escribir en la respuesta del servlet
+           
+            if (listaMesas != null) { //Si hemos obtenido un listado de mesas
+                for (Mesa mesa : listaMesas) {
+                    if (mesa.getEstado().equals("libre")) {
+                        output.print("<div style='float: left; margin-right: 20px;'>");
+                        output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: green'>");
+                        output.print("</div>");
+                    } else if (mesa.getEstado().equals("ocupada")) {
+                        output.print("<div style='float: left; margin-right: 20px;'>");
+                        output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: red'><br/><br/>");
+                        output.print("<form action='OperacionesComedor' method='POST'>");
+                        output.print("<button type='submit' class='btn btn-default btn-default' name='operacion' value='generarCuenta'>" + getText("comedor.generarCuenta") + "</button>");
+                        output.print("<input type='hidden' id='numeroMesa' name='numeroMesa' value='" + mesa.getNumero() + "'/>");
+                        output.print("</form>");
+                        output.print("</div>");
+                    } else if (mesa.getEstado().equals("pendiente")) {
+                        output.print("<div style='float: left; margin-right: 20px;'>");
+                        output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: yellow'><br/><br/>");
+                        output.print("<input type='button' class='btn btn-default btn-default' value='" + getText("comedor.cuentaPagada") + "' onclick='cuentaPagada(" + mesa.getNumero() + ")'/>");
+                        output.print("</div>");
+                    } else {
+                        output.print("<div style='float: left; margin-right: 20px;'>");
+                        output.print("<p><strong style='color: red;'>" + getText("comedor.error.cargarMesa") + "</strong></p>");
+                        output.print("</div>");
+                    }
+                }
+            } else { //Si ha habido algun error y listaMesas es null
+                output.print("<p><strong style='color: red;'>" + getText("comedor.error.cargarListaMesas") + "</strong></p>");
             }
+        } catch (Exception e) {
+            System.out.println("OperacionesComedorAction. Error al montar la vista resultado: " + e);
+            throw e;
+        } finally {
+             //Cerramos el flujo de respuesta del servlet
+            output.flush();
+            output.close();           
         }
     }
     
@@ -372,7 +385,7 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
                 if (producto instanceof Hamburguesa) {
                     Hamburguesa h = (Hamburguesa) producto;
                     for (Producto extra : h.getListaProductosExtra()) {
-                        tabla.addCell(extra.getNombre());
+                        tabla.addCell("(E) " + extra.getNombre());
                         tabla.addCell(String.valueOf(extra.getUnidades()));
                         tabla.addCell(String.valueOf(extra.getPrecio()));
                         tabla.addCell(String.valueOf(extra.getPrecio() * extra.getUnidades()));
@@ -404,9 +417,9 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
             documento.close();
             
         } else { //Si el directoiro no existe
-            System.err.println("Error. No existe el directorio especificado");
+            System.err.println("OperacionesComedorAction. Error no existe el directorio especificado");
             throw new IOException(); //Lanzamos una excepcion
-        }
+        }      
     }
     
     @Override

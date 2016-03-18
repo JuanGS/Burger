@@ -16,7 +16,7 @@ var divRespuestaMesas;
 var divListaMesas;
 var divRespuesta;
 
-function iniciar() {
+function iniciar() {    
     //Recuperamos los datos de la sesion
     recuperarDatosSesion();
 
@@ -27,8 +27,10 @@ function iniciar() {
     selectMesas = document.getElementById('selectMesas');
     
     selectMesas.addEventListener('change', obtenerNumeroMesaPedido);
+    var botonRealizarPedido = document.getElementById('botonRealizarPedido');
+    botonRealizarPedido.addEventListener('click', realizarPedido);
         
-    document.forms['formProductos'].addEventListener('submit', previoPeticion);    
+    document.forms['formProductos'].addEventListener('submit', previoPeticion);       
 }
 
 function obtenerNumeroMesaPedido() {
@@ -175,13 +177,17 @@ function validarCampos() {
     if (campo1 && campo2) {
         return true;
     } else {
-        temporizador();
+        temporizador(divRespuestaMesas);
+        temporizador(divRespuestaPedido);        
         return false;
     }
 }
 
 function realizarPedido() {
     if(validarCampos()) {
+
+        $(this).toggleClass('active'); //Activamos el spinner  
+        
         //Si realizamos el pedido y el ultimo producto añadido fue un extra (tal y como se ha implementado el metodo incluirProductoPedido) necesitamos añadir los producto extra "directamente"
         if (arrayExtrasPedido.length > 0) {
             for (i = 0; i < arrayExtrasPedido.length; i++) {
@@ -210,19 +216,13 @@ function realizarPedido() {
         //Especificamos la action a ejecutar
         var url = "OperacionesPedidos";
         var solicitud = new XMLHttpRequest();
-        solicitud.addEventListener('loadstart', inicio);
         solicitud.addEventListener('load', mostrar);
         solicitud.open("POST", url, true);
         solicitud.send(operacion);
     }
 }
 
-function limpiarPedido() {
-    if (sessionStorage.getItem("idioma") === 'es') {
-        var respuesta = confirm(LIMPIAR_PEDIDO_es);
-    } else if (sessionStorage.getItem("idioma") === 'en') {
-        var respuesta = confirm(LIMPIAR_PEDIDO_en);
-    }
+function limpiarPedido(respuesta) {
     if (respuesta === true) {
         //Inicializamos los array
         arrayPedido = [];
@@ -249,7 +249,7 @@ function limpiarPedido() {
         }
     }
 
-    temporizador();
+    temporizador(divRespuesta);  
 }
 
 function previoPeticion(evObject) {
@@ -273,28 +273,12 @@ function previoPeticion(evObject) {
     }
 }
 
-//Metodo que se inicia cuando comienza la solicitud
-function inicio() {
-    divRespuesta.innerHTML = "<div class='sk-fading-circle'>" +
-            "<div class='sk-circle1 sk-circle'></div>" +
-            "<div class='sk-circle2 sk-circle'></div>" +
-            "<div class='sk-circle3 sk-circle'></div>" +
-            "<div class='sk-circle4 sk-circle'></div>" +
-            "<div class='sk-circle5 sk-circle'></div>" +
-            "<div class='sk-circle6 sk-circle'></div>" +
-            "<div class='sk-circle7 sk-circle'></div>" +
-            "<div class='sk-circle8 sk-circle'></div>" +
-            "<div class='sk-circle9 sk-circle'></div>" +
-            "<div class='sk-circle10 sk-circle'></div>" +
-            "<div class='sk-circle11 sk-circle'></div>" +
-            "<div class='sk-circle12 sk-circle'></div>" +
-            "</div>";
-}
-
 //Metodo que se ejecuta cuando se ha completado la solicitud
 function mostrar(e) {
     var datos = e.target;
     if (datos.status == 200) {
+        
+        $('.has-spinner').removeClass('active'); //Desactivamos el spinner        
         
         //Obtenemos la cadena completa de respuesta
         var completa = datos.responseText;
@@ -306,19 +290,13 @@ function mostrar(e) {
         divRespuesta.innerHTML = '<strong style="color: blue;">'+resultado+'</strong>';
         divListaMesas.innerHTML = selectMesasNuevo;        
 
-        temporizador();
+        //Si 'completa' contiene el tag <html>  quiere decir que estamos devolviendo una pagina completa
+        if(!completa.includes("<!DOCTYPE html>")) { //Si no lo contiene
+            temporizador(divRespuesta); //Activamos el temporizador (sera un mensaje corto)
+        }   
         
         iniciar();        
     }
-}
-
-//Metodo para limpiar la respuesta despues de X segundos
-function temporizador() {
-    setTimeout(function () {
-        divRespuestaPedido.innerHTML = '';
-        divRespuestaMesas.innerHTML = '';
-        divRespuesta.innerHTML = '';
-    }, 3000);
 }
 
 function recuperarDatosSesion() {

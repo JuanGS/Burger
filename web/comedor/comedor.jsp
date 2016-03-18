@@ -29,8 +29,9 @@
         <div id="divMesas">
             <%
                 List<Mesa> listaMesas = (List<Mesa>) request.getAttribute("listaMesas");
-                for (Mesa mesa : listaMesas) {
-                    if (mesa.getEstado().equals("libre")) {
+                if (listaMesas != null) {
+                    for (Mesa mesa : listaMesas) {
+                        if (mesa.getEstado().equals("libre")) {
             %>
             <div style="float: left; margin-right: 20px;">
                 <img alt="<%= mesa.getNumero()%>" class="img-circle" width="140" height="140" style="background-color: green">
@@ -50,7 +51,10 @@
             %>
             <div style="float: left; margin-right: 20px;">
                 <img alt="<%= mesa.getNumero()%>" class="img-circle" width="140" height="140" style="background-color: yellow"><br/><br/>
-                <input type="button" class="btn btn-default" value="<s:text name="comedor.cuentaPagada"/>" onclick="cuentaPagada(<%= mesa.getNumero()%>)"/>              
+                <button type="button" class="btn btn-default has-spinner" onclick="cuentaPagada(this, <%= mesa.getNumero()%>)">
+                    <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
+                        <s:text name="comedor.cuentaPagada"/>
+                </button> 
             </div>        
             <%
             } else {
@@ -61,6 +65,11 @@
             <%
                     }
                 }
+            } else {
+            %>
+            <p><strong style="color: red;"><s:text name="comedor.error.cargarListaMesas"/></strong></p>
+            <%
+                }
             %>
         </div>
         
@@ -69,7 +78,10 @@
                   
         <div>
             <s:form action="VolverAplicaciones">
-                <input type="button" class="btn btn-default" value="<s:text name="comedor.actualizar"/>" onclick="actualizarMesas()"/> 
+                <button type="button" id="botonActualizarMesas" class="btn btn-default has-spinner">
+                    <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
+                        <s:text name="comedor.actualizar"/>
+                </button>                  
                 <button type="submit" class="btn btn-default"><s:text name="comedor.volver"/></button>
             </s:form>   
         </div>

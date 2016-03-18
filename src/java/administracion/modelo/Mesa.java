@@ -5,11 +5,13 @@
  */
 package administracion.modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author juang
  */
-public class Mesa {
+public class Mesa implements Serializable {
     
     private int numero;
     private String estado;

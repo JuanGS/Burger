@@ -18,21 +18,6 @@ var divRespuestaDatosLocal;
 var divRespuestaNumeroMesas;
 var divRespuestaImpuestos;
 
-var divSpinner = "<div class='sk-fading-circle'>" +
-            "<div class='sk-circle1 sk-circle'></div>" +
-            "<div class='sk-circle2 sk-circle'></div>" +
-            "<div class='sk-circle3 sk-circle'></div>" +
-            "<div class='sk-circle4 sk-circle'></div>" +
-            "<div class='sk-circle5 sk-circle'></div>" +
-            "<div class='sk-circle6 sk-circle'></div>" +
-            "<div class='sk-circle7 sk-circle'></div>" +
-            "<div class='sk-circle8 sk-circle'></div>" +
-            "<div class='sk-circle9 sk-circle'></div>" +
-            "<div class='sk-circle10 sk-circle'></div>" +
-            "<div class='sk-circle11 sk-circle'></div>" +
-            "<div class='sk-circle12 sk-circle'></div>" +
-            "</div>";
-
 //Metodo que se ejecuta al cargar la pagina
 function iniciar() {
     registrarValores();
@@ -86,58 +71,42 @@ function habilitarBotonModificarImpuestos() {
 
 //Metodo para validar los campos del formulario (necesario porque utilizamos AJAX)
 function validarCamposDatosLocal() {
-    var cif = document.getElementById('cif');
-    var nombre = document.getElementById('nombre');
-    var direccion = document.getElementById('direccion');
-    var telefono = document.getElementById('telefono');
     var campo1 = false;
     var campo2 = false;
     var campo3 = false;
     var campo4 = false;
 
-    if (cif.value === '') {
-        document.getElementById('divCif').className = 'form-group has-error has-feedback';
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+CIF_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+CIF_OBLIGATORIO_en+'</strong>';
-        } 
+    if (!document.getElementById('cif').validity.valid) {
+        $('[data-toggle="divCif"]').tooltip('show');  
+        temporizadorTooltip();
+        document.getElementById('divCif').className = 'form-group has-error has-feedback';  
     } else {
         document.getElementById('divCif').className = 'form-group';
         campo1 = true;
     }
 
-    if (nombre.value === '') {
-        document.getElementById('divNombre').className = 'form-group has-error has-feedback';       
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_en+'</strong>';
-        } 
+    if (!document.getElementById('nombre').validity.valid) {
+        $('[data-toggle="divNombre"]').tooltip('show');  
+        temporizadorTooltip();
+        document.getElementById('divNombre').className = 'form-group has-error has-feedback'; 
     } else {
         document.getElementById('divNombre').className = 'form-group';
         campo2 = true;
     }
 
-    if (direccion.value === '') {
-        document.getElementById('divDireccion').className = 'form-group has-error has-feedback';     
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+DIRECCION_OBLIGATORIA_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+DIRECCION_OBLIGATORIA_en+'</strong>';
-        } 
+    if (!document.getElementById('direccion').validity.valid) {
+        $('[data-toggle="divDireccion"]').tooltip('show');  
+        temporizadorTooltip();
+        document.getElementById('divDireccion').className = 'form-group has-error has-feedback';  
     } else {
         document.getElementById('divDireccion').className = 'form-group';
         campo3 = true;
     }
 
-    if (telefono.value === '') {
-        document.getElementById('divTelefono').className = 'form-group has-error has-feedback';          
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+TELEFONO_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">'+TELEFONO_OBLIGATORIO_en+'</strong>';
-        } 
+    if (!(/^\d{9}$/.test(document.getElementById('telefono').value))) {
+        $('[data-toggle="divTelefono"]').tooltip('show');  
+        temporizadorTooltip();
+        document.getElementById('divTelefono').className = 'form-group has-error has-feedback';  
     } else {
         document.getElementById('divTelefono').className = 'form-group';
         campo4 = true;
@@ -145,9 +114,6 @@ function validarCamposDatosLocal() {
 
     if (campo1 && campo2 && campo3 && campo4) {
         return true;
-    } else {
-        temporizadorDatosLocal();
-        return false;
     }
 }
 
@@ -155,16 +121,11 @@ function validarCamposDatosLocal() {
 function validarCamposNumeroMesas() {
     var numeroMesas = document.getElementById('numeroMesas');  
     var campo1 = false;
-    
-    var numero = parseInt(numeroMesas.value);
 
-    if (numeroMesas.value === '' || numero < 1) {
-        document.getElementById('divNumeroMesas').className = 'form-group has-error has-feedback';
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuestaNumeroMesas.innerHTML = '<strong style="color: red;">'+NUMERO_MESA_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuestaNumeroMesas.innerHTML = '<strong style="color: red;">'+NUMERO_MESA_OBLIGATORIO_en+'</strong>';
-        } 
+    if (!numeroMesas.validity.valid || numeroMesas.value < 1) {
+        $('[data-toggle="divNumeroMesas"]').tooltip('show');  
+        temporizadorTooltip();
+        document.getElementById('divNumeroMesas').className = 'form-group has-error has-feedback';  
     } else {
         document.getElementById('divNumeroMesas').className = 'form-group';
         campo1 = true;
@@ -172,38 +133,27 @@ function validarCamposNumeroMesas() {
     
     if (campo1) {
         return true;
-    } else {
-        temporizadorNumeroMesas();
-        return false;
-    }    
+    } 
 }
 
 //Metodo para validar los campos del formulario (necesario porque utilizamos AJAX)
 function validarCamposImpuestos() {
-    var iva = document.getElementById('iva');  
-    var servicioMesa = document.getElementById('servicio mesa');  
     var campo1 = false;
     var campo2 = false;    
     
-    if (iva.value === '') {
-        document.getElementById('divImpuestoIva').className = 'form-group has-error has-feedback';
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuestaImpuestos.innerHTML = '<strong style="color: red;">'+IVA_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuestaImpuestos.innerHTML = '<strong style="color: red;">'+IVA_OBLIGATORIO_en+'</strong>';
-        } 
+    if (!document.getElementById('iva').validity.valid) {
+        $('[data-toggle="divImpuestoIva"]').tooltip('show');  
+        temporizadorTooltip();
+        document.getElementById('divImpuestoIva').className = 'form-group has-error has-feedback';  
     } else {
         document.getElementById('divImpuestoIva').className = 'form-group';
         campo1 = true;
     }   
  
-    if (servicioMesa.value === '') {
-        document.getElementById('divImpuestoServicioMesa').className = 'form-group has-error has-feedback';
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuestaImpuestos.innerHTML = '<strong style="color: red;">'+SERVICIO_MESA_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuestaImpuestos.innerHTML = '<strong style="color: red;">'+SERVICIO_MESA_OBLIGATORIO_en+'</strong>';
-        } 
+    if (!document.getElementById('servicio mesa').validity.valid) {
+        $('[data-toggle="divImpuestoServicioMesa"]').tooltip('show');  
+        temporizadorTooltip();
+        document.getElementById('divImpuestoServicioMesa').className = 'form-group has-error has-feedback';  
     } else {
         document.getElementById('divImpuestoServicioMesa').className = 'form-group';
         campo2 = true;
@@ -211,10 +161,7 @@ function validarCamposImpuestos() {
     
     if (campo1 && campo2) {
         return true;
-    } else {
-        temporizadorImpuestos();
-        return false;
-    }    
+    }
 }
 
 //Funcion para comprobar si ha habido algun cambio respecto a los valores iniciales
@@ -252,6 +199,8 @@ function leerDatosLocal() {
 
         if (comprobarCambiosDatosLocal(cif, nombre, direccion, telefono)) { //Comporbamos que ha cambiado algun valor
 
+            $(this).toggleClass('active'); //Activamos el spinner  
+
             //Creamos una variable con formato JSON
             var datosLocalJSON = {"cif": cif, "nombre": nombre, "direccion": direccion, "telefono": telefono};
             //Creamos un objeto para almacenar los valores
@@ -263,7 +212,6 @@ function leerDatosLocal() {
             //Especificamos la action a ejecutar
             var url = "OperacionesDatosRestaurante";
             var solicitud = new XMLHttpRequest();
-            solicitud.addEventListener('loadstart', inicioDatosLocal);
             solicitud.addEventListener('load', mostrarDatosLocal);
             solicitud.open("POST", url, true);
             solicitud.send(operacion);
@@ -274,7 +222,8 @@ function leerDatosLocal() {
             } else if (sessionStorage.getItem("idioma") === 'en') {
                 divRespuestaDatosLocal.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
             }
-            temporizadorDatosLocal();
+
+            temporizador(divRespuestaDatosLocal);
         }
     }
 }
@@ -284,6 +233,9 @@ function leerNumeroMesas() {
         var numeroMesas = document.getElementById('numeroMesas').value;
 
         if (comprobarCambiosNumeroMesas(numeroMesas)) { //Comporbamos que ha cambiado algun valor
+            
+            $(this).toggleClass('active'); //Activamos el spinner             
+             
             //Creamos un objeto para almacenar los valores
             var operacion = new FormData();
             operacion.append('operacion', 'modificarNumeroMesas');
@@ -293,7 +245,6 @@ function leerNumeroMesas() {
             //Especificamos la action a ejecutar
             var url = "OperacionesDatosRestaurante";
             var solicitud = new XMLHttpRequest();
-            solicitud.addEventListener('loadstart', inicioNumeroMesas);
             solicitud.addEventListener('load', mostrarNumeroMesas);
             solicitud.open("POST", url, true);
             solicitud.send(operacion);
@@ -303,7 +254,7 @@ function leerNumeroMesas() {
             } else if (sessionStorage.getItem("idioma") === 'en') {
                 divRespuestaNumeroMesas.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
             }
-            temporizadorNumeroMesas();
+            temporizador(divRespuestaNumeroMesas);
         }
     }
 }
@@ -314,6 +265,9 @@ function leerImpuestos() {
         var servicioMesa = document.getElementById('servicio mesa').value;
 
         if (comprobarCambiosImpuestos(iva, servicioMesa)) { //Comporbamos que ha cambiado algun valor
+            
+            $(this).toggleClass('active'); //Activamos el spinner
+            
             var idIva = document.getElementById('idIva').value;
             var idServicioMesa = document.getElementById('idServicioMesa').value;
 
@@ -336,7 +290,6 @@ function leerImpuestos() {
             //Especificamos la action a ejecutar
             var url = "OperacionesDatosRestaurante";
             var solicitud = new XMLHttpRequest();
-            solicitud.addEventListener('loadstart', inicioImpuestos);
             solicitud.addEventListener('load', mostrarImpuestos);
             solicitud.open("POST", url, true);
             solicitud.send(operacion);
@@ -346,28 +299,18 @@ function leerImpuestos() {
             } else if (sessionStorage.getItem("idioma") === 'en') {
                 divRespuestaImpuestos.innerHTML = '<strong style="color: red;">' + NO_MODIFICADO_VALOR_en + '</strong>';
             }
-            temporizadorImpuestos();
+            temporizador(divRespuestaImpuestos);
         }
     }
-}
-
-//Metodo que se inicia cuando comienza la solicitud
-function inicioDatosLocal() {
-    divRespuestaDatosLocal.innerHTML = divSpinner;
-}
-
-function inicioNumeroMesas() {
-    divRespuestaNumeroMesas.innerHTML = divSpinner;
-}
-
-function inicioImpuestos() {
-    divRespuestaImpuestos.innerHTML = divSpinner;
 }
 
 //Metodo que se ejecuta cuando se ha completado la solicitud
 function mostrarDatosLocal(e) {
     var datos = e.target;
     if (datos.status == 200) {
+        
+        $('.has-spinner').removeClass('active'); //Desactivamos el spinner        
+        
         //Obtenemos la cadena completa de respuesta
         var completa = datos.responseText;
         //Sacamos la primera parte de la cadena (sabemos que es el resultado de la operacion)
@@ -377,8 +320,11 @@ function mostrarDatosLocal(e) {
         
         divRespuestaDatosLocal.innerHTML = "<strong style='color: blue;'>"+resultado+"</strong>";
         document.getElementById('formDatosLocal').innerHTML = formulario;
-
-        temporizadorDatosLocal(); 
+ 
+        //Si 'completa' contiene el tag <html>  quiere decir que estamos devolviendo una pagina completa
+        if(!completa.includes("<!DOCTYPE html>")) { //Si no lo contiene
+            temporizador(divRespuestaDatosLocal); //Activamos el temporizador (sera un mensaje corto)
+        }        
 
         iniciar();
     }
@@ -387,6 +333,9 @@ function mostrarDatosLocal(e) {
 function mostrarNumeroMesas(e) {
     var datos = e.target;
     if (datos.status == 200) {
+        
+        $('.has-spinner').removeClass('active'); //Desactivamos el spinner         
+        
         //Obtenemos la cadena completa de respuesta
         var completa = datos.responseText;
         //Sacamos la primera parte de la cadena (sabemos que es el resultado de la operacion)
@@ -397,7 +346,10 @@ function mostrarNumeroMesas(e) {
         divRespuestaNumeroMesas.innerHTML = "<strong style='color: blue;'>"+resultado+"</strong>";  
         document.getElementById('formNumeroMesas').innerHTML = formulario;
 
-        temporizadorNumeroMesas();
+        //Si 'completa' contiene el tag <html>  quiere decir que estamos devolviendo una pagina completa
+        if(!completa.includes("<!DOCTYPE html>")) { //Si no lo contiene
+            temporizador(divRespuestaNumeroMesas); //Activamos el temporizador (sera un mensaje corto)
+        } 
 
         iniciar();
     }
@@ -406,6 +358,9 @@ function mostrarNumeroMesas(e) {
 function mostrarImpuestos(e) {
     var datos = e.target;
     if (datos.status == 200) {
+        
+        $('.has-spinner').removeClass('active'); //Desactivamos el spinner         
+        
         //Obtenemos la cadena completa de respuesta
         var completa = datos.responseText;
         //Sacamos la primera parte de la cadena (sabemos que es el resultado de la operacion)
@@ -416,32 +371,13 @@ function mostrarImpuestos(e) {
         divRespuestaImpuestos.innerHTML = "<strong style='color: blue;'>"+resultado+"</strong>";          
         document.getElementById('formImpuestos').innerHTML = formulario;
 
-        temporizadorImpuestos();
-
+        //Si 'completa' contiene el tag <html>  quiere decir que estamos devolviendo una pagina completa
+        if(!completa.includes("<!DOCTYPE html>")) { //Si no lo contiene
+            temporizador(divRespuestaImpuestos); //Activamos el temporizador (sera un mensaje corto)
+        }  
+        
         iniciar();
     }    
 }
-
-//Metodo para limpiar la respuesta despues de X segundos
-function temporizadorDatosLocal() {
-    setTimeout(function () {
-        divRespuestaDatosLocal.innerHTML = '';
-    }, 3000);
-}
-
-//Metodo para limpiar la respuesta despues de X segundos
-function temporizadorNumeroMesas() {
-    setTimeout(function () {
-        divRespuestaNumeroMesas.innerHTML = '';
-    }, 3000);
-}
-
-//Metodo para limpiar la respuesta despues de X segundos
-function temporizadorImpuestos() {
-    setTimeout(function () {
-        divRespuestaImpuestos.innerHTML = '';
-    }, 3000);
-}
-
 
 addEventListener('load', iniciar);

@@ -54,18 +54,24 @@
         </div>
         
         <div id="divFormAlta">
-            <form>
+            <form id="formAltaCategoria">
                 <fieldset>
                     <legend><s:text name="categoria.altaCategoria"/></legend>
-                    <div id="divNombre" class="form-group">
+                    <div id="divNombre" class="form-group" data-toggle="divNombre" data-placement="bottom" title="<s:text name="global.error.campoObligatorio"/>">
                         <label class="sr-only" for="nombre"><s:text name="categoria.nombre"/></label>
-                        <input type="text" id="nombre" class="form-control" placeholder="<s:text name="categoria.nombre"/>" required/>
+                        <input type="text" id="nombre" class="form-control" placeholder="<s:text name="categoria.nombre"/>" required autocomplete="off"/>
                     </div>
                     <div class='checkbox'>
                         <label><input type='checkbox' id="checkAlta" checked><s:text name="categoria.habilitada"/></label>
                     </div>
                     <div class="form-group">
-                        <input type="button" id="botonAlta" class="btn btn-default btn-sm" value="<s:text name="categoria.alta"/>"/>
+<%--                        <button type="button" id="botonAlta" class="btn btn-default btn-sm"><s:text name="categoria.alta"/></button>--%>
+                        
+                            <button type="button" id="botonAlta" class="btn btn-default btn-sm has-spinner">
+                                <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
+                                <s:text name="categoria.alta"/>
+                            </button>                             
+                        
                     </div>                    
                 </fieldset>
             </form>

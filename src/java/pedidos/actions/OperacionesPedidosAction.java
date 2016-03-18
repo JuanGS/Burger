@@ -59,9 +59,7 @@ public class OperacionesPedidosAction extends ActionSupport implements ServletRe
     private String navegacion; 
     
     @Override
-    public String execute() {
-        //Configuramos el objeto para response
-        response.setContentType("text/html; charset=iso-8859-1");
+    public String execute() throws Exception {
         
         //Obtenemos los datos del request
         String operacion = request.getParameter("operacion");
@@ -71,8 +69,7 @@ public class OperacionesPedidosAction extends ActionSupport implements ServletRe
             /*
                 Este case solo se ejecutara cuando entremos en la aplicacion de pedidos por primera vez.
                 Mientras nos mantengamos dentro de la aplicacion es "autosuficiente"
-            */
-            
+            */   
             case "cargarPedidos":
                 cargarEstadoInicial();              
                 navegacion = "CARGAR_PEDIDO";
@@ -82,9 +79,9 @@ public class OperacionesPedidosAction extends ActionSupport implements ServletRe
             case "actualizarMesasLibres":    
                 try {
                     //Volvemos a cargar el select de las mesas. Le pasamos un 1 porque nos da igual la parte del resultado de la operacion
-                    montarVistaResultado(1);
+                    montarVistaResultado(1);                      
                 } catch (IOException e) {
-                    System.out.println("Error al montar la vista resultado: " + e);
+                    System.out.println("OperacionesPedidosAction. Error al montar la vista resultado: " + e);
                 }
                 
                 navegacion = null;
@@ -100,7 +97,7 @@ public class OperacionesPedidosAction extends ActionSupport implements ServletRe
                     //Informamos del resultado
                     montarVistaResultado(resultadoOperacion);
                 } catch (IOException e) {
-                    System.out.println("Error al montar la vista resultado: " + e);
+                    System.out.println("OperacionesPedidosAction. Error al montar la vista resultado: " + e);
                 }
 
                 //Eliminamos la informacion de la sesion
@@ -278,32 +275,43 @@ public class OperacionesPedidosAction extends ActionSupport implements ServletRe
     }    
     
     private void montarVistaResultado(int resultadoOperacion) throws IOException {
-            output = response.getOutputStream(); //Obtenemos una referencia al objeto que nos permite escribir en la respuesta del servlet  
+        try {
+            //Configuramos el objeto para response
+            response.setContentType("text/html; charset=iso-8859-1");
+            output = response.getOutputStream(); //Obtenemos una referencia al objeto que nos permite escribir en la respuesta del servlet
 
             switch (resultadoOperacion) {
                 case 1:
-                    output.print("<p>"+getText("pedidos.success.realizarOperacion")+"</p>*");
+                    output.print("<p>" + getText("pedidos.success.realizarOperacion") + "</p>*");
                     break;
                 default:
-                    output.print("<p>"+getText("pedidos.error.realizarOperacion")+"</p>*");
+                    output.print("<p>" + getText("pedidos.error.realizarOperacion") + "</p>*");
                     break;
-            }  
-
+            }
+            
             //Necesitamos obtener de nuevo el listado de mesas porque se han modificado los estados
             listaMesas = godr.obtenerListadoMesas();
             //La volvemos a guardar en sesion porque ha cambiado
-            session.put("listaMesas", listaMesas); 
-
-            output.print("<span class='label label-primary'>"+getText("pedidos.numeroMesa")+"</span>");
+            session.put("listaMesas", listaMesas);
+            
+            output.print("<span class='label label-primary'>" + getText("pedidos.numeroMesa") + "</span>");
             output.print("<select id='selectMesas' class='form-control' required>");
-            output.print("<option value='' disabled selected>"+getText("pedidos.elijaMesa")+"</option>");
+            output.print("<option value='' disabled selected>" + getText("pedidos.elijaMesa") + "</option>");
             for (Mesa mesa : listaMesas) {
                 if (mesa.getEstado().equals("libre")) {
-                    output.print("<option value='"+mesa.getNumero()+"'>"+mesa.getNumero()+"</option>");
+                    output.print("<option value='" + mesa.getNumero() + "'>" + mesa.getNumero() + "</option>");
                 }
             }
             output.print("</select>");
             output.print("<button type='button' class='btn btn-default' aria-label='Left Align' onclick='obtenerMesasDisponibles()'><span class='glyphicon glyphicon-refresh' aria-hidden='true'></span></button>");
+        } catch (IOException e) {
+            System.out.println("OperacionesPedidosAction. Error al montar la vista resultado: " + e);
+            throw e;
+        } finally {           
+            //Cerramos el flujo de respuesta del servlet
+            output.flush();           
+            output.close();
+        }
     }
     
     @Override

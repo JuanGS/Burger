@@ -10,6 +10,7 @@ import administracion.modelo.Mesa;
 import administracion.modelo.Restaurante;
 import hibernate.HibernateUtil;
 import java.util.List;
+import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
@@ -24,27 +25,30 @@ public class GestorOperacionesDatosRestaurante {
     private static final int OPERACION_ERROR = 0; 
     private static final String ESTADO_MESA = "libre";    
     
-    public Restaurante obtenerDatosRestaurante() {  
+    public Restaurante obtenerDatosRestaurante() {
         Session sesion = null;
         Restaurante restaurante = null;
         try {
-        HibernateUtil hb = new HibernateUtil();
-        sesion = hb.getSessionFactory().openSession();
-        sesion.beginTransaction();        
-        String sql = "SELECT cif,nombre_local,direccion,telefono FROM datos_local";
-        SQLQuery query = sesion.createSQLQuery(sql).addEntity(Restaurante.class);
-        List<Restaurante> lista = query.list();
-        sesion.getTransaction().commit();
-        restaurante = lista.get(0);
-        } catch(Exception e) {
+            HibernateUtil hb = new HibernateUtil();
+            sesion = hb.getSessionFactory().openSession();
+            sesion.beginTransaction();
+            String sql = "SELECT cif,nombre_local,direccion,telefono FROM datos_local";
+            SQLQuery query = sesion.createSQLQuery(sql).addEntity(Restaurante.class);
+            List<Restaurante> lista = query.list();
+            sesion.getTransaction().commit();
+            restaurante = lista.get(0);
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
+        } catch (Exception e) {
             System.out.println("Error obtener datos restaurante: " + e);
         } finally {
-            if(sesion != null) {
+            if (sesion != null) {
                 sesion.close();
             }
         }
 
-        return restaurante;        
+        return restaurante;
     }
     
     public List<Impuesto> obtenerImpuestos() {     
@@ -58,6 +62,9 @@ public class GestorOperacionesDatosRestaurante {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Impuesto.class);
             lista = query.list();
             sesion.getTransaction().commit();
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener impuestos: " + e);
         } finally {
@@ -81,6 +88,9 @@ public class GestorOperacionesDatosRestaurante {
             List<Mesa> lista = query.list(); 
             numeroMesa = lista.get(0).getNumero();
             sesion.getTransaction().commit();
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener numero de mesas: " + e);
         } finally {
@@ -96,19 +106,22 @@ public class GestorOperacionesDatosRestaurante {
         Session sesion = null;
         int resultadoOperacion = 0;
         
-        try {
-            HibernateUtil hb = new HibernateUtil();
-            sesion = hb.getSessionFactory().openSession();
-            sesion.beginTransaction(); 
+        try {       
+            HibernateUtil hb = new HibernateUtil();        
+            sesion = hb.getSessionFactory().openSession();        
+            sesion.beginTransaction();         
             String sql = "UPDATE datos_local SET nombre_local = '"+restaurante.getNombre()+"', direccion = '"+restaurante.getDireccion()+"', telefono = "+restaurante.getTelefono()+"  WHERE cif = '"+restaurante.getCif()+"'";
             SQLQuery query = sesion.createSQLQuery(sql);
             query.executeUpdate();                                
             sesion.getTransaction().commit();
             resultadoOperacion = OPERACION_SUCCESS;                      
-        } catch(Exception e) {
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
+        } catch(Exception e) {           
             resultadoOperacion = OPERACION_ERROR;
-            System.out.println("Error modificar datos restaurante: " + e);           
-        } finally {
+            System.out.println("Error modificar datos restaurante: " + e);       
+        } finally {           
              if(sesion != null) {
                 sesion.close();
             }           
@@ -172,6 +185,9 @@ public class GestorOperacionesDatosRestaurante {
                     resultadoOperacion = OPERACION_SUCCESS;
                 }
             }   
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch (Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error actualizar numero de mesas: " + e);    
@@ -195,6 +211,9 @@ public class GestorOperacionesDatosRestaurante {
             SQLQuery query = sesion.createSQLQuery(sql).addEntity(Mesa.class);
             lista = query.list();
             sesion.getTransaction().commit();
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             System.out.println("Error obtener lista de mesas: " + e);
         } finally {
@@ -219,6 +238,9 @@ public class GestorOperacionesDatosRestaurante {
             query.executeUpdate();                                
             sesion.getTransaction().commit();
             resultadoOperacion = OPERACION_SUCCESS;                      
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error insertar impuesto: " + e);           

@@ -5,11 +5,13 @@
  */
 package administracion.modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author juang
  */
-public class Categoria {
+public class Categoria implements Serializable {
     
     private int id;
     private String nombre;

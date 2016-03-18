@@ -11,6 +11,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import pedidos.modelo.Pedido;
 import administracion.modelo.Producto;
+import org.hibernate.HibernateException;
 import pedidos.modelo.Hamburguesa;
 
 /**
@@ -71,6 +72,9 @@ public class GestorOperacionesPedidos {
             //Si todo a ido bien realizamos la transaccion
             sesion.getTransaction().commit();
             resultadoOperacion = OPERACION_SUCCESS;
+        } catch (HibernateException e) { 
+            System.out.println("Error en la conexion con la base de datos: " + e);
+            throw e;
         } catch(Exception e) {
             resultadoOperacion = OPERACION_ERROR;
             System.out.println("Error al insertar pedido: " + e);

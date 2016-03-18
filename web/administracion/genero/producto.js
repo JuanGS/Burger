@@ -11,63 +11,49 @@ function iniciar() {
     cuerpoTablaProducto = document.getElementById('cuerpoTablaProducto');
     divRespuesta = document.getElementById('divRespuesta');
     var botonAlta = document.getElementById('botonAlta');    
-    botonAlta.addEventListener('click', altaProducto);    
+    botonAlta.addEventListener('click', altaProducto); 
+    var botonActualizar = document.getElementById('botonActualizar');    
+    botonActualizar.addEventListener('click', actualizarProducto);     
 }
 
 //Metodo para validar los campos del formulario (necesario porque utilizamos AJAX)
 function validarCampos() {
-    var nombre = document.getElementById('nombre');
-    var precio = document.getElementById('precio'); 
-    var descripcion = document.getElementById('descripcion');
-    var selectCategoria = document.getElementById('selectCategoria');
     var campo1 = false;
     var campo2 = false;
     var campo3 = false;
     var campo4 = false;    
 
-    if (!nombre.validity.valid) {
+    if (!document.getElementById('nombre').validity.valid) {
+        $('[data-toggle="divNombre"]').tooltip('show');  
+        temporizadorTooltip();           
         document.getElementById('divNombre').className = 'form-group has-error has-feedback';        
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+NOMBRE_OBLIGATORIO_en+'</strong>';
-        }
     } else {
         document.getElementById('divNombre').className = 'form-group';
         campo1 = true;
     }
     
-    if (!precio.validity.valid) {
+    if (!document.getElementById('precio').validity.valid) {
+        $('[data-toggle="divPrecio"]').tooltip('show');  
+        temporizadorTooltip();         
         document.getElementById('divPrecio').className = 'form-group has-error has-feedback';
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+PRECIO_OBLIGATORIO_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+PRECIO_OBLIGATORIO_en+'</strong>';
-        }
     } else {
         document.getElementById('divPrecio').className = 'form-group';
         campo2 = true;
     }
     
-    if (!descripcion.validity.valid) {
+    if (!document.getElementById('descripcion').validity.valid) {
+        $('[data-toggle="divDescripcion"]').tooltip('show');  
+        temporizadorTooltip();                
         document.getElementById('divDescripcion').className = 'form-group has-error has-feedback';
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+DESCRIPCION_OBLIGATORIA_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+DESCRIPCION_OBLIGATORIA_en+'</strong>';
-        }
     } else {
         document.getElementById('divDescripcion').className = 'form-group';
         campo3 = true;
     }
 
-    if (selectCategoria.value === "") {
-        document.getElementById('divCategoria').className = 'form-group has-error has-feedback';
-        if (sessionStorage.getItem("idioma") === 'es') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+CATEGORIA_OBLIGATORIA_es+'</strong>';
-        } else if (sessionStorage.getItem("idioma") === 'en') {
-            divRespuesta.innerHTML = '<strong style="color: red;">'+CATEGORIA_OBLIGATORIA_en+'</strong>';
-        }
+    if (document.getElementById('selectCategoria').value === "") {
+        $('[data-toggle="divCategoria"]').tooltip('show');  
+        temporizadorTooltip();                
+        document.getElementById('divCategoria').className = 'form-group has-error has-feedback';        
     } else {
         document.getElementById('divCategoria').className = 'form-group';
         campo4 = true;
@@ -75,17 +61,27 @@ function validarCampos() {
 
     if (campo1 && campo2 && campo3 && campo4) {
         return true;
-    } else {
-        temporizador();
-        return false;
     }
 }
 
 function altaProducto() {
+    if (validarCampos()) { //Primero comprobamos que los campos no estan vacios     
+        $(this).toggleClass('active'); //Activamos el spinner    
+        operacion('altaProducto');    
+    }    
+}
+
+function actualizarProducto() {
     if (validarCampos()) { //Primero comprobamos que los campos no estan vacios
+        $(this).toggleClass('active'); //Activamos el spinner         
+        operacion('modificarProducto');
+    } 
+}
+
+function operacion(operacionSobreProducto) {    
         //Obtenemos los valores de los campos que queremos enviar
         var nombre = document.getElementById('nombre').value;
-        var precio = document.getElementById('precio').value; 
+        var precio = document.getElementById('precio').value;
         var descripcion = document.getElementById('descripcion').value;
         var categoria = document.getElementById('selectCategoria').value;
         var checkAlta = document.getElementById('checkAlta').checked;
@@ -95,18 +91,16 @@ function altaProducto() {
 
         //Creamos un objeto para almacenar los valores
         var operacion = new FormData();
-        operacion.append('operacion', 'altaProducto');
-        operacion.append("producto", JSON.stringify(productoJSON));        
+        operacion.append('operacion', operacionSobreProducto);
+        operacion.append("producto", JSON.stringify(productoJSON));
 
         //Creamos la solicitud AJAX
         //Especificamos la action a ejecutar
         var url = "OperacionesGenero";
         var solicitud = new XMLHttpRequest();
-        solicitud.addEventListener('loadstart', inicio);
         solicitud.addEventListener('load', mostrar);
         solicitud.open("POST", url, true);
-        solicitud.send(operacion);         
-    }    
+        solicitud.send(operacion);             
 }
 
 function cambiarEstado(id, activo) {
@@ -120,13 +114,16 @@ function cambiarEstado(id, activo) {
     //Especificamos la action a ejecutar
     var url = "OperacionesGenero";
     var solicitud = new XMLHttpRequest();
-    solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrar);
     solicitud.open("POST", url, true);
     solicitud.send(operacion);    
 }
 
-function cargarDatosProducto(id) {
+function cargarDatosProducto(id, nFila) {
+    
+    //Activamos el spinner. Obtenemos de la tabla -> la fila -> la columna 2 y accedemos al boton
+    $('#tablaProductos tr:nth-child('+nFila+') td:eq(5) button').toggleClass('active');    
+    
     //Creamos un objeto para almacenar los valores
     var operacion = new FormData();
     operacion.append('operacion', 'cargarDatosProducto');
@@ -136,81 +133,17 @@ function cargarDatosProducto(id) {
     //Especificamos la action a ejecutar
     var url = "OperacionesGenero";
     var solicitud = new XMLHttpRequest();
-    solicitud.addEventListener('loadstart', inicio);
     solicitud.addEventListener('load', mostrarModificar);
     solicitud.open("POST", url, true);
     solicitud.send(operacion);   
-}
-
-function modificarProducto() {
-    if (validarCampos()) { //Primero comprobamos que los campos no estan vacios
-        //Obtenemos los valores de los campos que queremos enviar
-        var nombre = document.getElementById('nombre').value;
-        var precio = document.getElementById('precio').value; 
-        var descripcion = document.getElementById('descripcion').value;
-        var categoria = document.getElementById('selectCategoria').value;
-        var checkAlta = document.getElementById('checkAlta').checked;
-
-        //Creamos una variable con formato JSON
-        var productoJSON = {"nombre": nombre, "precio": precio, "descripcion": descripcion, "categoria": categoria, "activo": checkAlta};
-
-        //Creamos un objeto para almacenar los valores
-        var operacion = new FormData();
-        operacion.append('operacion', 'modificarProducto');
-        operacion.append("producto", JSON.stringify(productoJSON));        
-
-        //Creamos la solicitud AJAX
-        //Especificamos la action a ejecutar
-        var url = "OperacionesGenero";
-        var solicitud = new XMLHttpRequest();
-        solicitud.addEventListener('loadstart', inicio);
-        solicitud.addEventListener('load', mostrar);
-        solicitud.open("POST", url, true);
-        solicitud.send(operacion);         
-    }
-}
-
-function reiniciar() {
-        var nombre = document.getElementById('nombre');
-        var precio = document.getElementById('precio'); 
-        var descripcion = document.getElementById('descripcion');
-        var categoria = document.getElementById('selectCategoria');
-        var checkAlta = document.getElementById('checkAlta');   
-        
-        nombre.disabled = false;
-        
-        nombre.value = "";
-        precio.value = "";
-        descripcion.value = "";
-        categoria.value = "";
-        checkAlta.checked = true;
-        
-        document.getElementById('botonAlta').disabled = false;
-        document.getElementById('botonActualizar').disabled = true;        
-}
-
-//Metodo que se inicia cuando comienza la solicitud
-function inicio() {
-    divRespuesta.innerHTML = "<div class='sk-fading-circle'>" +
-            "<div class='sk-circle1 sk-circle'></div>" +
-            "<div class='sk-circle2 sk-circle'></div>" +
-            "<div class='sk-circle3 sk-circle'></div>" +
-            "<div class='sk-circle4 sk-circle'></div>" +
-            "<div class='sk-circle5 sk-circle'></div>" +
-            "<div class='sk-circle6 sk-circle'></div>" +
-            "<div class='sk-circle7 sk-circle'></div>" +
-            "<div class='sk-circle8 sk-circle'></div>" +
-            "<div class='sk-circle9 sk-circle'></div>" +
-            "<div class='sk-circle10 sk-circle'></div>" +
-            "<div class='sk-circle11 sk-circle'></div>" +
-            "<div class='sk-circle12 sk-circle'></div>" +
-            "</div>";
 }
 
 //Metodo que se ejecuta cuando se ha completado la solicitud
 function mostrar(e) {
     var datos = e.target;
     if (datos.status == 200) {
+        
+        $('.has-spinner').removeClass('active'); //Desactivamos el spinner        
         
         //Obtenemos la cadena completa de respuesta
         var completa = datos.responseText;
@@ -222,7 +155,10 @@ function mostrar(e) {
         divRespuesta.innerHTML = '<strong style="color: blue;">'+resultado+'</strong>';;
         cuerpoTablaProducto.innerHTML = tabla;
         
-        temporizador();
+        //Si 'completa' contiene el tag <html>  quiere decir que estamos devolviendo una pagina completa
+        if(!completa.includes("<!DOCTYPE html>")) { //Si no lo contiene
+            temporizador(divRespuesta); //Activamos el temporizador (sera un mensaje corto)
+        }   
         
         iniciar();        
     }
@@ -232,6 +168,8 @@ function mostrar(e) {
 function mostrarModificar(e) {
     var datos = e.target;
     if (datos.status == 200) {
+        
+        $('.has-spinner').removeClass('active'); //Desactivamos el spinner        
         
         //Obtenemos la cadena completa de respuesta
         var completa = datos.responseText;
@@ -243,17 +181,13 @@ function mostrarModificar(e) {
         divRespuesta.innerHTML = '<strong style="color: blue;">'+resultado+'</strong>';
         document.getElementById('divFormAlta').innerHTML = formulario;
                 
-        temporizador(); 
+        //Si 'completa' contiene el tag <html>  quiere decir que estamos devolviendo una pagina completa
+        if(!completa.includes("<!DOCTYPE html>")) { //Si no lo contiene
+            temporizador(divRespuesta); //Activamos el temporizador (sera un mensaje corto)
+        }   
         
         iniciar();
     }
-}
-
-//Metodo para limpiar la respuesta despues de X segundos
-function temporizador() {
-    setTimeout(function () {
-        divRespuesta.innerHTML = '';
-    }, 3000);
 }
 
 addEventListener('load', iniciar);
