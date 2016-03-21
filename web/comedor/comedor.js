@@ -9,7 +9,17 @@ var divRespuesta;
 function iniciar() {
     divRespuesta = document.getElementById('divRespuesta'); 
     var botonActualizarMesas = document.getElementById('botonActualizarMesas');
-    botonActualizarMesas.addEventListener('click', actualizarMesas);      
+    botonActualizarMesas.addEventListener('click', actualizarMesas);  
+    
+    //Cuando se hace un submit sobre "Generar Cuenta".
+    //1) Habilitamos el spinner
+    //2) Añadimos el value y el name del boton como campo del formulario para la peticion
+    //3) Hacemos el submit
+    $('.formGenerarCuenta').submit(function (eventObj) {
+        $(this).find('button').toggleClass('active');
+        $(this).append('<input type="hidden" name="' + $('.formGenerarCuenta button').attr('name') + '" value="' + $('.formGenerarCuenta button').attr('value') + '" /> ');
+        return true;
+    });         
 }
 
 function actualizarMesas() {
@@ -54,6 +64,8 @@ function mostrar(e) {
 
         document.getElementById('divMesas').innerHTML = datos.responseText; 
         divRespuesta.innerHTML = '';
+        
+        iniciar();
     }
 }
 

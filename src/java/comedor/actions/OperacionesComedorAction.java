@@ -31,7 +31,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -213,15 +212,21 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
                     } else if (mesa.getEstado().equals("ocupada")) {
                         output.print("<div style='float: left; margin-right: 20px;'>");
                         output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: red'><br/><br/>");
-                        output.print("<form action='OperacionesComedor' method='POST'>");
-                        output.print("<button type='submit' class='btn btn-default btn-default' name='operacion' value='generarCuenta'>" + getText("comedor.generarCuenta") + "</button>");
-                        output.print("<input type='hidden' id='numeroMesa' name='numeroMesa' value='" + mesa.getNumero() + "'/>");
+                        output.print("<form class='formGenerarCuenta' action='OperacionesComedor' method='POST'>");
+                        output.print("<input type='hidden' id='numeroMesa' name='numeroMesa' value='" + mesa.getNumero() + "'/>");                        
+                        output.print("<button type='submit' class='btn btn-default has-spinner' name='operacion' value='generarCuenta'>"
+                                + "<span class='spinner'><i class='glyphicon glyphicon-refresh spin'></i></span>"
+                                + getText("comedor.generarCuenta")
+                                + "</button>");                         
                         output.print("</form>");
                         output.print("</div>");
                     } else if (mesa.getEstado().equals("pendiente")) {
                         output.print("<div style='float: left; margin-right: 20px;'>");
                         output.print("<img alt=" + mesa.getNumero() + " class='img-circle' width='140' height='140' style='background-color: yellow'><br/><br/>");
-                        output.print("<input type='button' class='btn btn-default btn-default' value='" + getText("comedor.cuentaPagada") + "' onclick='cuentaPagada(" + mesa.getNumero() + ")'/>");
+                        output.print("<button type='button' class='btn btn-default has-spinner' onclick='cuentaPagada(this, " + mesa.getNumero() + ")'>"
+                                + "<span class='spinner'><i class='glyphicon glyphicon-refresh spin'></i></span>"
+                                + getText("comedor.cuentaPagada")
+                                + "</button>");                      
                         output.print("</div>");
                     } else {
                         output.print("<div style='float: left; margin-right: 20px;'>");
@@ -341,8 +346,8 @@ public class OperacionesComedorAction extends ActionSupport implements ServletRe
             parrafo.setAlignment(Element.ALIGN_CENTER);
             documento.add(parrafo);
             //Añadimos la imagen
-            URL url = new URL("http://" + request.getServerName() + ":" + request.getServerPort() + "" + request.getContextPath() + "/img/elvis.png");
-            Image foto = Image.getInstance(url);
+            String path = request.getServletContext().getRealPath("/img/elvis.png");
+            Image foto = Image.getInstance(path);
             foto.scaleToFit(100, 100);
             foto.setAlignment(Chunk.ALIGN_MIDDLE);
             documento.add(foto);

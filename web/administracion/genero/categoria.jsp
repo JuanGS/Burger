@@ -65,13 +65,10 @@
                         <label><input type='checkbox' id="checkAlta" checked><s:text name="categoria.habilitada"/></label>
                     </div>
                     <div class="form-group">
-<%--                        <button type="button" id="botonAlta" class="btn btn-default btn-sm"><s:text name="categoria.alta"/></button>--%>
-                        
-                            <button type="button" id="botonAlta" class="btn btn-default btn-sm has-spinner">
-                                <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
+                        <button type="button" id="botonAlta" class="btn btn-default btn-sm has-spinner">
+                            <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
                                 <s:text name="categoria.alta"/>
-                            </button>                             
-                        
+                        </button>                                                     
                     </div>                    
                 </fieldset>
             </form>

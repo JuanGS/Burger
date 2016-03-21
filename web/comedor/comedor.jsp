@@ -41,9 +41,12 @@
             %>
             <div style="float: left; margin-right: 20px;">
                 <img alt="<%= mesa.getNumero()%>" class="img-circle" width="140" height="140" style="background-color: red"><br/><br/>
-                <form action="OperacionesComedor" method="POST">
+                <form class="formGenerarCuenta" action="OperacionesComedor" method="POST">
                     <input type="hidden" id="numeroMesa" name="numeroMesa" value="<%= mesa.getNumero()%>"/>    
-                    <button type="submit" class="btn btn-default" name="operacion" value="generarCuenta"><s:text name="comedor.generarCuenta"/></button>           
+                    <button type="submit" class="btn btn-default has-spinner" name="operacion" value="generarCuenta">
+                        <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
+                        <s:text name="comedor.generarCuenta"/>
+                    </button> 
                 </form>
             </div>        
             <%

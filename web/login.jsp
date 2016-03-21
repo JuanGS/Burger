@@ -47,7 +47,7 @@
                             <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
                             <s:text name="login.validar"/>
                         </button>                        
-                        <button type="reset" class="btn btn-default btn-sm"><s:text name="login.reiniciar"/></button>                        
+                        <button type="reset" class="btn btn-default btn-sm" onclick="reiniciarCampos()"><s:text name="login.reiniciar"/></button>                        
                     </div>  
                 </fieldset>
             </s:form>

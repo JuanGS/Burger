@@ -289,7 +289,7 @@ public class OperacionesGeneroAction extends ActionSupport implements ServletReq
                     + "<span class='spinner'><i class='glyphicon glyphicon-refresh spin'></i></span>"
                     + getText("producto.actualizar")
                     + "</button></td>");   
-            output.print("<button type='reset' class='btn btn-default btn-sm' style='margin-right: 3px'>" + getText("producto.reiniciar") + "</button>");            
+            output.print("<button type='reset' class='btn btn-default btn-sm' onclick='reiniciarCampos(); reiniciarFormulario();' style='margin-right: 3px'>" + getText("producto.reiniciar") + "</button>");            
             output.print("</div>");
             output.print("</fieldset>");
             output.print("</form>"); 

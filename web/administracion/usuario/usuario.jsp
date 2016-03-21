@@ -82,7 +82,7 @@
                                 <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
                                 <s:text name="usuario.alta"/>
                             </button>                               
-                            <button type="reset" class="btn btn-default btn-sm"><s:text name="usuario.reiniciar"/></button>
+                            <button type="reset" class="btn btn-default btn-sm" onclick="reiniciarCampos()"><s:text name="usuario.reiniciar"/></button>
                         </div>
                         <div id="divRespuesta" style="float: left; margin-left: 20px;"></div>
                         <div style="clear: both;"></div>                  

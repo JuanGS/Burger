@@ -138,6 +138,19 @@ function cargarDatosProducto(id, nFila) {
     solicitud.send(operacion);   
 }
 
+function reiniciarFormulario() {
+    $('#formAltaProducto div input').each(function (){
+        $(this).val(''); //Limpiamos el valor de los campos
+    });
+    $('#formAltaProducto div select').each(function (){
+        $(this).val(''); //Limpiamos el valor de los campos
+    });    
+    
+    $('#formAltaProducto #divNombre input').attr('disabled', false); //Habilitamos el campo nombre
+    $('#botonAlta').attr('disabled', false); //Mostramos el botona Alta
+    $('#botonActualizar').attr('disabled', true); //Ocultamos el boton Actualizar
+}
+
 //Metodo que se ejecuta cuando se ha completado la solicitud
 function mostrar(e) {
     var datos = e.target;

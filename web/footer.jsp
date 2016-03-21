@@ -36,11 +36,18 @@
     $('[data-toggle=confirmation]').confirmation('hide');      
 </script>
 
+<!-- Metodo para limpiar la respuesta despues de X segundos -->
 <script>
-    //Metodo para limpiar la respuesta despues de X segundos
     function temporizador(divRespuesta) {
         setTimeout(function () {
             divRespuesta.innerHTML = '';
         }, 3000);
+    }
+</script>
+
+<!-- Metodo para reiniciar los campos vacios de un formulario -->
+<script>
+    function reiniciarCampos() {
+        $(".form-group").removeClass("has-error has-feedback");
     }
 </script>

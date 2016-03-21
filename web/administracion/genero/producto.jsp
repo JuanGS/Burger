@@ -55,7 +55,7 @@
                             <span class="spinner"><i class="glyphicon glyphicon-refresh spin"></i></span>
                             <s:text name="producto.alta"/>
                         </button>     
-                        <button type="reset" class="btn btn-default btn-sm"><s:text name="producto.reiniciar"/></button>
+                        <button type="reset" class="btn btn-default btn-sm" onclick="reiniciarCampos(); reiniciarFormulario();"><s:text name="producto.reiniciar"/></button>
                     </div>                    
                 </fieldset>
             </form>
