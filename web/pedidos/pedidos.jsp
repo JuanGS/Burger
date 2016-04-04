@@ -22,6 +22,8 @@
             <jsp:forward page="../login.jsp" />
         </s:if>        
         
+        <div id="divFijo" class="fijo"></div>
+        
         <h1><s:text name="pedidos.title"/></h1>
         <hr/>          
 
@@ -83,11 +85,11 @@
                                 if (categoriaActual.equals(categoriaProducto)) {
                                     if (!"Extra".equals(categoriaProducto)) {
                             %>  
-                            <input class="btn btn-default" type="button" value='<s:property value="nombre"/>' onclick="incluirProductoPedido(<s:property value="id"/>, '<s:property value="categoria"/>')" /> 
+                            <input class="btn btn-default" type="button" value='<s:property value="nombre"/>' onclick="incluirProductoPedido(<s:property value="id"/>, '<s:property value="categoria"/>', '<s:property value="nombre"/>')" /> 
                             <%
                                     } else if ("Extra".equals(categoriaProducto)) { //Esto es porque los extra de inicio estan disabled
                             %>
-                            <input class="extra btn btn-primary" type="button" value='<s:property value="nombre"/>' onclick="incluirProductoPedido(<s:property value="id"/>, '<s:property value="categoria"/>')" disabled/> 
+                            <input class="extra btn btn-primary" type="button" value='<s:property value="nombre"/>' onclick="incluirProductoPedido(<s:property value="id"/>, '<s:property value="categoria"/>', '<s:property value="nombre"/>')" disabled/> 
                             <%
                                     }
                                 }

@@ -82,3 +82,18 @@ and open the template in the editor.
     transform: rotate(360deg);
   }
 }
+
+/* Div fijo */
+
+.fijo {
+    position:fixed !important; 
+    right:0px; 
+    top:0px; 
+    z-index:10 !important;
+    background-color: black;
+    color: white;
+    width: 100%;
+    font-size: 16px;
+    text-align: right;
+    padding-right: 10px;
+}

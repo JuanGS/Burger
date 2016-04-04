@@ -11,6 +11,7 @@ var arrayPedido = [];
 var arrayExtrasPedido = [];
 var ultimaCategoria;
 
+var divFijo;
 var divRespuestaPedido;
 var divRespuestaMesas;
 var divListaMesas;
@@ -20,6 +21,7 @@ function iniciar() {
     //Recuperamos los datos de la sesion
     recuperarDatosSesion();
 
+    divFijo = document.getElementById('divFijo');
     divRespuestaPedido = document.getElementById('divRespuestaPedido'); 
     divRespuestaMesas = document.getElementById('divRespuestaMesas');  
     divListaMesas = document.getElementById('divListaMesas');      
@@ -67,11 +69,12 @@ function actualizarSelectMesas(e) {
     }    
 }
 
-function incluirProductoPedido(id, categoria) {
+function incluirProductoPedido(id, categoria, nombre) {
 
     producto = new Object(); //Producto  que añadimos al arrayPedido
     producto.id = id; //Asignamos el id
     producto.unidades = 1; //Tendremos 1 unidad del producto de inicio
+    var unidades = 1; //Para controlar el numero de unidades del producto en el pedido
 
     //Incluir productos al pedido 
     if (arrayPedido.length === 0) { //Primer producto que añadimos al pedido
@@ -105,6 +108,7 @@ function incluirProductoPedido(id, categoria) {
                     arrayExtrasPedido.push(producto); //Añadimos el extra al arrayExtrasPedido  
                 } else { //Si el extra esta en la hamburguesa
                     arrayExtrasPedido[i].unidades += 1;
+                    unidades = arrayExtrasPedido[i].unidades; //Salvamos el numero de unidades del producto
                 }
             }
         } else { //Si añadimos cualquier otro producto           
@@ -119,12 +123,16 @@ function incluirProductoPedido(id, categoria) {
                 arrayPedido.push(producto); //Añadimos el producto al arrayPedido
             } else { //Si el producto esta en el pedido
                 arrayPedido[i].unidades += 1;
+                unidades = arrayPedido[i].unidades; //Salvamos el numero de unidades del producto
             }
         }
 
         //Almacenamos la categoria del producto añadido
         ultimaCategoria = categoria;
     }
+
+    //Div para mostrar al usuario el producto añadido y las unidades
+    divFijo.innerHTML = unidades + ' ' + nombre;
 
     //Habilitar/deshabilitar extas
 
@@ -224,6 +232,10 @@ function realizarPedido() {
 
 function limpiarPedido(respuesta) {
     if (respuesta === true) {
+        
+        //Limpiamos el divFijo
+        divFijo.innerHTML = '';
+        
         //Inicializamos los array
         arrayPedido = [];
         arrayExtrasPedido = [];
